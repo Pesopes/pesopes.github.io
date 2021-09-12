@@ -6,4 +6,4 @@ function randomCislo(min, max) {
    document.write(Math.floor(Math.random() * (max - min)) + min);
 }
   //document.write(randomCislo())
-alert(TOHLE NEFUNGUJE KA NEVIM PROX AAAAAAA)
+alert('TOHLE NEFUNGUJE KA NEVIM PROX AAAAAAA')
