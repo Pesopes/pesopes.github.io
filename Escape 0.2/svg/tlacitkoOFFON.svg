@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="50mm"
+   height="50mm"
+   viewBox="0 0 50 50"
+   version="1.1"
+   id="svg880"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="tlacitkoOFFON.svg">
+  <defs
+     id="defs874">
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect868"
+       is_visible="true" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="68.464503"
+     inkscape:cy="167.15109"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1137"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata877">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Vrstva 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-247)">
+    <circle
+       style="opacity:1;fill:#cf4d00;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:5.556;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path838-3"
+       cx="25"
+       cy="272"
+       r="22.222221" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 167.60881,272.21893 c -0.56218,1.26852 -0.50319,2.79555 0.15517,4.01693 0.65836,1.22137 1.90154,2.11008 3.27024,2.33779 0.81025,0.1348 1.65659,0.0457 2.42097,-0.25502 0.76438,-0.30067 1.44465,-0.81201 1.94592,-1.4627 0.50128,-0.65069 0.82215,-1.43891 0.91786,-2.2547 0.0957,-0.81579 -0.034,-1.65687 -0.37105,-2.40592"
+       id="path866"
+       inkscape:connector-curvature="0"
+       inkscape:path-effect="#path-effect868"
+       inkscape:original-d="m 167.60881,272.21893 c 1.32318,2.0156 2.10276,4.33859 3.42541,6.35472 1.51165,2.0634 4.6226,-3.45717 4.9137,-6.37834"
+       sodipodi:nodetypes="ccc"
+       transform="matrix(2.7777778,0,0,2.7777778,-452.19497,-489.74143)" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:5.55555534;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 25.787423,269.30964 0.459333,-12.5336"
+       id="path872"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

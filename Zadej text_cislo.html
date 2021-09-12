@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velmi důležitá stránka</title>
+    <style>
+     body {background-image: url("https://i.pinimg.com/564x/03/4b/58/034b588b27ec7bc95cb7cb072da3fc60.jpg");}
+    </style>
+</head>
+<body>
+    <h1 style="color: rgb(248, 205, 11);font-size:100px;">Velmi důležitá stránka</h1>
+    <br>
+    <br>
+    <br>
+    <br>
+    <form onsubmit="ziskatCislo()">
+        <input id="cislo"  style="height: 200px;font-size: 70pt;width: 400px;">
+        <input type="submit" value="Submit" style="height: 100px;width: 200px;font-size: 20pt;">
+    </form>
+    <script>
+       function ziskatCislo() {
+           let numbe = document.getElementById("cislo").value
+           alert("Toto jsi napsal:" + numbe)
+       }
+        </script>
+</body>
+</html>

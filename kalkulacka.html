@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {background-image: url("https://windows10wall.com/wp-content/uploads/2014/08/beach-nice-background-wallpaper.jpg");}
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plážová kalkulačka</title>
+</head>
+<body>
+    <form onsubmit="vysledek();return false" >
+        <h1 style="text-align: center;color: rgb(255, 255, 255);font-size: 100px;">Plážovka</h1>
+        <p style="text-align:center;" ><input type="number" id="cislo1"  style="height: 200px;font-size: 70pt;width: 400px;">
+        <input type="number" id="cislo2"  style="height: 200px;font-size: 70pt;width: 400px;"></p>
+        <p style="text-align:center;"><input type="submit" value="sčítej" style="height: 100px;width: 200px;font-size: 20pt;"></p>
+
+    </form>
+    <p style="font-size: 100px; text-align:center; background-color: rgb(255, 223, 97);color: darkgray;" >Toto je tvůj výsledek:<b id="vysl" style="font-size: 100px; text-align:center;background-color: rgb(255, 223, 97);color: darkgray;"></b></p>
+    <script>
+        //prompt("Zadej číslo")
+     
+        function vysledek() {
+            var a = parseInt(document.getElementById("cislo1").value);
+            var b = parseInt(document.getElementById("cislo2").value);
+            //return a * b;
+            var result = a + b;
+            document.getElementById("vysl").innerHTML = result
+            //alert(result)
+        }
+        
+    </script>
+</body>
+</html> 

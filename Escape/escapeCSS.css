@@ -1,0 +1,244 @@
+*{
+    margin: 0px;
+    padding: 0px
+}
+
+
+.pozadi{
+    position: absolute;
+    width: 80%;
+    top: 10%;
+    left: 10%;
+}
+/*____________________________Popup okna_________________________________*/
+.popup{
+    position: absolute;
+    left: 20%;
+    top: 20%;
+   /* padding: 10% 10%;*/
+    width: 60%;
+    height: 60%;
+}
+
+.popupPozadi{
+    position: absolute;
+    left: 10%;
+    top: 10%;
+    width: 80%;
+}
+
+.krizek{
+    position: absolute;
+    right: 23%;
+    top: 23%;
+    width: 3%;
+}
+
+#popupUvnitr{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0%;
+    top: 0%;
+}
+/*____________________________________Inventář_____________________________________*/
+
+#inventar{
+    position: absolute;
+    bottom: 0%;
+    border: 3px solid black;
+}
+.slot{
+     display: inline-block;   
+}
+.slot:hover{
+    border: 3px solid black;
+
+}
+#slot1obr{
+    width: 5%;
+    height: 5%;
+}
+#slot2obr{
+    width: 5%;
+    height: 5%;
+}
+#slot3obr{
+    width: 5%;
+    height: 5%;
+}
+#slot4obr{
+    width: 5%;
+    height: 5%;
+}
+#slot1txt{
+    font-size: 50%;
+}
+
+
+
+
+
+
+/*____________________________________Navigace_____________________________________*/
+.buttonL{
+    position: absolute;
+    left: 0%;
+    top: 10%;
+    width: 10%;
+    height: 81.5%;
+    border: none;
+    background-color: rgb(129, 127, 127);
+    transition: background-color 0.2s ease;
+    outline: none;
+}
+
+.buttonL:hover{
+    cursor: pointer;
+    background-color: rgb(104, 104, 104);
+
+
+
+}
+
+.buttonL:active{
+    background-color: rgb(94, 93, 93);
+
+}
+
+.buttonLimg{
+    position: absolute;
+    top: 7%;
+    width: 80%;
+    right: 20%;
+
+}
+
+.buttonP{
+    position: absolute;
+    right: 0%;
+    top: 10%;
+    width: 10%;
+    height: 81.5%;
+    border: none;
+    background-color: rgb(129, 127, 127);
+    transition: background-color 0.2s ease;
+    outline: none;
+}
+
+.buttonP:hover{
+    cursor: pointer;
+    background-color: rgb(104, 104, 104);
+
+    
+
+}
+
+.buttonP:active{
+    background-color: rgb(94, 93, 93);
+
+    
+}
+
+.buttonPimg{
+    position: absolute;
+    top: 7%;
+    width: 80%;
+    left: 20%;
+
+}
+/*_______________________________Místnost 1 - U telky_________________________________*/
+#policka {
+    position: absolute;
+    width: 15%;
+    left: 20%;
+    top: 20%;
+    
+}
+
+#policka:hover{
+cursor: pointer;
+}
+
+#otevrenaPolicka {
+    position: absolute;
+    width: 22.25%;
+    left: 16.25%;
+    top: 20%;
+    display: none;
+}
+#otevrenaPolicka:hover{
+cursor: pointer;
+}
+
+
+#vPolicce{
+    display: none;
+    position: absolute;
+    width: 9.2%;
+    right: 22.93%;
+    top: 53.5%;
+}
+
+#sum {
+    display: none;
+    position: absolute;
+    width: 9.2%;
+    right: 22.93%;
+    top: 53.5%;
+}
+
+#tv {
+    position: absolute;
+    width: 13%;
+    right: 20%;
+    top: 50%;
+}
+
+#btnTV1{
+    position: absolute;
+    width: 1.5%;
+    right: 20.6%;
+    top: 52%;
+}
+
+#btnTV2{
+    position: absolute;
+    width: 1.5%;
+    right: 20.6%;
+    top: 55%;
+}
+
+#btnTV1:hover{
+    cursor: pointer;
+}
+
+#btnTV2:hover{
+    cursor: pointer;
+}
+
+/*____________________________________Místnost 2 - Postel__________________________________*/
+#mistnost2{
+    display: none;
+}
+
+#trezor{
+    position: absolute;
+    width: 10%;
+    left: 30%;
+    top: 60%;
+}
+
+#trezorPop{
+    display: none;
+}
+
+/*____________________________________Místnost 3 - Dveře__________________________________*/
+#mistnost3{
+    display: none;
+}
+
+/*____________________________________Místnost 4 - Kuchyně__________________________________*/
+#mistnost4{
+    display: none;
+}

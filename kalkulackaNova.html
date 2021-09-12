@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="kp.png">
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plážová kalkulačka</title>
+    <link rel="stylesheet" href="kalkulackaNovaCSS.css">
+</head>
+<body>
+    <form onsubmit="vysledek();return false" >
+        <h1 style="text-align: center;color: rgb(255, 255, 255);font-size: 100px;">Plážovka (plážová kalkulačka)</h1> 
+	
+      
+        <p style="text-align:center;" ><input type="number" id="cislo1"  style="height: 200px;font-size: 70pt;width: 400px;">
+        <input type="number" id="cislo2"  style="height: 200px;font-size: 70pt;width: 400px;"></p>
+        <div id="tlačítka"><p style="text-align:center;">
+            <button  style="height: 120px;font-size: 40pt;width: 300px;" type="button" onclick="vysledek()">Sčítat</button>
+            <button  style="height: 120px;font-size: 40pt;width: 300px;" type="button" onclick="deleni()">Dělit</button>
+            <button  style="height: 120px;font-size: 40pt;width: 300px;" type="button" onclick="nasobeni()">Násobit</button>
+            <button  style="height: 120px;font-size: 40pt;width: 300px;" type="button" onclick="rozdil()">Odečíst</button>
+            <button  style="height: 120px;font-size: 40pt;width: 300px;" type="button" onclick="odmocnina()">Odmocnina</button>
+        </p></div>
+
+    </form>
+            
+   <p style="font-size: 100px; text-align:center; background-color: rgb(255, 223, 97);color: darkgray;" >Toto je tvůj výsledek:<b id="vysl" style="font-size: 100px; text-align:center;background-color: rgb(255, 223, 97);color: darkgray;"></b></p>
+    <script>
+     
+        function vysledek() {
+            var a = parseInt(document.getElementById("cislo1").value);
+            var b = parseInt(document.getElementById("cislo2").value);
+            var result = a + b;
+            document.getElementById("vysl").innerHTML = result
+        }
+       function rozdil() {
+            var g = parseInt(document.getElementById("cislo1").value);
+            var h = parseInt(document.getElementById("cislo2").value);
+            var resultRozdil = g - h;
+            document.getElementById("vysl").innerHTML = resultRozdil
+       } 
+     
+       function deleni() {
+            var c = parseInt(document.getElementById("cislo1").value);
+            var d = parseInt(document.getElementById("cislo2").value);
+            if (d == 0)  {
+                alert("Na této stránce jsi free, ale dělit nulou nemůžeš")
+            }
+            var resultDeleni = c / d;
+            document.getElementById("vysl").innerHTML = resultDeleni
+       }
+       function nasobeni() {
+            var e = parseInt(document.getElementById("cislo1").value);
+            var f = parseInt(document.getElementById("cislo2").value);
+            var resultNasobeni = e * f;
+            document.getElementById("vysl").innerHTML = resultNasobeni
+       }  
+       function odmocnina() {
+            var odmocnina = parseInt(document.getElementById("cislo1").value);
+            if (odmocnina < 0)  {
+                alert("Záporná čísla nelze odmocnit, ale relaxuj a zkus kladné.")
+            }
+            var resultOdmocnina = Math.sqrt(odmocnina);
+            document.getElementById("vysl").innerHTML =resultOdmocnina 
+        }
+    </script>
+</body>
+</html> 

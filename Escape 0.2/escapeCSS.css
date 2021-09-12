@@ -1,0 +1,533 @@
+*{
+    margin: 0px;
+    padding: 0px
+}
+
+/*TEST*/
+
+
+
+
+#pohybujiciSe{
+    position: absolute;
+    top: 70%;
+    left: 70%;
+}
+#pohybujiciSe:hover{
+    cursor: pointer;
+}
+#pohybujiciSe:active{
+    cursor:grabbing;
+}
+#svg{
+    position: absolute;
+    top: 61.5%;
+    left: 79.3%;
+    width: 10.7%;
+    height: 25%;
+}
+
+
+
+
+
+
+
+body{
+    background-color: burlywood;
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+.pozadi{
+    position: absolute;
+    width: 80%;
+    top: 5%;
+    left: 10%;
+    pointer-events: none;
+}
+/*____________________________Popup okna_________________________________*/
+.popup{
+    position: absolute;
+    left: 20%;
+    top: 15%;
+   /* padding: 10% 10%;*/
+    width: 60%;
+    height: 60%;
+    z-index: 1;
+    display: none;
+}
+
+#popupPozadi{
+    position: absolute;
+    left: 0%;
+    top: 5%;
+    width: 100%;
+    display: none;
+}
+
+#krizek{
+    position: absolute;
+    right: 23%;
+    top: 18%;
+    width: 3%;
+    display: none;
+    z-index: 2;
+}
+
+#krizek:hover{
+    cursor: pointer;
+}
+#popupUvnitr{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0%;
+    top: 0%;
+    pointer-events: none;
+}
+/*____________________________________Inventář_____________________________________*/
+/*
+#inventar{
+    position: absolute;
+    bottom:3%;
+    left: 10%;
+    border: 3px solid black;
+    text-align: center;
+    width: 80%;
+    height: 10%;
+}*/
+.slot{
+    position: absolute;
+    background-color: brown;
+    width: 6%;
+    height: 10%;
+    top: 82%;
+}
+#slot1obr:hover,#slot2obr:hover,#slot3obr:hover,#slot4obr:hover{
+    cursor: pointer;
+}
+
+#slot1obr,#slot2obr,#slot3obr,#slot4obr{
+    width: 100%;
+    height: 100%;
+}
+
+#slot1obr:active,#slot2obr:active,#slot3obr:active,#slot4obr:active{
+    width: 110%;
+    height: 110%;
+    cursor: grabbing;
+    transition:width 0.2s ease, height 0.2s ease;
+}
+
+#slot1txt{
+    font-size: 100%;
+}
+/*První slot*/
+#slot1{
+    text-align: center;
+    left: 38%;
+    border: 3px solid black;
+    z-index: 3;
+}
+
+/*Druhý slot*/
+#slot2{
+    text-align: center;
+    left: 44%;
+    border: 3px solid black;
+    z-index: 3;
+}
+/*Třetí slot*/
+#slot3{
+    text-align: center;
+    left: 50%;
+    border: 3px solid black;
+    z-index: 3;
+}
+
+/*Čtvrtý slot*/
+#slot4{
+    text-align: center;
+    left: 56%;
+    border: 3px solid black;
+    z-index: 3;
+}
+
+
+
+
+
+
+
+
+
+/*____________________________________Navigace_____________________________________*/
+.buttonL{
+    position: absolute;
+    left: 0%;
+    top: 5%;
+    width: 10%;
+    height: 81.5%;
+    border: none;
+    background-color: rgb(148, 148, 148);
+    transition: background-color 0.2s ease;
+    outline: none;
+    background-image: url("svg/sipkaL.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.buttonL:hover{
+    cursor: pointer;
+    background-color: rgb(104, 104, 104);
+    height: 82.5%;
+    top: 4.5%;
+}
+
+.buttonL:active{
+    background-color: rgb(94, 93, 93);
+}
+
+.buttonLimg{
+    width: 100%;
+    height: 100%;
+}
+
+.buttonP{
+    position: absolute;
+    right: 0%;
+    top: 5%;
+    width: 10%;
+    height: 81.5%;
+    border: none;
+    background-color: rgb(129, 127, 127);
+    transition: background-color 0.2s ease;
+    outline: none;
+    background-image: url("svg/sipkaP.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.buttonP:hover{
+    cursor: pointer;
+    background-color: rgb(104, 104, 104);
+    height: 82.5%;
+    top: 4.5%;
+}
+
+.buttonP:active{
+    background-color: rgb(94, 93, 93);
+}
+
+.buttonPimg{
+    position: absolute;
+    top: 2%;
+    width: 80%;
+    left: 20%;
+
+}
+/*_______________________________Místnost 1 - U telky_________________________________*/
+
+
+
+
+#sum {
+    display: none;
+    position: absolute;
+    width: 9.2%;
+    right: 22.93%;
+    top: 48.5%;
+    pointer-events: none;
+}
+/*Televize*/
+
+#zasuvkaTv{
+    width: 17%;
+    position: absolute;
+    left: 50%;
+    top: 28%;
+    pointer-events: none;
+}
+
+#tv {
+    position: absolute;
+    width: 13%;
+    right: 20%;
+    top: 45%;
+    pointer-events: none;
+}
+
+#btnTV1{
+    position: absolute;
+    width: 1.5%;
+    right: 20.6%;
+    top: 47%;
+}
+
+#btnTV2{
+    position: absolute;
+    width: 1.5%;
+    right: 20.6%;
+    top: 50%;
+}
+
+#btnTV1:hover{
+    cursor: pointer;
+}
+
+#btnTV2:hover{
+    cursor: pointer;
+}
+
+.obraz{
+    position: absolute;
+    width: 20%;
+    left: 20%;
+    top: 15%;
+}
+
+#obraz2{
+    display: none;
+}
+#obraz3{
+    display: none;
+}
+
+/*____________________________________Místnost 2 - Postel__________________________________*/
+#mistnost2{
+    display: none;
+}
+/*Trezor*/
+#trezor{
+    position: absolute;
+    width: 10%;
+    left: 30%;
+    top: 55%;
+}
+
+#trezor:hover{
+    cursor: pointer;
+}
+#trezorOtevreny{
+    position: absolute;
+    width: 10%;
+    left: 30%;
+    top: 55%;
+    display: none;
+}
+#rucickaTrezor{
+    position: absolute;
+    width: 10%;
+    left: 30%;
+    top: 55%;
+    display: none;
+}
+#rucickaTrezor:hover{
+    cursor: pointer;
+}
+#trezorPop{
+    display: none;
+}
+#kodTrezor{
+    position: absolute;
+    width: 23%;
+    height: 30%;
+    top: 35%;
+    left: 35%;
+    font-size: 700%;
+}
+#kodTrezor::-webkit-outer-spin-button,
+#kodTrezor::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+/*____________________________________Místnost 3 - Dveře__________________________________*/
+#mistnost3{
+    display: none;
+}
+
+/*Kukačky*/
+#kukacky{
+    position: absolute;
+    top: 30%;
+    left: 40%;
+    width: 7%;
+    
+}
+
+#kukacky:hover{
+    cursor: pointer;
+}
+#otaceniMinutovaRucicka{
+    position:absolute;
+    height: 42%;
+    width: 1.5%;
+    top: 44.3%;
+    left: 52.2%;
+}
+#minutovaRucicka{
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    height: 50%;
+    display: none;
+}
+
+#minutovaRucicka:hover{
+    cursor: pointer;
+}
+#otaceniHodinovaRucicka{
+    position:absolute;
+    height: 30%;
+    width: 2%;
+    top: 49%;
+    left: 52%;
+}
+#hodinovaRucicka{
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    height: 50%;
+}
+
+#hodinovaRucicka:hover{
+    cursor: pointer;
+}
+
+#kukackyOtevrene{
+    position: absolute;
+    top: 30%;
+    left: 40%;
+    width: 7%;
+    display: none;
+}
+
+#poklopKod{
+    position: absolute;
+    top: 38%;
+    left: 41%;
+    width: 1.4%;
+    display: none;
+}
+
+/*Poklop*/
+#poklop{
+    position: absolute;
+    left: 75%;
+    top: 75%;
+    width: 10%;
+}
+
+#poklopOtevreny{
+    position: absolute;
+    left: 70%;
+    top: 75%;
+    width: 10%;
+    display: none;
+}
+.poklopTlacitka{
+    position: absolute;
+    width: 30%;
+    height: 30%;
+    border: 5px solid black;
+    background-color: gray;
+}
+#poklopKlavesnice{
+    position: absolute;
+    top: 21.5%;
+    left: 43.5%;
+    width: 32%;
+    height: 60%;
+}
+#b5{
+    top: 2.5%;
+    left: 2.5%;
+}
+#b4{
+    top: 2.5%;
+    left: 35%;
+}
+#b6{
+    top: 2.5%;
+    left: 67.5%;
+}
+#b8{
+    top: 35%;
+    left: 2.5%;
+}
+#b1{
+    top: 35%;
+    left: 35%;
+}
+#b7{
+    top: 35%;
+    left: 67.5%;
+}
+#b2{
+    top: 67.5%;
+    left: 2.5%;
+}
+#b9{
+    top: 67.5%;
+    left: 35%;
+}
+#b3{
+    top: 67.5%;
+    left: 67.5%;
+}
+
+
+/*____________________________________Místnost 4 - Kuchyně__________________________________*/
+#mistnost4{
+    display: none;
+}
+/*Polička*/
+
+#policka {
+    position: absolute;
+    width: 15%;
+    left: 20%;
+    top: 15%;
+    
+}
+
+#policka:hover{
+cursor: pointer;
+}
+
+#otevrenaPolicka {
+    position: absolute;
+    width: 22.25%;
+    left: 16.25%;
+    top: 15%;
+    display: none;
+}
+#otevrenaPolicka:hover{
+cursor: pointer;
+}
+
+
+#vPolicce{
+    display: none;
+    position: absolute;
+    width: 9.2%;
+    right: 22.93%;
+    top: 48.5%;
+}
+/*nůžky*/
+#testItem{
+    position: absolute;
+    display: none;
+    width: 2%;
+    left: 25%;
+    top: 25%;
+}
+#testItem:hover{
+    cursor: pointer;
+}

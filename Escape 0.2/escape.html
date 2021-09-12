@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escape</title>
+    <link rel="stylesheet" href="escapeCSS.css">
+    <link rel="icon" href="Deda.gif">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="escapeJS.js"></script>
+</head>
+<body>
+<div id="mistnost1">
+        <div id="veci1">
+            <button class="buttonL" id="1do4"></button>
+            <button class="buttonP" id="1do2"></button>
+            <img class="pozadi" src="svg/mistnost1.svg" alt="">
+            
+            <img src="svg/tv.svg" alt="" id="tv">
+            <img src="Deda.gif" alt="DEA na Taraktotuy" id="vPolicce" onclick="alert('DEDA NA TRAKTORU!!!\n🚜🚜🚜🚜🚜🚜🚜🚜🚜🚜🚜🚜🚜🚜🚜🚜')">
+            <img src="svg/tlacitkoOFFON.svg" alt="" id="btnTV1">
+            <img src="svg/tlacitkoTV.svg" alt=""    id="btnTV2">
+            <img src="sumTVcropKod3.gif" alt=""    id="sum">
+            <img src="svg/obraz.svg" alt="" id="obraz1" class="obraz">
+            <img src="svg/obraz2.svg" alt="" id="obraz2" class="obraz">
+            <img src="svg/obraz3.svg" alt="" id="obraz3" class="obraz">
+            
+            
+            <div id="svg">
+            
+            <svg width="200" height="300">
+            <line x1="0" y1="0" x2="10" y2="10" style="stroke:rgb(0, 0, 0);stroke-width:2" id="line">
+            </svg>
+            <img src="svg/zasuvka.svg" id="zasuvkaTv" alt="">
+            <img src="svg/doZasuvky.svg" width="50" height="50" alt="" id="pohybujiciSe">
+            </div>
+            </div>
+
+</div>
+
+
+<div id="mistnost2">
+    <img class="pozadi" src="svg/mistnost2.svg" alt="">
+    <button class="buttonL" id="2do1"></button>
+    <button class="buttonP" id="2do3"></button>
+    <img src="svg/trezor.svg" alt="" id="trezor">
+    <img src="svg/trezorOtevreny.svg" alt="" id="trezorOtevreny">
+    <img src="svg/rucickaTrezor.svg" alt="" id="rucickaTrezor">
+    <div class="popup" id="trezorPop">
+        <img src="svg/trezorPop.svg" alt="" id="popupUvnitr">
+        <input type="number" minlength="4" maxlength="4" onsubmit="alert('kd')" autocomplete="off" id="kodTrezor">
+    </div>
+
+
+</div>
+
+
+<div id="mistnost3">
+    <img class="pozadi" src="svg/mistnost3.svg" alt="" >
+    <button class="buttonL" id="3do2"></button>
+    <button class="buttonP" id="3do4"></button>
+    <!--Kukačky-->
+    <img src="svg/kukacky.svg" id="kukacky">
+    <div class="popup" id="kukackyPop">
+        <img src="svg/kukackyPopup.svg" id="popupUvnitr">
+        <div id="otaceniMinutovaRucicka">
+            <img src="svg/minutovaRucicka.svg" id="minutovaRucicka">
+        </div>
+        <div id="otaceniHodinovaRucicka">
+            <img src="svg/hodinovaRucicka.svg" id="hodinovaRucicka">
+        </div>
+    </div>
+    <img src="svg/kukackyOtevrene.svg" id="kukackyOtevrene">
+    <img src="svg/poklopKod.svg" id="poklopKod">
+    <!--Poklop-->
+    <img src="svg/poklop.svg" id="poklop">
+    <img src="svg/poklopOtevreny.svg" id="poklopOtevreny">
+    <div class="popup" id="poklopPop">
+        <img src="svg/poklopPopup.svg" id="popupUvnitr">
+        <div id="poklopKlavesnice">
+            <button class="poklopTlacitka" id="b5"></button><button class="poklopTlacitka" id="b4"></button><button class="poklopTlacitka" id="b6"></button>
+            <button class="poklopTlacitka" id="b8"></button><button class="poklopTlacitka" id="b1"></button><button class="poklopTlacitka" id="b7"></button>
+            <button class="poklopTlacitka" id="b2"></button><button class="poklopTlacitka" id="b9"></button><button class="poklopTlacitka" id="b3"></button>
+        </div>
+        
+    </div>
+    
+</div>
+
+
+<div id="mistnost4">
+    <img class="pozadi" src="svg/mistnost4.svg" alt="">
+    <button class="buttonL" id="4do3"></button>
+    <button class="buttonP" id="4do1"></button>
+    <img id="policka" src="svg/policka1.svg" alt="">
+    <img id="otevrenaPolicka" src="svg/polickaOtevrena1.svg" alt="">
+    <img src="svg/testItem.svg" alt="" id="testItem">
+</div>
+
+<span id="inventar">
+    <span class="slot" id="slot1">
+        <img src="" alt="" id="slot1obr">
+        <div id="slot1txt" ></div>
+    </span>
+
+    <span class="slot" id="slot2">
+        <img src="" alt="" id="slot2obr">
+        <div id="slot2txt"></div>
+    </span>
+
+    <span class="slot" id="slot3">
+        <img src="" alt="" id="slot3obr">
+        <div id="slot3txt"></div>
+    </span>
+
+    <span class="slot" id="slot4">
+        <img src="" alt="" id="slot4obr">
+        <div id="slot4txt" ></div>
+    </span>
+</span>
+<!--POPUP-->
+<img src="svg/popupPozadi.svg" id="popupPozadi">
+<img src="svg/krizek.svg" alt="" id="krizek">
+
+</body>
+</html>
