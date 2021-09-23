@@ -1986,20 +1986,27 @@ while (!chess.game_over()) {
 
 var board = null
 var game = new Chess()
+let intervalTime = 500
 
 function makeRandomMove () {
   var possibleMoves = game.moves()
-
+intervalTime = document.getElementById("interval").value
   // exit if the game is over
   if (game.game_over()) return
-
+console.log("neco edlam")
   var randomIdx = Math.floor(Math.random() * possibleMoves.length)
   game.move(possibleMoves[randomIdx])
   board.position(game.fen())
 
-  window.setTimeout(makeRandomMove, 500)
+  window.setTimeout(makeRandomMove, intervalTime)
 }
+function resetBoard(){
+  game = new Chess()
+  console.log("BRUH"+intervalTime)
+  makeRandomMove()
+}
+board = Chessboard('myBoard', {draggable: true,
+  dropOffBoard: 'trash',
+  sparePieces: false})
 
-board = Chessboard('myBoard', 'start')
-
-window.setTimeout(makeRandomMove, 500)
+window.setTimeout(makeRandomMove, intervalTime)
