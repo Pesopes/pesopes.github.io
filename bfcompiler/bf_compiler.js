@@ -1,6 +1,6 @@
 function compile(code){
     let ptr = 0
-    let arr = Array(20).fill(0)
+    let arr = Array(1000).fill(0)
     let loop = true
     let i = 0
     while(loop){
@@ -36,9 +36,19 @@ function compile(code){
 
         else if (char == "["){
             if (arr[ptr]==0){
-                while(code[i] != "]"){
-                    //console.log("i++, i:"+i)
+                let sameCounter = 1;
+                let differentCounter = 0;
+                i++;
+                while(true){
+                    console.log("same:"+sameCounter+"diff:"+differentCounter)
+                    if(code[i]=="[")
+                        sameCounter++;
+                    else if(code[i]=="]")
+                        differentCounter++;
+                    if(sameCounter == differentCounter)
+                        break;
                     i++
+                    
                 }
             }
         }
@@ -46,8 +56,17 @@ function compile(code){
 
         else if (char == "]") {
             if (arr[ptr]!=0){
-                while(code[i] != "["){
-                    //console.log("i--, i:"+i)
+                let sameCounter = 1;
+                let differentCounter = 0;
+                i--
+                while(true){
+                    console.log("same:"+sameCounter+"diff:"+differentCounter)
+                    if(code[i]=="]")
+                        sameCounter++;
+                    else if(code[i]=="[")
+                        differentCounter++;
+                    if(sameCounter == differentCounter)
+                        break;
                     i--
                 }
             }
