@@ -6,14 +6,25 @@
 <link rel="stylesheet" href="compiler.css">
 </head>
 <body>
+<div id="start">
+    <h1>The best compiler for Brainf*ck</h1>
+    <p>Who needs css</p>
+    <a href="https://asecuritysite.com/coding/asc2">The table for UTF-16</a><br></br>
+</div>
 
-<h1>The best compiler for Brainf*ck</h1>
-<p>Who needs css</p>
-<a href="https://asecuritysite.com/coding/asc2">The table for UTF-16</a><br></br>
+<div id="settings">
+    <p>Settings</p>
+    <input type="number" id="maxIterations" value="100000" onchange="changeSettings()" oninput="changeSettings()"><br></br>
+    <p id="confirmMsg"></p>
+</div>
 
-<label for="code">Enter code here:</label><br></br>
-<textarea id="code" placeholder="Enter code here" autofocus></textarea><br></br>
-<button onclick="getCodeAndCompile()" height="1000px" width="1000px">Compile</button><br></br>
-<input id="output" readonly>
+<div id="compiler">
+    <label for="code">Enter code here:</label><br></br>
+    <textarea id="code" placeholder="Enter code here" autofocus></textarea><br></br>
+    <button onclick="getCodeAndCompile()" height="1000px" width="1000px">Compile</button><br></br>
+
+    <input id="output" readonly placeholder="Output is shown here.">
+</div>
+
 </body>
 </html> 

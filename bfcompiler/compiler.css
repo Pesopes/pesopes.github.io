@@ -1,0 +1,23 @@
+body{
+    color: rebeccapurple;
+    text-align: center;
+    animation-name: appear;
+    animation-duration: 1s;
+}
+#output{
+    width: 60%;
+    height: 40%;
+
+    color: rgb(111, 252, 76);
+    background-color: rgb(70, 70, 70);
+}
+
+#confirmMsg{
+    animation-name: appear;
+    animation-duration: 5s;
+}
+
+@keyframes appear{
+    from{opacity: 0%;}
+    tp{opacity: 100%;}
+}

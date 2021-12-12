@@ -1,9 +1,12 @@
+let maxNumOfIterations = 10000;
 function compile(code){
+    let iterationCounter = 0;
     let ptr = 0
     let arr = Array(1000).fill(0)
     let loop = true
     let i = 0
     while(loop){
+        iterationCounter++;
         //console.log("LOOP NA INDEXU:"+i)
         // console.log("PTR:"+ptr)
 
@@ -77,25 +80,53 @@ function compile(code){
             loop = false;
             break;
         }
+        if(iterationCounter>maxNumOfIterations){
+            console.error("Shutting down (too many iterations)")
+            loop = false;
+            break;
+        }
         i++;
     }
 
    
 }
 
+//output to text field
 function display(text){
     let outputField = document.getElementById("output");
     outputField.value += text;
 }
 
+//when clicking button
 function getCodeAndCompile(){
     let outputField = document.getElementById("output");
     outputField.value = "";
 
     let code = document.getElementById("code").value;
     compile(code);
+    
 }
 
+function changeSettings(){
+    console.log("Changing settings")
+    let maxIt = document.getElementById("maxIterations");
+    maxNumOfIterations = maxIt.value;
+    document.getElementById("confirmMsg").innerHTML = "WAZUP"
+    setTimeout(hideSettingsMessage,10000)
+}
+
+function hideSettingsMessage(){
+    document.getElementById("confirmMsg").innerHTML = ""
+}
+
+//does not work
+function highlighter(){
+    let code = document.getElementById("code").value;
+    code+="BRUH"
+    document.getElementById("code").value = code;
+}
+
+//just random testing
 function test(num){
     let arr = Array(5).fill(0);
     arr[-5] = 1
