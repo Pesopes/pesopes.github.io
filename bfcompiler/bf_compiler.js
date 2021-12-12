@@ -1,4 +1,4 @@
-let maxNumOfIterations = 10000;
+let maxNumOfIterations = 1000000;
 function compile(code){
     let iterationCounter = 0;
     let ptr = 0
@@ -43,7 +43,7 @@ function compile(code){
                 let differentCounter = 0;
                 i++;
                 while(true){
-                    console.log("same:"+sameCounter+"diff:"+differentCounter)
+                    //console.log("same:"+sameCounter+"diff:"+differentCounter)
                     if(code[i]=="[")
                         sameCounter++;
                     else if(code[i]=="]")
@@ -63,7 +63,7 @@ function compile(code){
                 let differentCounter = 0;
                 i--
                 while(true){
-                    console.log("same:"+sameCounter+"diff:"+differentCounter)
+                    //console.log("same:"+sameCounter+"diff:"+differentCounter)
                     if(code[i]=="]")
                         sameCounter++;
                     else if(code[i]=="[")
@@ -111,8 +111,8 @@ function changeSettings(){
     console.log("Changing settings")
     let maxIt = document.getElementById("maxIterations");
     maxNumOfIterations = maxIt.value;
-    document.getElementById("confirmMsg").innerHTML = "WAZUP"
-    setTimeout(hideSettingsMessage,10000)
+    document.getElementById("confirmMsg").innerHTML = "Changed settings"
+    setTimeout(hideSettingsMessage,3000)
 }
 
 function hideSettingsMessage(){
