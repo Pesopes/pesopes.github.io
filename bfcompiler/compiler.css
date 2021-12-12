@@ -2,7 +2,7 @@ body{
     
     text-align: center;
     animation-name: appear;
-    animation-duration: 1s;
+    animation-duration: 1.5s;
 }
 h1{
     color: rebeccapurple;
@@ -13,6 +13,22 @@ h1{
 
     color: rgb(111, 252, 76);
     background-color: rgb(70, 70, 70);
+}
+
+#compileBut{
+  border-radius: 2px;
+  border: 2px solid green;
+  transition-duration: 0.4s;
+}
+
+#compileBut:hover{
+  background-color: rgb(170, 235, 170);
+}
+
+#compileBut:active {
+  background-color: #3e8e41;
+
+  transform: translateY(4px);
 }
 
 #confirmMsg{
@@ -37,6 +53,9 @@ table {
   }
 
 @keyframes appear{
-    from{opacity: 0%;}
-    tp{opacity: 100%;}
+    0%{opacity: 0%;}
+    10%{opacity: 0%;}
+    50%{opacity: 90%;}
+    90%{opacity: 95%;}
+    100%{opacity: 100%;}
 }

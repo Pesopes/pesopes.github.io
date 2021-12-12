@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>RBFC</title>
+<script src="bf_compiler2.js"></script>
+<link rel="stylesheet" href="compiler.css">
+</head>
+<body>
+<div id="start">
+    <h1>Randomf********</h1>
+    <p>I need css</p>
+    <a href="https://asecuritysite.com/coding/asc2">The table for UTF-16</a><br></br>
+    <a href="compiler.html">I WANT TO GO BACK</a><br></br>
+</div>
+
+<div id="explain">
+    <table>
+        <tr>
+            <td>< ></td>
+            <td>move the data pointer</td>
+        </tr>
+        <tr>
+            <td>+ -</td>
+            <td>increase/decrease value at data pointer</td>
+        </tr>
+        <tr>
+            <td>[ ]</td>
+            <td>loop</td>
+        </tr>
+        <tr>
+            <td>.</td>
+            <td>output data at data pointer (UTF-16)</td>
+        </tr>
+        <tr>
+            <td>*</td>
+            <td>A power of 2 of the current number</td>
+        </tr>
+        <tr>
+            <td>&</td>
+            <td>Adds this cell and the previous cell together and stores it</td>
+        </tr>
+        <tr>
+            <td>¤</td>
+            <td>Stores the bigger number between this cell and the previous</td>
+        </tr>
+        <tr>
+            <td>?</td>
+            <td>Random number (0 or 1)</td>
+        </tr>
+        <tr>
+            <td>@</td>
+            <td>Outputs data pointer location</td>
+        </tr>
+        <tr>
+            <td>$</td>
+            <td>Outputs number at data pointer</td>
+        </tr>
+        <tr>
+            <td>_</td>
+            <td>Writes a space to output</td>
+        </tr>
+        <tr>
+            <td>|</td>
+            <td>Saves data at pointer to memory</td>
+        </tr>
+        <tr>
+            <td>^</td>
+            <td>Loads data in memory to data at pointer</td>
+        </tr>
+    </table>
+</div>
+
+<div id="settings">
+    <p>Settings</p>
+    <input type="number" id="maxIterations" value="1000000" onchange="changeSettings2()" oninput="changeSettings2()"><br></br>
+    <p id="confirmMsg"></p>
+</div>
+
+<div id="compiler">
+    <label for="code">Enter code here:</label><br></br>
+    <textarea id="code" placeholder="Enter code here" autofocus></textarea><br></br>
+    <button onclick="getCodeAndCompile2()" height="1000px" width="1000px" id="compileBut">Compile</button><br></br>
+
+    <input id="output" readonly placeholder="Output is shown here.">
+</div>
+
+</body>
+</html> 
