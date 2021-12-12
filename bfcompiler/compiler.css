@@ -1,8 +1,11 @@
 body{
-    color: rebeccapurple;
+    
     text-align: center;
     animation-name: appear;
     animation-duration: 1s;
+}
+h1{
+    color: rebeccapurple;
 }
 #output{
     width: 60%;
@@ -16,6 +19,22 @@ body{
     animation-name: appear;
     animation-duration: 5s;
 }
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
 
 @keyframes appear{
     from{opacity: 0%;}
