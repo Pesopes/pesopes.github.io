@@ -35,15 +35,15 @@
         </tr>
         <tr>
             <td>*</td>
-            <td>A power of 2 of the current number</td>
+            <td>store the power of 2 of the current number in memory</td>
         </tr>
         <tr>
             <td>&</td>
-            <td>Adds this cell and the previous cell together and stores it</td>
+            <td>Adds this cell and the previous cell together and stores it in memory</td>
         </tr>
         <tr>
             <td>¤</td>
-            <td>Stores the bigger number between this cell and the previous</td>
+            <td>Stores the bigger number between this cell and the previous in memory</td>
         </tr>
         <tr>
             <td>?</td>
@@ -69,12 +69,16 @@
             <td>^</td>
             <td>Loads data in memory to data at pointer</td>
         </tr>
+        <tr>
+            <td>;</td>
+            <td>Outputs data in memory</td>
+        </tr>
     </table>
 </div>
 
 <div id="settings">
     <p>Settings</p>
-    Max number of iterations<input type="number" id="maxIterations" value="1000000" onchange="changeSettings2()" oninput="changeSettings2()"><br></br>
+    Max number of iterations <input type="number" id="maxIterations" value="1000000" onchange="changeSettings2()" oninput="changeSettings2()"><br></br>
     <p id="confirmMsg"></p>
 </div>
 
