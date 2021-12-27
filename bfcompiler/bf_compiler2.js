@@ -153,7 +153,7 @@ function changeSettings2(){
     let maxIt = document.getElementById("maxIterations");
     maxNumOfIterations = maxIt.value;
     document.getElementById("confirmMsg").innerHTML = "Changed settings"
-    setTimeout(hideSettingsMessage,3000)
+    setTimeout(hideSettingsMessage2,3000)
 }
 
 function hideSettingsMessage2(){
