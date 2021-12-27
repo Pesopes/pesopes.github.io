@@ -124,7 +124,9 @@ footer {
 }
 
 
-
+html {
+    scroll-behavior: smooth;
+  }
 
 .menu {
     background-color: rgb(32, 30, 30);
