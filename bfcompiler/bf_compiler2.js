@@ -181,3 +181,16 @@ function test2(num){
     console.log(arr[arr.length-1])
     return "WADA"
 }
+
+function textToCode(text){
+    let finalCode = "";
+    for(i=0;i<text.length;i++){
+        
+        for(p=0;p<text.charCodeAt(i);p++){
+            finalCode += "+";
+        }
+        finalCode += "."
+        finalCode += ">"
+    }
+    return finalCode
+}
