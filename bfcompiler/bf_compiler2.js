@@ -42,7 +42,7 @@ function compile2(code){
 
         else if (char == ";") printBoth(mem);
 
-
+        else if (char == "~") mem = Math.abs(arr[ptr]);
 
 
         //factorial of number
