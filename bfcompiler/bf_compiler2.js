@@ -123,7 +123,7 @@ function compile2(code){
 
 //used for output (outputs to text field and console logs)
 function printBoth(text){
-    console.log(text);
+    //console.log(text);
     display2(text);
 }
 
