@@ -1,19 +1,20 @@
-var canvasWidth = 100;
-var canvasHeight = 100;
+var canvasHeight = 800;
+var canvasWidth = 800;
+var resScale = 3; // higher = more pixelated 
 function draw() {
     clearCanvas();
     var canvas = document.getElementById("canvas");
     if (canvas.getContext) {
         var ctx = canvas.getContext("2d");
-        var screenW = canvas.width / 2;
-        var screenH = canvas.height / 2;
+        var screenW = canvas.width / resScale;
+        var screenH = canvas.height / resScale;
         var timeAtStart = Date.now();
         for (var x = 0; x < screenH; x++) {
             for (var y = 0; y < screenW; y++) {
                 //shader colour
                 var sc = shaderMain(x, y, screenW, screenH, timeAtStart);
                 ctx.fillStyle = canvasRgba([sc[0] * 0.3 + sc[1] * 0.3 + sc[2] * 0.3, sc[0] * 0.3 + sc[1] * 0.3 + sc[2] * 0.3, sc[0] * 0.3 + sc[1] * 0.3 + sc[2] * 0.3]);
-                ctx.fillRect(x, y, 1, 1);
+                ctx.fillRect(x * resScale, y * resScale, resScale, resScale);
             }
         }
     }
@@ -75,8 +76,16 @@ function canvasRgba(rgb, a) {
 }
 function load() {
     var canvas = document.getElementById("canvas");
-    canvasWidth = canvas.width;
-    canvasHeight = canvas.height;
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    var resSlider = document.getElementById("resSlider");
+    resSlider.oninput = function () {
+        //why cant I use this.value i do not know, I know you haave to specify that its a slider (or input in general)
+        resScale = parseFloat(resSlider.value);
+        resSlider.innerHTML = resSlider.value;
+        draw();
+    };
+    draw();
     setInterval(draw, 10000);
     console.log(asciiDraw());
 }
