@@ -23,13 +23,14 @@ function load() {
     };
     var codeInput = document.getElementById("code");
     codeInput.innerHTML = shaderMain.toString();
-    //draw()
-    var base_image = new Image();
-    base_image.crossOrigin = "anonymous";
-    base_image.src = "js/img/hr.png";
-    base_image.onload = function () {
-        ctx.drawImage(base_image, 0, 0, 800, 800);
-    };
+    draw();
+    //SecURitY RiSk HAHAHahHahaHa
+    // let base_image = new Image();
+    // base_image.crossOrigin = "anonymous";
+    // base_image.src = "js/img/hr.png";
+    // base_image.onload = function(){
+    //     ctx.drawImage(base_image, 0, 0,800,800);
+    // }
 }
 // DRAW FUNCTIONS
 function draw() {
