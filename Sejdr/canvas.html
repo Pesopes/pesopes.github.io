@@ -9,8 +9,9 @@
 <body onload="load()" >
 <canvas tabindex='1' id="canvas" width="800" height="800"></canvas>
 <div>
-    <textarea id="codeNONONONONONO" placeholder="DONT Enter js code here you were supposed to be able to write your shader here but its SOSOSOSOS SLOW but the uselles text box is still here so i guess you can use it to take notes or something i dont know"></textarea>
-    <input type="range" min="1" max="100" value="3" class="slider" id="resSlider">
+    <textarea id="code"  rows="20" cols="60" placeholder="Enter js code here"></textarea> <button id="runShader" onclick="runCustomShader()">Run shader</button>
+    <input type="range" min="1" max="100"  value="3" width="200" class="slider" id="resSlider"><a id="resNum">   3</a>
+    <button id="runAscii" onclick="console.log(asciiFromCanvas())">Run ascii shader (in console for now)</button>
 </div>
 </body>
 </html> 
