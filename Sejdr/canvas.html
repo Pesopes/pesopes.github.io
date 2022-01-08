@@ -10,9 +10,11 @@
 <body onload="load()" >
 <canvas tabindex='1' id="canvas" width="800" height="800"></canvas>
 <div>
-    <textarea id="code"  rows="20" cols="60" placeholder="Enter js code here"></textarea> <button id="runShader" onclick="runCustomShader()">Run shader</button>
-    <input type="range" min="1" max="100"  value="3" width="200" class="slider" id="resSlider"><a id="resNum">   3</a>
-    <button id="runAscii" onclick="console.log(asciiFromCanvas())">Run ascii shader (in console for now)</button>
+    <textarea id="code"  rows="20" cols="60" placeholder="Enter js code here"></textarea> <button id="runShader" onclick="runCustomShader()">Run shader</button><br>
+    <input type="range" min="1" max="100"  value="3" width="200" class="slider" id="resSlider"><a id="resNum">   3</a><br>
+    <button id="runAscii" onclick="asciiDrawButton()">Run ascii shader (in console for now)</button><br>
+    <textarea id="asciiOut" rows="40" cols="80" placeholder="ascii output" readonly></textarea>
+
 </div>
 </body>
 </html> 

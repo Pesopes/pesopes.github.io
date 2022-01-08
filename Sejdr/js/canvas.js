@@ -173,3 +173,12 @@ function clearCanvas() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 }
+//
+// buttons
+//
+function asciiDrawButton() {
+    var ascii = asciiFromCanvas();
+    console.log(ascii);
+    var out = document.getElementById("asciiOut");
+    out.innerHTML = ascii;
+}

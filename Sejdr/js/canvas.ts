@@ -206,6 +206,15 @@ function clearCanvas(){
     }
 }
 
+//
+// buttons
+//
 
+function asciiDrawButton(){
+    let ascii = asciiFromCanvas()
+    console.log(ascii)
+    let out = document.getElementById("asciiOut")
+    out.innerHTML = ascii
+}
 
 
