@@ -32,7 +32,7 @@ function load(){
 
     draw()
 
-    //SecURitY RiSk HAHAHahHahaHa
+    //SecURitY RiSk HAHAHahHahaHa I hate you
     // let base_image = new Image();
     // base_image.crossOrigin = "anonymous";
     // base_image.src = "js/img/hr.png";
@@ -124,13 +124,23 @@ function asciiFromCanvas(){
 //
 
 function shaderMain(x:number,y:number,w:number,h:number,time:number):[number,number,number]{
-    let fragColor: [number,number,number] = [0,0,0];
+    let fragColor: [number,number,number] = [1,1,1];
     let uv: [number,number] = [x/w,y/h]
-    fragColor[1] = stepVec1(distance(uv,[0.5,0.5]),0.5)
-    fragColor[2] = stepVec1(distance(uv,[0.5,0.5]),0.5)
 
+    let color = smoothstep(uv[0],0.1,0.9)
+    let pct = plot(uv,color);
+    color = (1.0-pct)*color+pct*1.0;
+
+    fragColor[0] = color
+    fragColor[1] = fragColor[0]
+    fragColor[2] = fragColor[0]
     return fragColor;
 }
+
+function plot(st: [number,number], pct:number){
+    return  smoothstep( pct-0.02, pct, st[1]) -
+            smoothstep( pct, pct+0.02, st[1]);
+  }
 
 function runCustomShader() {
     let headID = document.getElementsByTagName("head")[0];
@@ -157,16 +167,30 @@ function stepVec2(xy:[number,number],edge:number){
     else return 0
 }
 
-function stepVec1(x,edge:number){
+function step(x,edge:number){
 
     if(x > edge)
         return 1
     else return 0
 }
 
+function smoothstep(x, edge0,edge1){
+    let t = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
+    return t * t * (3.0 - 2.0 * t);
+}
+
 function distance(xy1:[number,number],xy2:[number,number]){
     return Math.sqrt((xy1[0]-xy2[0])*(xy1[0]-xy2[0])+(xy1[1]-xy2[1])*(xy1[1]-xy2[1]))
 }
+
+function clamp(x:number,minVal:number,maxVal:number){
+    return Math.min(Math.max(x, minVal), maxVal)
+}
+function clampVec2(xy:[number,number],minVal:[number,number],maxVal:[number,number]){
+    return [Math.min(Math.max(xy[0], minVal[0]), maxVal[0]),Math.min(Math.max(xy[1], minVal[1]), maxVal[1])]
+}
+
+
 //
 // COLOUR CONVERTING
 //

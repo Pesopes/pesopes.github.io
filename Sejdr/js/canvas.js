@@ -24,7 +24,7 @@ function load() {
     var codeInput = document.getElementById("code");
     codeInput.innerHTML = shaderMain.toString();
     draw();
-    //SecURitY RiSk HAHAHahHahaHa
+    //SecURitY RiSk HAHAHahHahaHa I hate you
     // let base_image = new Image();
     // base_image.crossOrigin = "anonymous";
     // base_image.src = "js/img/hr.png";
@@ -107,11 +107,19 @@ function asciiFromCanvas() {
 // SHADER
 //
 function shaderMain(x, y, w, h, time) {
-    var fragColor = [0, 0, 0];
+    var fragColor = [1, 1, 1];
     var uv = [x / w, y / h];
-    fragColor[1] = stepVec1(distance(uv, [0.5, 0.5]), 0.5);
-    fragColor[2] = stepVec1(distance(uv, [0.5, 0.5]), 0.5);
+    var color = smoothstep(uv[0], 0.1, 0.9);
+    var pct = plot(uv, color);
+    color = (1.0 - pct) * color + pct * 1.0;
+    fragColor[0] = color;
+    fragColor[1] = fragColor[0];
+    fragColor[2] = fragColor[0];
     return fragColor;
+}
+function plot(st, pct) {
+    return smoothstep(pct - 0.02, pct, st[1]) -
+        smoothstep(pct, pct + 0.02, st[1]);
 }
 function runCustomShader() {
     var headID = document.getElementsByTagName("head")[0];
@@ -134,14 +142,24 @@ function stepVec2(xy, edge) {
     else
         return 0;
 }
-function stepVec1(x, edge) {
+function step(x, edge) {
     if (x > edge)
         return 1;
     else
         return 0;
 }
+function smoothstep(x, edge0, edge1) {
+    var t = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
+    return t * t * (3.0 - 2.0 * t);
+}
 function distance(xy1, xy2) {
     return Math.sqrt((xy1[0] - xy2[0]) * (xy1[0] - xy2[0]) + (xy1[1] - xy2[1]) * (xy1[1] - xy2[1]));
+}
+function clamp(x, minVal, maxVal) {
+    return Math.min(Math.max(x, minVal), maxVal);
+}
+function clampVec2(xy, minVal, maxVal) {
+    return [Math.min(Math.max(xy[0], minVal[0]), maxVal[0]), Math.min(Math.max(xy[1], minVal[1]), maxVal[1])];
 }
 //
 // COLOUR CONVERTING
