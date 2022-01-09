@@ -1,11 +1,14 @@
-// - add toggleable greyscale (just apply the function or not in draw)
-// - more settings
+//
+// - more settings (and better - instead of togglebuttons just soe toggles)
 // - more shader functions (smoothstep, colormix, idk, blah, ...)
 //
 
 let canvasHeight = 800;
-let canvasWidth = 800;
+let canvasWidth  = 800;
 let resScale = 3; // higher = more pixelated , changes trough slider
+
+let grey = false
+let invert = false
 
 let zoomScale = 3;
 let xScale = 0
@@ -46,7 +49,7 @@ function load(){
     xSlider.oninput = function(){
         xScale = parseFloat(xSlider.value);
         let xNum = <HTMLInputElement> document.getElementById("xNum");
-        xNum.innerHTML = "  " + xSlider.value;
+        xNum.innerHTML = "  " + (Math.round(parseFloat(xSlider.value) * 100) / 100).toFixed(2);
         draw()
     }
 
@@ -55,13 +58,16 @@ function load(){
     ySlider.oninput = function(){
         yScale = parseFloat(ySlider.value);
         let yNum = <HTMLInputElement> document.getElementById("yNum");
-        yNum.innerHTML = "  " + ySlider.value;
+        yNum.innerHTML = "  " + (Math.round(parseFloat(ySlider.value) * 100) / 100).toFixed(2);
         draw()
     }
     var codeInput = document.getElementById("code");
     codeInput.innerHTML = shaderMain.toString()
 
+    
     draw()
+   
+    
 
     //SecURitY RiSk HAHAHahHahaHa I hate you
     // let base_image = new Image();
@@ -76,6 +82,7 @@ function load(){
 // DRAW FUNCTIONS
 //
 function draw(){
+    console.time('draw time')
     clearCanvas()
     let canvas = <HTMLCanvasElement>document.getElementById("canvas");
     if(canvas.getContext){
@@ -87,14 +94,22 @@ function draw(){
             for (let y = 0; y < screenW; y++) {
                 //shader colour
                 let sc = shaderMain(x,y,screenW,screenH,timeAtStart);
+                if (invert) {
+                    sc = [1-sc[0],1-sc[1],1-sc[2],sc[3]]
+                }
+                if (grey) {
+                    let sg = rgb2grey([sc[0],sc[1],sc[2]])
+                    sc = [sg[0],sg[1],sg[2],sc[3]]
+                }
                 ctx.fillStyle = canvasRgba([sc[0],sc[1],sc[2]],sc[3]);
                 ctx.fillRect(x*resScale,y*resScale,resScale,resScale);
             }
         }
     }
+    console.timeEnd('draw time') 
 }
 
-//the asciifromcanvas func is better NOT GOOD OR TESTED/WORKING
+//the asciifromcanvas func is better, NOT GOOD NOR TESTED/WORKING
 function asciiDraw(){
     const asciiSymbols = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. "
     const screenW = 50;
@@ -173,14 +188,13 @@ function squareImaginary(number:[number,number]){
     ]
 }
 
-function iterateMandelbrot(coord:[number,number]){
+function iterateMandelbrot(coord:[number,number],maxIterations:number){
 	let z : [number,number] = [0,0];
-    const maxIterations = 25
 	for(let i=0;i<maxIterations;i++){
 		z = [squareImaginary(z)[0] + coord[0],squareImaginary(z)[1] + coord[1]];
 		if(lengthVec2(z)>2) return i/maxIterations;
 	}
-	return maxIterations;
+	return 1;
 }
 
 function zoom(uv:[number,number],num:number):[number,number]{
@@ -201,7 +215,7 @@ function shaderMain(x:number,y:number,w:number,h:number,time:number):[number,num
 
     uv = move(uv, [xScale,yScale])
 
-    fragColor[0] = (1-iterateMandelbrot(uv))
+    fragColor[0] = (1-iterateMandelbrot(uv,25))
     fragColor[1] = fragColor[0]
     fragColor[2] =  circle(uv,[0.5,0.5],0.01)
     return fragColor;
