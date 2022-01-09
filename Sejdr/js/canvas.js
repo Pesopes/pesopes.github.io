@@ -5,6 +5,9 @@
 var canvasHeight = 800;
 var canvasWidth = 800;
 var resScale = 3; // higher = more pixelated , changes trough slider
+var zoomScale = 3;
+var xScale = 0;
+var yScale = 0;
 // ONLOAD
 function load() {
     console.log('%c My bad shader', 'font-weight: bold; font-size: 50px;color: red; text-shadow: 3px 3px 0 rgb(217,31,38) , 6px 6px 0 rgb(226,91,14) , 9px 9px 0 rgb(245,221,8) , 12px 12px 0 rgb(5,148,68) , 15px 15px 0 rgb(2,135,206) , 18px 18px 0 rgb(4,77,145) , 21px 21px 0 rgb(42,21,113)');
@@ -21,6 +24,31 @@ function load() {
         resNum.innerHTML = "  " + resSlider.value;
         draw();
     };
+    // configure slider : zoom
+    var zoomSlider = document.getElementById("zoomSlider");
+    zoomSlider.oninput = function () {
+        //why cant I use this.value i do not know, I know you haave to specify that its a slider (or input in general)
+        zoomScale = parseFloat(zoomSlider.value);
+        var zoomNum = document.getElementById("zoomNum");
+        zoomNum.innerHTML = "  " + zoomSlider.value;
+        draw();
+    };
+    // configure slider : x
+    var xSlider = document.getElementById("xSlider");
+    xSlider.oninput = function () {
+        xScale = parseFloat(xSlider.value);
+        var xNum = document.getElementById("xNum");
+        xNum.innerHTML = "  " + xSlider.value;
+        draw();
+    };
+    // configure slider : y
+    var ySlider = document.getElementById("ySlider");
+    ySlider.oninput = function () {
+        yScale = parseFloat(ySlider.value);
+        var yNum = document.getElementById("yNum");
+        yNum.innerHTML = "  " + ySlider.value;
+        draw();
+    };
     var codeInput = document.getElementById("code");
     codeInput.innerHTML = shaderMain.toString();
     draw();
@@ -32,7 +60,9 @@ function load() {
     //     ctx.drawImage(base_image, 0, 0,800,800);
     // }
 }
+//
 // DRAW FUNCTIONS
+//
 function draw() {
     clearCanvas();
     var canvas = document.getElementById("canvas");
@@ -45,13 +75,13 @@ function draw() {
             for (var y = 0; y < screenW; y++) {
                 //shader colour
                 var sc = shaderMain(x, y, screenW, screenH, timeAtStart);
-                ctx.fillStyle = canvasRgba(sc);
+                ctx.fillStyle = canvasRgba([sc[0], sc[1], sc[2]], sc[3]);
                 ctx.fillRect(x * resScale, y * resScale, resScale, resScale);
             }
         }
     }
 }
-//the asciifromcanvas func is better
+//the asciifromcanvas func is better NOT GOOD OR TESTED/WORKING
 function asciiDraw() {
     var asciiSymbols = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. ";
     var screenW = 50;
@@ -106,15 +136,46 @@ function asciiFromCanvas() {
 //
 // SHADER
 //
+function rectangle(uv, w, h) {
+    console.log("IDK");
+}
+function circle(uv, pos, radius) {
+    //let st: [number,number] = [uv[0]-pos[0],uv[1]-pos[1]]
+    return smoothstep(distance(uv, pos), radius - 0.008, radius);
+}
+function squareImaginary(number) {
+    return [
+        Math.pow(number[0], 2) - Math.pow(number[1], 2),
+        2 * number[0] * number[1]
+    ];
+}
+function iterateMandelbrot(coord) {
+    var z = [0, 0];
+    var maxIterations = 25;
+    for (var i = 0; i < maxIterations; i++) {
+        z = [squareImaginary(z)[0] + coord[0], squareImaginary(z)[1] + coord[1]];
+        if (lengthVec2(z) > 2)
+            return i / maxIterations;
+    }
+    return maxIterations;
+}
+function zoom(uv, num) {
+    return [uv[0] * num, uv[1] * num];
+}
+function move(uv, pos) {
+    return [uv[0] + pos[0], uv[1] + pos[1]];
+}
+// THE shader
 function shaderMain(x, y, w, h, time) {
-    var fragColor = [1, 1, 1];
+    var fragColor = [1, 1, 1, 1];
     var uv = [x / w, y / h];
-    var color = smoothstep(uv[0], 0.1, 0.9);
-    var pct = plot(uv, color);
-    color = (1.0 - pct) * color + pct * 1.0;
-    fragColor[0] = color;
+    uv = [uv[0] - 0.5, uv[1] - 0.5];
+    uv = zoom(uv, zoomScale);
+    uv = [uv[0] + 0.5, uv[1] + 0.5];
+    uv = move(uv, [xScale, yScale]);
+    fragColor[0] = (1 - iterateMandelbrot(uv));
     fragColor[1] = fragColor[0];
-    fragColor[2] = fragColor[0];
+    fragColor[2] = circle(uv, [0.5, 0.5], 0.01);
     return fragColor;
 }
 function plot(st, pct) {
@@ -160,6 +221,9 @@ function clamp(x, minVal, maxVal) {
 }
 function clampVec2(xy, minVal, maxVal) {
     return [Math.min(Math.max(xy[0], minVal[0]), maxVal[0]), Math.min(Math.max(xy[1], minVal[1]), maxVal[1])];
+}
+function lengthVec2(xy) {
+    return Math.sqrt(xy[0] * xy[0] + xy[1] * xy[1]);
 }
 //
 // COLOUR CONVERTING

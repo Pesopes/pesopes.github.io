@@ -7,6 +7,11 @@ let canvasHeight = 800;
 let canvasWidth = 800;
 let resScale = 3; // higher = more pixelated , changes trough slider
 
+let zoomScale = 3;
+let xScale = 0
+let yScale = 0
+
+
 // ONLOAD
 function load(){
 
@@ -26,7 +31,33 @@ function load(){
         resNum.innerHTML = "  " + resSlider.value;
         draw()
     }
+    // configure slider : zoom
+    let zoomSlider = <HTMLInputElement> document.getElementById("zoomSlider");
+    zoomSlider.oninput = function(){
+        //why cant I use this.value i do not know, I know you haave to specify that its a slider (or input in general)
+        zoomScale = parseFloat(zoomSlider.value);
+        let zoomNum = <HTMLInputElement> document.getElementById("zoomNum");
+        zoomNum.innerHTML = "  " + zoomSlider.value;
+        draw()
+    }
 
+    // configure slider : x
+    let xSlider = <HTMLInputElement> document.getElementById("xSlider");
+    xSlider.oninput = function(){
+        xScale = parseFloat(xSlider.value);
+        let xNum = <HTMLInputElement> document.getElementById("xNum");
+        xNum.innerHTML = "  " + xSlider.value;
+        draw()
+    }
+
+    // configure slider : y
+    let ySlider = <HTMLInputElement> document.getElementById("ySlider");
+    ySlider.oninput = function(){
+        yScale = parseFloat(ySlider.value);
+        let yNum = <HTMLInputElement> document.getElementById("yNum");
+        yNum.innerHTML = "  " + ySlider.value;
+        draw()
+    }
     var codeInput = document.getElementById("code");
     codeInput.innerHTML = shaderMain.toString()
 
@@ -41,7 +72,9 @@ function load(){
     // }
 }
 
+//
 // DRAW FUNCTIONS
+//
 function draw(){
     clearCanvas()
     let canvas = <HTMLCanvasElement>document.getElementById("canvas");
@@ -54,14 +87,14 @@ function draw(){
             for (let y = 0; y < screenW; y++) {
                 //shader colour
                 let sc = shaderMain(x,y,screenW,screenH,timeAtStart);
-                ctx.fillStyle = canvasRgba(sc);
+                ctx.fillStyle = canvasRgba([sc[0],sc[1],sc[2]],sc[3]);
                 ctx.fillRect(x*resScale,y*resScale,resScale,resScale);
             }
         }
     }
 }
 
-//the asciifromcanvas func is better
+//the asciifromcanvas func is better NOT GOOD OR TESTED/WORKING
 function asciiDraw(){
     const asciiSymbols = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. "
     const screenW = 50;
@@ -123,17 +156,54 @@ function asciiFromCanvas(){
 // SHADER
 //
 
-function shaderMain(x:number,y:number,w:number,h:number,time:number):[number,number,number]{
-    let fragColor: [number,number,number] = [1,1,1];
+function rectangle(uv:[number,number],w:number,h:number){
+
+    console.log("IDK")
+}
+
+function circle(uv:[number,number], pos:[number,number],radius:number){
+    //let st: [number,number] = [uv[0]-pos[0],uv[1]-pos[1]]
+    return smoothstep(distance(uv,pos),radius-0.008,radius)
+}
+
+function squareImaginary(number:[number,number]){
+	return [
+		Math.pow(number[0],2)-Math.pow(number[1],2),
+		2*number[0]*number[1]
+    ]
+}
+
+function iterateMandelbrot(coord:[number,number]){
+	let z : [number,number] = [0,0];
+    const maxIterations = 25
+	for(let i=0;i<maxIterations;i++){
+		z = [squareImaginary(z)[0] + coord[0],squareImaginary(z)[1] + coord[1]];
+		if(lengthVec2(z)>2) return i/maxIterations;
+	}
+	return maxIterations;
+}
+
+function zoom(uv:[number,number],num:number):[number,number]{
+    return [uv[0]*num,uv[1]*num]
+}
+
+function move(uv:[number,number],pos:[number,number]):[number,number]{
+    return [uv[0]+pos[0],uv[1]+pos[1]]
+}
+
+// THE shader
+function shaderMain(x:number,y:number,w:number,h:number,time:number):[number,number,number,number]{
+    let fragColor: [number,number,number,number] = [1,1,1,1];
     let uv: [number,number] = [x/w,y/h]
+    uv = [uv[0]-0.5,uv[1]-0.5]
+    uv = zoom(uv, zoomScale)
+    uv = [uv[0]+0.5,uv[1]+0.5]
 
-    let color = smoothstep(uv[0],0.1,0.9)
-    let pct = plot(uv,color);
-    color = (1.0-pct)*color+pct*1.0;
+    uv = move(uv, [xScale,yScale])
 
-    fragColor[0] = color
+    fragColor[0] = (1-iterateMandelbrot(uv))
     fragColor[1] = fragColor[0]
-    fragColor[2] = fragColor[0]
+    fragColor[2] =  circle(uv,[0.5,0.5],0.01)
     return fragColor;
 }
 
@@ -189,7 +259,9 @@ function clamp(x:number,minVal:number,maxVal:number){
 function clampVec2(xy:[number,number],minVal:[number,number],maxVal:[number,number]){
     return [Math.min(Math.max(xy[0], minVal[0]), maxVal[0]),Math.min(Math.max(xy[1], minVal[1]), maxVal[1])]
 }
-
+function lengthVec2(xy:[number,number]){
+    return Math.sqrt(xy[0]*xy[0]+xy[1]*xy[1])
+}
 
 //
 // COLOUR CONVERTING
