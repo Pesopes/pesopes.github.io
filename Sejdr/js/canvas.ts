@@ -1,7 +1,8 @@
 //
 // - more settings (and better - instead of togglebuttons just soe toggles)
 // - more shader functions (smoothstep, colormix, idk, blah, ...)
-//
+// - presets (mandelbrot, circle, something using time)
+// - continous updating (maybe only at lower resolutions) -> better time variable(resets to 0 when refreshing script)
 
 let canvasHeight = 800;
 let canvasWidth  = 800;
@@ -17,7 +18,7 @@ let yScale = 0
 
 // ONLOAD
 function load(){
-
+    //displays styled "My bad shader" in console
     console.log('%c My bad shader', 'font-weight: bold; font-size: 50px;color: red; text-shadow: 3px 3px 0 rgb(217,31,38) , 6px 6px 0 rgb(226,91,14) , 9px 9px 0 rgb(245,221,8) , 12px 12px 0 rgb(5,148,68) , 15px 15px 0 rgb(2,135,206) , 18px 18px 0 rgb(4,77,145) , 21px 21px 0 rgb(42,21,113)');
 
     let canvas = <HTMLCanvasElement> document.getElementById("canvas");
@@ -61,6 +62,8 @@ function load(){
         yNum.innerHTML = "  " + (Math.round(parseFloat(ySlider.value) * 100) / 100).toFixed(2);
         draw()
     }
+
+    //pastes current shaderMain func into text field
     var codeInput = document.getElementById("code");
     codeInput.innerHTML = shaderMain.toString()
 
@@ -82,18 +85,21 @@ function load(){
 // DRAW FUNCTIONS
 //
 function draw(){
+    //used to calculate execution time
     console.time('draw time')
     clearCanvas()
+
     let canvas = <HTMLCanvasElement>document.getElementById("canvas");
     if(canvas.getContext){
         let ctx = canvas.getContext("2d");
         const screenW = canvas.width/resScale;
-        const screenH = canvas.height/resScale
+        const screenH = canvas.height/resScale;
         const timeAtStart = Date.now()
         for (let x = 0; x < screenH; x++) {
             for (let y = 0; y < screenW; y++) {
                 //shader colour
                 let sc = shaderMain(x,y,screenW,screenH,timeAtStart);
+                //if options ...
                 if (invert) {
                     sc = [1-sc[0],1-sc[1],1-sc[2],sc[3]]
                 }
@@ -130,6 +136,7 @@ function asciiDraw(){
     }
 }
 
+//returns an ascii representation of the canvas TODO: more options (resolution, size, types of characters,...)
 function asciiFromCanvas(){
     const asciiSymbols = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. "
     let drawing = "";
@@ -149,10 +156,12 @@ function asciiFromCanvas(){
         drawing += "\n"
     }
     return drawing
+
     function convertColorToSymbol(colour:number){
         return asciiSymbols[Math.round((asciiSymbols.length-1) * colour)]
     }
 
+    //calculates average rgb (0.0-1.0) from context.getImageData func
     function averageColour(data){
         let averages = []
         for (let i = 0; i < data.length; i+=4) {
@@ -171,16 +180,19 @@ function asciiFromCanvas(){
 // SHADER
 //
 
+//does not work (obviously)
 function rectangle(uv:[number,number],w:number,h:number){
 
     console.log("IDK")
 }
 
+//smooth circle TODO: add how much SMOOTH hmmmm
 function circle(uv:[number,number], pos:[number,number],radius:number){
     //let st: [number,number] = [uv[0]-pos[0],uv[1]-pos[1]]
     return smoothstep(distance(uv,pos),radius-0.008,radius)
 }
 
+//things for mandelbrot (i have no idea ((well a little but still)))
 function squareImaginary(number:[number,number]){
 	return [
 		Math.pow(number[0],2)-Math.pow(number[1],2),
@@ -197,10 +209,12 @@ function iterateMandelbrot(coord:[number,number],maxIterations:number){
 	return 1;
 }
 
+//zooms ...
 function zoom(uv:[number,number],num:number):[number,number]{
     return [uv[0]*num,uv[1]*num]
 }
 
+//translates by pos
 function move(uv:[number,number],pos:[number,number]):[number,number]{
     return [uv[0]+pos[0],uv[1]+pos[1]]
 }
@@ -221,11 +235,13 @@ function shaderMain(x:number,y:number,w:number,h:number,time:number):[number,num
     return fragColor;
 }
 
+//I dont even remember adding this here
 function plot(st: [number,number], pct:number){
     return  smoothstep( pct-0.02, pct, st[1]) -
             smoothstep( pct, pct+0.02, st[1]);
   }
 
+//adds custom shader from website
 function runCustomShader() {
     let headID = document.getElementsByTagName("head")[0];
     // let newScript = <HTMLScriptElement>document.getElementById("customShader");
@@ -243,6 +259,7 @@ function runCustomShader() {
 //
 // SHADER FUNCTIONS
 //
+//I wont explain what these do
 
 function stepVec2(xy:[number,number],edge:number){
 
@@ -287,6 +304,7 @@ function canvasRgba(rgb:[number,number,number],a=1.0){
 
 }
 
+//rgb to greyscale (0.0-1.0)
 function rgb2grey(rgb:[number,number,number],a=1.0) : [number,number,number]{
     let greyScale = rgb[0]*0.299+rgb[1]*0.587+rgb[2]*0.144
     return [greyScale,greyScale,greyScale]
@@ -296,11 +314,12 @@ function rgb2grey(rgb:[number,number,number],a=1.0) : [number,number,number]{
 // CANVAS FUNCTIONS
 //
 
-// just copied somehitng not working really TODO
+// just copied somehitng not working really, but I dont think this is even necessary you can litterally
+// just right click and save image
 function saveCanvasImg():void{
     let canvas = <HTMLCanvasElement>document.getElementById("canvas");
 
-    var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
+    var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"); 
 
 
     window.location.href=image; // it will save locally
