@@ -3,6 +3,7 @@
 // - more shader functions (smoothstep, colormix, idk, blah, ...)
 // - presets (mandelbrot, circle, something using time)
 // - continous updating (maybe only at lower resolutions) -> better time variable(resets to 0 when refreshing script)
+// - atleast delete the previous shader when creating the new ones
 
 let canvasHeight = 800;
 let canvasWidth  = 800;
@@ -244,11 +245,11 @@ function plot(st: [number,number], pct:number){
 //adds custom shader from website
 function runCustomShader() {
     let headID = document.getElementsByTagName("head")[0];
-    // let newScript = <HTMLScriptElement>document.getElementById("customShader");
-    // if (newScript === null) {
-    //     newScript = document.createElement("script")
-    // }
-    let newScript = document.createElement("script")
+    let newScript = <HTMLScriptElement>document.getElementById("customShader");
+    if (newScript != null) {
+        newScript.remove()
+    }
+    newScript = document.createElement("script")
 
     newScript.id = "customShader"
     newScript.type = "text/javascript";
