@@ -4,6 +4,6 @@
         "watch": true
     },
     "files": [
-        "canvas.ts"
+        "canvas.ts", "shader.ts"
     ]
 }

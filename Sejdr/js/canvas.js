@@ -14,7 +14,7 @@ var flipY = false;
 var zoomScale = 3;
 var xScale = 0;
 var yScale = 0;
-// ONLOAD
+//  ONLOAD
 function load() {
     //displays styled "My bad shader" in console
     console.log('%c My bad shader', 'font-weight: bold; font-size: 50px;color: red; text-shadow: 3px 3px 0 rgb(217,31,38) , 6px 6px 0 rgb(226,91,14) , 9px 9px 0 rgb(245,221,8) , 12px 12px 0 rgb(5,148,68) , 15px 15px 0 rgb(2,135,206) , 18px 18px 0 rgb(4,77,145) , 21px 21px 0 rgb(42,21,113)');
@@ -69,7 +69,7 @@ function load() {
     // }
 }
 //
-// DRAW FUNCTIONS
+//  DRAW FUNCTIONS
 //
 function draw() {
     //used to calculate execution time
@@ -154,60 +154,6 @@ function asciiFromCanvas() {
         return Math.round(finalAverage / averages.length) / 255;
     }
 }
-//
-// SHADER
-//
-//does not work (obviously)
-function rectangle(uv, w, h) {
-    console.log("IDK");
-}
-//smooth circle TODO: add how much SMOOTH hmmmm
-function circle(uv, pos, radius) {
-    //let st: [number,number] = [uv[0]-pos[0],uv[1]-pos[1]]
-    return smoothstep(distance(uv, pos), radius - 0.008, radius);
-}
-//things for mandelbrot (i have no idea ((well a little but still)))
-function squareImaginary(number) {
-    return [
-        Math.pow(number[0], 2) - Math.pow(number[1], 2),
-        2 * number[0] * number[1]
-    ];
-}
-function iterateMandelbrot(coord, maxIterations) {
-    var z = [0, 0];
-    for (var i = 0; i < maxIterations; i++) {
-        z = [squareImaginary(z)[0] + coord[0], squareImaginary(z)[1] + coord[1]];
-        if (lengthVec2(z) > 2)
-            return i / maxIterations;
-    }
-    return 1;
-}
-//zooms ...
-function zoom(uv, num) {
-    return [uv[0] * num, uv[1] * num];
-}
-//translates by pos
-function move(uv, pos) {
-    return [uv[0] + pos[0], uv[1] + pos[1]];
-}
-// THE shader
-function shaderMain(x, y, w, h, time) {
-    var fragColor = [1, 1, 1, 1];
-    var uv = [x / w, y / h];
-    uv = [uv[0] - 0.5, uv[1] - 0.5];
-    uv = zoom(uv, zoomScale);
-    uv = [uv[0] + 0.5, uv[1] + 0.5];
-    uv = move(uv, [xScale, yScale]);
-    fragColor[0] = (1 - iterateMandelbrot(uv, 25));
-    fragColor[1] = fragColor[0];
-    fragColor[2] = circle(uv, [0.5, 0.5], 0.01);
-    return fragColor;
-}
-//I dont even remember adding this here
-function plot(st, pct) {
-    return smoothstep(pct - 0.02, pct, st[1]) -
-        smoothstep(pct, pct + 0.02, st[1]);
-}
 //adds custom shader from website
 function runCustomShader() {
     var headID = document.getElementsByTagName("head")[0];
@@ -243,6 +189,12 @@ function smoothstep(x, edge0, edge1) {
 }
 function distance(xy1, xy2) {
     return Math.sqrt((xy1[0] - xy2[0]) * (xy1[0] - xy2[0]) + (xy1[1] - xy2[1]) * (xy1[1] - xy2[1]));
+}
+function fract(x) {
+    return x - Math.floor(x);
+}
+function fractVec2(xy) {
+    return [xy[0] - Math.floor(xy[0]), xy[1] - Math.floor(xy[1])];
 }
 function clamp(x, minVal, maxVal) {
     return Math.min(Math.max(x, minVal), maxVal);
@@ -286,11 +238,13 @@ function clearCanvas() {
     }
 }
 //
-// buttons
+// BUTTONS
 //
 function asciiDrawButton() {
     var ascii = asciiFromCanvas();
     console.log(ascii);
     var out = document.getElementById("asciiOut");
     out.innerHTML = ascii;
+}
+function toggleButtons() {
 }
