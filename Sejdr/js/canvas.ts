@@ -11,6 +11,8 @@ let resScale = 3; // higher = more pixelated , changes trough slider
 
 let grey = false
 let invert = false
+let flipX = false
+let flipY = false
 
 let zoomScale = 3;
 let xScale = 0
@@ -98,8 +100,9 @@ function draw(){
         const timeAtStart = Date.now()
         for (let x = 0; x < screenH; x++) {
             for (let y = 0; y < screenW; y++) {
+                
                 //shader colour
-                let sc = shaderMain(x,y,screenW,screenH,timeAtStart);
+                let sc = shaderMain(flipX ? screenH-x : x,flipY ? screenW-y : y,screenW,screenH,timeAtStart);
                 //if options ...
                 if (invert) {
                     sc = [1-sc[0],1-sc[1],1-sc[2],sc[3]]

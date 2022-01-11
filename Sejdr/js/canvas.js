@@ -9,6 +9,8 @@ var canvasWidth = 800;
 var resScale = 3; // higher = more pixelated , changes trough slider
 var grey = false;
 var invert = false;
+var flipX = false;
+var flipY = false;
 var zoomScale = 3;
 var xScale = 0;
 var yScale = 0;
@@ -82,7 +84,7 @@ function draw() {
         for (var x = 0; x < screenH; x++) {
             for (var y = 0; y < screenW; y++) {
                 //shader colour
-                var sc = shaderMain(x, y, screenW, screenH, timeAtStart);
+                var sc = shaderMain(flipX ? screenH - x : x, flipY ? screenW - y : y, screenW, screenH, timeAtStart);
                 //if options ...
                 if (invert) {
                     sc = [1 - sc[0], 1 - sc[1], 1 - sc[2], sc[3]];
