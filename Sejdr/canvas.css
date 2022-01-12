@@ -24,6 +24,10 @@ body, html {
         width: 70%;
     }
 }
+/*everything*/
 
-
+#code{
+    background-color: rgb(35, 39, 46);
+    color: rgb(224, 99, 90);
+}
 
