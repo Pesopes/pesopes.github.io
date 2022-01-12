@@ -36,9 +36,9 @@ function load() {
     var zoomSlider = document.getElementById("zoomSlider");
     zoomSlider.oninput = function () {
         //why cant I use this.value i do not know, I know you haave to specify that its a slider (or input in general)
-        zoomScale = parseFloat(zoomSlider.value);
-        var zoomNum = document.getElementById("zoomNum");
-        zoomNum.innerHTML = "  " + zoomSlider.value;
+        // zoomScale = parseFloat(zoomSlider.value);
+        // let zoomNum = <HTMLInputElement> document.getElementById("zoomNum");
+        // zoomNum.innerHTML = "  " + zoomSlider.value;
         draw();
     };
     // configure slider : x
@@ -129,14 +129,14 @@ function asciiDraw() {
     }
 }
 //returns an ascii representation of the canvas TODO: more options (resolution, size, types of characters,...)
-function asciiFromCanvas() {
+function asciiFromCanvas(blockSize) {
+    if (blockSize === void 0) { blockSize = 20; }
     var asciiSymbols = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. ";
     var drawing = "";
     var canvas = document.getElementById("canvas");
     var ctx = canvas.getContext("2d");
     var screenW = canvas.width;
     var screenH = canvas.height;
-    var blockSize = 20;
     for (var y = 0; y < screenH / blockSize; y++) {
         for (var x = 0; x < screenW / blockSize; x++) {
             //ctx.getImageData(x,y,blockSize,blockSize).data
@@ -249,7 +249,12 @@ function clearCanvas() {
 // BUTTONS
 //
 function asciiDrawButton() {
-    var ascii = asciiFromCanvas();
+    //gets the resolution from the number box
+    var num = parseFloat(document.getElementById("asciiRes").value);
+    if (num < 7) {
+        console.warn("THIS WILL BE SLOW \n It may not even finish \n You have been warned (well you already clicked it so this isn't really a warning)");
+    }
+    var ascii = asciiFromCanvas(num);
     console.log(ascii);
     var out = document.getElementById("asciiOut");
     out.innerHTML = ascii;

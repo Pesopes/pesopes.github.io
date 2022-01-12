@@ -1,15 +1,29 @@
 body, html {
-    margin-left:2%;
+    margin-left:1%;
     margin-right:1%;
     margin-bottom:1%;
     margin-top:1%;
     text-align: center;
     }
-
+/*mobile*/
+    
 .slider{
-    width: 70%;
+    width: 100%;
 }
 
 #code{
-    width: 80%;
+    width: 100%;
 }
+/*desktop*/
+@media only screen and (min-width: 768px){
+    .slider{
+        width: 70%;
+    }
+    
+    #code{
+        width: 70%;
+    }
+}
+
+
+
