@@ -5,3 +5,11 @@ body, html {
     margin-top:1%;
     text-align: center;
     }
+
+.slider{
+    width: 70%;
+}
+
+#code{
+    width: 80%;
+}

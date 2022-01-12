@@ -4,6 +4,7 @@
 // - presets (mandelbrot, circle, something using time)
 // - continous updating (maybe only at lower resolutions) -> better time variable(resets to 0 when refreshing script)
 // - atleast delete the previous shader when creating the new ones
+// - the checkbboxes dont work and suck
 
 let canvasHeight = 800;
 let canvasWidth  = 800;
@@ -65,6 +66,14 @@ function load(){
         yNum.innerHTML = "  " + (Math.round(parseFloat(ySlider.value) * 100) / 100).toFixed(2);
         draw()
     }
+
+    //reset checkboxes when refreshing the page(why do I have to do this there has to be a better way)
+    var checkboxes = document.getElementsByTagName("input");
+    for(var i = 0; i < checkboxes.length; i++) {
+    if(checkboxes[i].type == "checkbox") {
+        checkboxes[i].checked = false; 
+    }  
+}
 
     //pastes current shaderMain func into text field
     var codeInput = document.getElementById("code");

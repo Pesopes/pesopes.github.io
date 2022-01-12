@@ -12,17 +12,19 @@
 <body onload="load()" >
 <canvas tabindex='1' id="canvas" width="800" height="800"></canvas>
 <div>
-    Resolution <input type="range" min="1" max="50"  value="3" width="200" class="slider" id="resSlider"><a id="resNum">   3</a><br>
-    Zoom <input type="number" min="0.1" max="100"  step="0.1" value="3" width="200" class="slider" id="zoomSlider"><a id="zoomNum">   3.00</a><br>
+    <br><button id="runDraw" onclick="draw()">Refresh shader</button><br>
+
+    Resolution <input type="range" min="1" max="50" value="3" width="200" class="slider" id="resSlider"><a id="resNum">   3</a><br>
+    Zoom <input type="number" min="0.1" max="100"  step="0.1" value="3" width="200" class="number" id="zoomSlider"><a id="zoomNum">   3.00</a><br>
     X translate<input type="range" min="-20" max="20"  step="0.01" value="0" width="200" class="slider" id="xSlider"><a id="xNum">   0.00</a><br>
     Y translate<input type="range" min="-20" max="20"  step="0.01" value="0" width="200" class="slider" id="ySlider"><a id="yNum">   0.00</a><br>
     
     <textarea id="code"  rows="20" cols="60" placeholder="Enter js code here"></textarea> <br><br>
 
     <!--There may be a better way to use checkboxes (but idc) -->
-    <input type="checkbox" id="invert"  onload="invert = this.checked" onchange="invert = this.checked"></button>
+    <input type="checkbox" id="invert"  onchange="invert = this.checked"></button>
     <label for="invert"> Invert colours</label>
-    <input type="checkbox" id="greyscale" onload="grey = this.grey" onchange="grey = this.grey"></button>
+    <input type="checkbox" id="greyscale"  onchange="grey = this.checked"></button>
     <label for="greyscale">Greyscale</label>
     <input type="checkbox" id="flipX" onclick="flipX = !flipX"></button>
     <label for="flipX">Flip x</label>
@@ -32,7 +34,6 @@
 
     <button id="runShader" onclick="runCustomShader()" title="This creates a new script element so performance may be worse idk">Run shader (from code)</button><br><br>
 
-    <button id="runDraw" onclick="draw()">Refresh shader</button><br><br>
 
     <button id="runAscii" onclick="asciiDrawButton()">Run ascii shader</button><br><br>
     
