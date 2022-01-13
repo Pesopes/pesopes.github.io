@@ -8,6 +8,11 @@
 var canvasHeight = 800;
 var canvasWidth = 800;
 var resScale = 3; // higher = more pixelated , changes trough slider
+var lastResScale = 3;
+var lastTimeToRender = 100;
+var waitOneRender = false;
+var getResBack = null;
+var xSliderDelta = 0;
 var grey = false;
 var invert = false;
 var flipX = false;
@@ -36,7 +41,7 @@ function load() {
     var zoomSlider = document.getElementById("zoomSlider");
     zoomSlider.oninput = function () {
         //why cant I use this.value i do not know, I know you haave to specify that its a slider (or input in general)
-        // zoomScale = parseFloat(zoomSlider.value);
+        zoomScale = parseFloat(zoomSlider.value);
         // let zoomNum = <HTMLInputElement> document.getElementById("zoomNum");
         // zoomNum.innerHTML = "  " + zoomSlider.value;
         draw();
@@ -44,6 +49,37 @@ function load() {
     // configure slider : x
     var xSlider = document.getElementById("xSlider");
     xSlider.oninput = function () {
+        xSliderDelta = Math.abs((parseFloat(xSlider.value) - xScale));
+        //wtf I dont even know , it decreases the resolution when moving the moving sliders(yes makes sense)
+        if (xSliderDelta > 1.3 || lastTimeToRender > 50) {
+            if (!waitOneRender) {
+                console.log("PAMATUJU SI RES:" + resScale);
+                lastResScale = resScale;
+            }
+            resScale = 20;
+            waitOneRender = true;
+        }
+        else if (waitOneRender) {
+            clearTimeout(getResBack);
+            getResBack = setTimeout(function () {
+                var gradualDecrease = setInterval(function () {
+                    console.log("MENIM ZPATKY na:" + (lastResScale) + "  " + resScale);
+                    console.log(xSliderDelta);
+                    if (xSliderDelta > 0.1) {
+                    }
+                    if (lastResScale < resScale) {
+                        resScale -= 1;
+                        draw();
+                    }
+                    else {
+                        clearTimeout(gradualDecrease);
+                    }
+                }, 50);
+                waitOneRender = false;
+                //resScale = lastResScale;
+                draw();
+            }, 400);
+        }
         xScale = parseFloat(xSlider.value);
         var xNum = document.getElementById("xNum");
         xNum.innerHTML = "  " + (Math.round(parseFloat(xSlider.value) * 100) / 100).toFixed(2);
@@ -81,7 +117,7 @@ function load() {
 //
 function draw() {
     //used to calculate execution time
-    console.time('draw time');
+    var t0 = window.performance.now();
     clearCanvas();
     var canvas = document.getElementById("canvas");
     if (canvas.getContext) {
@@ -106,7 +142,9 @@ function draw() {
             }
         }
     }
-    console.timeEnd('draw time');
+    var t1 = window.performance.now();
+    lastTimeToRender = t1 - t0;
+    console.log("The draw method took ".concat(t1 - t0, " milliseconds."));
 }
 //the asciifromcanvas func is better, NOT GOOD NOR TESTED/WORKING
 function asciiDraw() {
@@ -259,5 +297,5 @@ function asciiDrawButton() {
     var out = document.getElementById("asciiOut");
     out.innerHTML = ascii;
 }
-function toggleButtons() {
+function adaptiveResolution(time) {
 }

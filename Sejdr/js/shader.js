@@ -44,7 +44,6 @@ function shaderMain(x, y, w, h, time) {
     uv = [uv[0] - 0.5, uv[1] - 0.5];
     uv = zoom(uv, zoomScale);
     uv = [uv[0] + 0.5, uv[1] + 0.5];
-    uv = fractVec2(uv);
     uv = move(uv, [xScale, yScale]);
     fragColor[0] = (1 - iterateMandelbrot(uv, 25));
     fragColor[1] = fragColor[0];
