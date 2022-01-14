@@ -11,8 +11,10 @@ let canvasWidth  = 800;
 let resScale = 3; // higher = more pixelated , changes trough slider
 let lastResScale = 3
 let lastTimeToRender = 100
-let waitOneRender = false
+let xHasStartedMoving = true
+let xWaitOneFrame = false
 let getResBack:number = null
+let gradualRes:number = null
 let xSliderDelta = 0
 
 let grey = false
@@ -57,40 +59,61 @@ function load(){
     // configure slider : x
     let xSlider = <HTMLInputElement> document.getElementById("xSlider");
     xSlider.oninput = function(){
-        xSliderDelta = Math.abs((parseFloat(xSlider.value)-xScale))
         //wtf I dont even know , it decreases the resolution when moving the moving sliders(yes makes sense)
-        if(xSliderDelta>1.3 || lastTimeToRender > 50){
-            if(!waitOneRender){
+
+        console.log("LAST RES SCALE:"+lastResScale+" RES SCALE:"+resScale)
+        const BADRES = 20
+        xSliderDelta = Math.abs((parseFloat(xSlider.value)-xScale))
+        if(xSliderDelta>0.00){
+            
+            if (xHasStartedMoving && !xWaitOneFrame) {
                 console.log("PAMATUJU SI RES:"+resScale)
                 lastResScale = resScale
+                resScale = BADRES;
+                xHasStartedMoving = false
+                xWaitOneFrame = !xWaitOneFrame
+            }
+            if (gradualRes != null) {
+                console.log("CLEARUJU")
+                resScale = BADRES
+
+                //clears gradual decrease of res
+                clearTimeout(gradualRes)
+                gradualRes = null
+                xHasStartedMoving = true
             }
             
-            resScale = 20;
-            waitOneRender = true
-        }else if (waitOneRender){
-            clearTimeout(getResBack)
-            getResBack = setTimeout(()=>{
-
-                    const gradualDecrease = setInterval(()=>{
-                        console.log("MENIM ZPATKY na:" + (lastResScale)+"  "+resScale)
-                        console.log(xSliderDelta)
-                        if(xSliderDelta>0.1){
-                            
-                        }
-                        if (lastResScale < resScale) {
-
-                            resScale -= 1
-                            draw();
-                        }else{
-                            clearTimeout(gradualDecrease)
-                        }
-                    },50)
-                    waitOneRender = false;
-                    //resScale = lastResScale;
-                    draw();
-                },400)
-            
         }
+        console.log("STOP POHYB")
+    
+
+        
+        
+        clearTimeout(getResBack)
+        getResBack = setTimeout(()=>{
+
+                gradualRes = setInterval(()=>{
+                    console.log("MENIM ZPATKY na:" + (lastResScale)+"  "+resScale)
+                    const resStep = 3
+                    if (lastResScale < resScale) {
+                        if (resScale -resStep < lastResScale) {
+                            resScale -= 1
+                        }else
+                            resScale -= resStep
+
+                        draw();
+                    }else{
+                xHasStartedMoving = true
+
+                        clearTimeout(gradualRes)
+                        gradualRes = null
+                    }
+                },50)
+                //resScale = lastResScale;
+                draw();
+            },400)
+            
+        
         xScale = parseFloat(xSlider.value);
         let xNum = <HTMLInputElement> document.getElementById("xNum");
         xNum.innerHTML = "  " + (Math.round(parseFloat(xSlider.value) * 100) / 100).toFixed(2);

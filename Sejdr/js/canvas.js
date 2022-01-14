@@ -10,8 +10,10 @@ var canvasWidth = 800;
 var resScale = 3; // higher = more pixelated , changes trough slider
 var lastResScale = 3;
 var lastTimeToRender = 100;
-var waitOneRender = false;
+var xHasStartedMoving = true;
+var xWaitOneFrame = false;
 var getResBack = null;
+var gradualRes = null;
 var xSliderDelta = 0;
 var grey = false;
 var invert = false;
@@ -49,37 +51,50 @@ function load() {
     // configure slider : x
     var xSlider = document.getElementById("xSlider");
     xSlider.oninput = function () {
-        xSliderDelta = Math.abs((parseFloat(xSlider.value) - xScale));
         //wtf I dont even know , it decreases the resolution when moving the moving sliders(yes makes sense)
-        if (xSliderDelta > 1.3 || lastTimeToRender > 50) {
-            if (!waitOneRender) {
+        console.log("LAST RES SCALE:" + lastResScale + " RES SCALE:" + resScale);
+        var BADRES = 20;
+        xSliderDelta = Math.abs((parseFloat(xSlider.value) - xScale));
+        if (xSliderDelta > 0.00) {
+            if (xHasStartedMoving && !xWaitOneFrame) {
                 console.log("PAMATUJU SI RES:" + resScale);
                 lastResScale = resScale;
+                resScale = BADRES;
+                xHasStartedMoving = false;
+                xWaitOneFrame = !xWaitOneFrame;
             }
-            resScale = 20;
-            waitOneRender = true;
+            if (gradualRes != null) {
+                console.log("CLEARUJU");
+                resScale = BADRES;
+                //clears gradual decrease of res
+                clearTimeout(gradualRes);
+                gradualRes = null;
+                xHasStartedMoving = true;
+            }
         }
-        else if (waitOneRender) {
-            clearTimeout(getResBack);
-            getResBack = setTimeout(function () {
-                var gradualDecrease = setInterval(function () {
-                    console.log("MENIM ZPATKY na:" + (lastResScale) + "  " + resScale);
-                    console.log(xSliderDelta);
-                    if (xSliderDelta > 0.1) {
-                    }
-                    if (lastResScale < resScale) {
+        console.log("STOP POHYB");
+        clearTimeout(getResBack);
+        getResBack = setTimeout(function () {
+            gradualRes = setInterval(function () {
+                console.log("MENIM ZPATKY na:" + (lastResScale) + "  " + resScale);
+                var resStep = 3;
+                if (lastResScale < resScale) {
+                    if (resScale - resStep < lastResScale) {
                         resScale -= 1;
-                        draw();
                     }
-                    else {
-                        clearTimeout(gradualDecrease);
-                    }
-                }, 50);
-                waitOneRender = false;
-                //resScale = lastResScale;
-                draw();
-            }, 400);
-        }
+                    else
+                        resScale -= resStep;
+                    draw();
+                }
+                else {
+                    xHasStartedMoving = true;
+                    clearTimeout(gradualRes);
+                    gradualRes = null;
+                }
+            }, 50);
+            //resScale = lastResScale;
+            draw();
+        }, 400);
         xScale = parseFloat(xSlider.value);
         var xNum = document.getElementById("xNum");
         xNum.innerHTML = "  " + (Math.round(parseFloat(xSlider.value) * 100) / 100).toFixed(2);
