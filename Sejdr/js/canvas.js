@@ -169,10 +169,11 @@ function load() {
     draw();
     //SecURitY RiSk HAHAHahHahaHa I hate you (this was supposed to display some image so you can "ascii-fy" it)
     // let base_image = new Image();
-    // base_image.crossOrigin = "anonymous";
-    // base_image.src = "js/img/hr.png";
+    // //base_image.crossOrigin = "anonymous";
+    // base_image.src = "js/img/thumbs-up.jpg";
     // base_image.onload = function(){
     //     ctx.drawImage(base_image, 0, 0,800,800);
+    //     console.log(asciiFromCanvas())
     // }
 }
 //
