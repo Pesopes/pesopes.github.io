@@ -193,7 +193,7 @@ function load(){
     //pastes current shaderMain func into text field
     var codeInput = document.getElementById("code");
     codeInput.innerHTML = shaderMain.toString()
-
+    
     
     draw()
    
