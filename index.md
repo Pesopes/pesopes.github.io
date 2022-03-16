@@ -1,5 +1,5 @@
-Here you can say lots of fun things about your site.
+Tenhle blog bude hlavně o tom, co zrovna programuju a taky co hraju.
 
-Maybe say a some things about yourself.
+Články nemají žádný řád a nikdy mít nebudou (tak jo možná až budu vědět co dělám), toto jsou jen moje náhodný myšlenky, který mi lítají v hlavě.
 
-Or maybe what you plan to blog about.
+Můj úkol je vydat alespoň jeden článek za měsíc, ale uvidím.
