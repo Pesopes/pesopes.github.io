@@ -17,7 +17,7 @@ Vytvořit jazyk podobný c, který převedou do MASM.
 
 ## Moje cesta do zbláznéní
 ### C#
-Viděl jsem velmi zajímavé video od Sebastiana Laguega (vyspelovakakt správně)(link) ,
+Viděl jsem velmi zajímavé video od [Sebastiana Laguea](https://www.youtube.com/c/SebastianLague),
 kde vytvořil v unity hru o programování nějaké turrety.
 Jen kvůli tomu vytvořil celý jazyk v c# v unity.
 Takže to nemůže být tak těžké, že ne...
@@ -30,8 +30,8 @@ Pak jsem začal dělat něco jinýho a zapomněl jsem, že tenhle projekt existu
 Nedávno mě napadlo znovu otevřít projekt. Přece musím taky něco dokončit.
 Teď už jsem se ale poučil (alespoň trochu) a začal jsem nejdřív hledat na internetu, co mám dohaje dělat.
 Většinou jsem skončil u něčeho zvaného abstract syntax tree (AST).
-Pak jsem našel článek, kde někdo použil javascript a knihovnu esprima na měnění JavaScript kódu na AST.
-(Nějak musím najít ten článek)
+Pak jsem našel [článek](https://jotadeveloper.medium.com/abstract-syntax-trees-on-javascript-534e33361fc7), kde někdo použil javascript a knihovnu esprima na měnění JavaScript kódu na AST.
+
 
 Zase jsem začal od znova teď s výhodou AST.
-(Ještě to nemám hotový tak proc jsem začal psát tenhle blog, jo protože už byl měsíc)
+[Github link](https://github.com/Pesopes/Mindustry_compiler)
