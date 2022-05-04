@@ -3,7 +3,7 @@
 Na začátek bych možná měl říct že to vlastně není compiler ale transpiler, ale to není tak zajímavý název...
 
 ## Mindustry
-je výborná hra zadarmo a dokonce open source (ale Java).
+je výborná hra zadarmo a dokonce open source (ale Java😑).
 O hře samotné vlastně není důležité mluvit, je to tower defense a factory building hra, pokud ten žánr existuje.
 To co já budu vytvářet je kód pro mikroprocesor ve hře, který může ovládat jednotky a nebo třeba ukazovat hodiny.
 (Obrázek hodin které jsem vytvořil)
