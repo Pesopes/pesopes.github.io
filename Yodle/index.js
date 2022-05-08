@@ -231,15 +231,21 @@ function handleWordleObject(obj){
     //WIN
     if (game.win){
         game.end = true
-        toggleGame();
-        gEl("win-screen-result").innerHTML = makeEmojiBoard(game, true)
-        toggleElById("win-screen", "block")
+        setTimeout(()=> {
+            toggleGame();
+            gEl("win-screen-result").innerHTML = makeEmojiBoard(game, true)
+            toggleElById("win-screen", "block")
+        }, 1300)
+        
         //alert("You won but I won (read in russian accent)")
     }else if(game.guesses.length > game.numOfGuesses){ //LOSS
         game.end = true
-        toggleGame();
+        setTimeout(()=> {
+            toggleGame();
         gEl("loss-screen-result").innerHTML = makeEmojiBoard(game, true)
         toggleElById("loss-screen", "block")
+        }, 1300)
+        
         // alert("Loss")
     }
     localStorage.setItem("game", JSON.stringify(game))
@@ -297,7 +303,7 @@ document.addEventListener( "keyup", (e)=>{
 })
 //mobile
 document.addEventListener( "input", (e)=>{
-    if(game.win)
+    if(game.end)
         return
     let k = e.key
     if(k == "Enter"){
@@ -315,6 +321,7 @@ document.addEventListener( "input", (e)=>{
     refresh()
 })
 gEl("keyboard-cont").addEventListener("click", (e)=>{
+    console.log(e)
     const target = e.target
     if (!target.classList.contains("keyboard-button")) {
         return
@@ -323,7 +330,7 @@ gEl("keyboard-cont").addEventListener("click", (e)=>{
     // if (key === "Del") {
     //     key = "Backspace"
     // } 
-    if (e.originalTarget.id === "back-button") {
+    if (target.id === "back-button") {
         key = "Backspace"   
     }
 
@@ -333,31 +340,11 @@ gEl("keyboard-cont").addEventListener("click", (e)=>{
     MyKeyboardEvent(e={'key':key})
 })
 
-for (let i = 0; i < gEl("keyboard-cont").children.length; i++) {
-    const el = gEl("keyboard-cont").children[i];
-    el.addEventListener("touchstart", (e)=>{
-        const target = e.target
-        if (!target.classList.contains("keyboard-button")) {
-            return
-        }
-        let key = target.textContent
-        // if (key === "Del") {
-        //     key = "Backspace"
-        // } 
-        if (e.originalTarget.id === "back-button") {
-            key = "Backspace"   
-        }
-    
-        //because mobile -_-
-        //document.dispatchEvent(new KeyboardEvent("keyup", {'key': key}))
-        //document.dispatchEvent(new KeyboardEvent("input", {'key': key}))
-        MyKeyboardEvent(e={'key':key})
-    })
-}
+
 
 
 function MyKeyboardEvent(e){
-    if(game.win)
+    if(game.end)
         return
     let k = e.key
     if(k == "Enter"){
