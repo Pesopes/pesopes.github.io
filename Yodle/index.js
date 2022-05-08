@@ -120,7 +120,7 @@ function makeEmojiBoard(obj, html = false){
     if (html) 
         result += "<a href='https://pesopes.github.io/Yodle/' style='color:white'>pesopes.github.io</a>"
     else
-        result += "pesopes.github.io"
+        result += "pesopes.github.io/Yodle/"
     result += breakSymbol
     for (let guessIndex = 0; guessIndex < obj.guesses.length-1; guessIndex++) {
         let currentRow = gEls("row")[guessIndex]
