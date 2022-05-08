@@ -329,8 +329,28 @@ gEl("keyboard-cont").addEventListener("click", (e)=>{
 
     //because mobile -_-
     //document.dispatchEvent(new KeyboardEvent("keyup", {'key': key}))
-    document.dispatchEvent(new KeyboardEvent("input", {'key': key}))
+    //document.dispatchEvent(new KeyboardEvent("input", {'key': key}))
+    MyKeyboardEvent(e={'key':key})
 })
+
+function MyKeyboardEvent(e){
+    if(game.win)
+        return
+    let k = e.key
+    if(k == "Enter"){
+        enterWord()
+    }else if(k == "Backspace" && e.ctrlKey){
+        removeCurrentWord()
+    }else if(k == "Backspace"){
+        removeLastLetter()
+    }else{
+        let found = k.match(/[a-z]/gi)
+        if (!found || found.length > 1)
+            return
+        addLetter(found)
+    }
+    refresh()
+}
 
 function enterWord(){
     //if word exists
