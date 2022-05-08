@@ -79,12 +79,57 @@ function toggleGame() {
     toggleElById("keyboard-cont", "flex")
 }
 
+
 function toggleElById(id,normal){
     if (gEl(id).style.display === "none") {
         gEl(id).style.display = normal
     }else{
         gEl(id).style.display = "none"
     }
+}
+
+function makeEmojiBoard(obj, html = false){
+    let breakSymbol = "\n"
+    if (html) {
+        breakSymbol = "<br>"
+    }
+    const d = new Date()
+    let result = `Yodle ${d.getDate()+d.getMonth()+d.getYear() - 133} ${game.guesses.length-1}/${game.numOfGuesses}`
+    result += breakSymbol
+    result += breakSymbol
+    
+    for (let guessIndex = 0; guessIndex < obj.guesses.length; guessIndex++) {
+        const word = obj.guesses[guessIndex];
+        
+        for (let i = 0; i < word.length; i++) {
+            const letter = word[i]
+
+            if (obj.guessingWord[i] === letter) {
+                result += "🟩"
+            }else if (obj.guessingWord.includes(letter)) {
+                result += "🟨"
+
+            }else{
+                result += "⬛"
+            }
+        }
+        	result += breakSymbol
+    }
+    return result
+}
+
+function copyGame(){
+    if (navigator.share) {
+        navigator.share({
+            text: "makeEmojiBoard(game)"
+        }).then(() => {
+            console.log('Thanks for sharing!');
+        })
+        .catch(console.error);
+    } else {
+        console.log('Sharing not supported :(');
+    }
+    navigator.clipboard.writeText(makeEmojiBoard(game));
 }
 
 function handleWordleObject(obj){
@@ -126,11 +171,13 @@ function handleWordleObject(obj){
     if (game.win){
         game.end = true
         toggleGame();
+        gEl("win-screen-result").innerHTML = makeEmojiBoard(game, true)
         toggleElById("win-screen", "block")
         //alert("You won but I won (read in russian accent)")
     }else if(game.guesses.length > game.numOfGuesses){ //LOSS
         game.end = true
         toggleGame();
+        gEl("loss-screen-result").innerHTML = makeEmojiBoard(game, true)
         toggleElById("loss-screen", "block")
         // alert("Loss")
     }
@@ -187,7 +234,25 @@ document.addEventListener( "keyup", (e)=>{
     }
     refresh()
 })
-
+//mobile
+document.addEventListener( "input", (e)=>{
+    if(game.win)
+        return
+    let k = e.key
+    if(k == "Enter"){
+        enterWord()
+    }else if(k == "Backspace" && e.ctrlKey){
+        removeCurrentWord()
+    }else if(k == "Backspace"){
+        removeLastLetter()
+    }else{
+        let found = k.match(/[a-z]/gi)
+        if (!found || found.length > 1)
+            return
+        addLetter(found)
+    }
+    refresh()
+})
 gEl("keyboard-cont").addEventListener("click", (e)=>{
     const target = e.target
     if (!target.classList.contains("keyboard-button")) {
@@ -201,7 +266,9 @@ gEl("keyboard-cont").addEventListener("click", (e)=>{
         key = "Backspace"   
     }
 
-    document.dispatchEvent(new KeyboardEvent("keyup", {'key': key}))
+    //because mobile -_-
+    //document.dispatchEvent(new KeyboardEvent("keyup", {'key': key}))
+    document.dispatchEvent(new KeyboardEvent("input", {'key': key}))
 })
 
 function enterWord(){
