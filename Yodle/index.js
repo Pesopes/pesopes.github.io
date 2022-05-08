@@ -2,6 +2,10 @@ const orangeColor = "rgb(181, 159, 59)"
 const greenColor = "rgb(83, 141, 78)"
 const greyColor = "rgb(58, 58, 60)"
 
+const WORD_SEED = 25
+
+const USE_PREDEFINED_WORDS = true
+const PREDEFINED_WORDS = ["lunge","tweak","wired","vapor","decal","fight","crane","nasty","xored"]
 
 let WORD_LENGTH = 5
 let NUM_OF_GUESSES = 6
@@ -30,6 +34,17 @@ function gEls(className){
     return document.getElementsByClassName(className)
 }
 
+String.prototype.includesNum = function(char){
+    let count = 0
+    for (let i = 0; i < this.length; i++) {
+        if(char === this[i])
+            count++
+    }
+    return count
+}
+String.prototype.replaceAt = function(index, replacement) {
+    return this.substring(0, index) + replacement + this.substring(index + replacement.length);
+}
 //run at start
 function init(){
     //if first start
@@ -48,7 +63,12 @@ function init(){
     
     //picking word
     const d = new Date()
-    const todayWord = WORDS[(d.getDate()*d.getMonth()*d.getYear())%WORDS.length]
+    let todayWord = ""
+    if (USE_PREDEFINED_WORDS && d.getDate()+d.getMonth()+d.getYear() - 134 <= PREDEFINED_WORDS.length) {
+        todayWord = PREDEFINED_WORDS[d.getDate()+d.getMonth()+d.getYear() - 134]
+    }else{
+        todayWord = WORDS[(d.getDate()*d.getMonth()*d.getYear()*WORD_SEED)%WORDS.length]
+    }
     if(game.guessingWord != todayWord){
         game = emptyGame
         game.guessingWord = todayWord
@@ -89,77 +109,118 @@ function toggleElById(id,normal){
 }
 
 function makeEmojiBoard(obj, html = false){
+    
     let breakSymbol = "\n"
     if (html) {
         breakSymbol = "<br>"
     }
     const d = new Date()
-    let result = `Yodle ${d.getDate()+d.getMonth()+d.getYear() - 133} ${game.guesses.length-1}/${game.numOfGuesses}`
+    let result = `Yodle ${d.getDate()+d.getMonth()+d.getYear() - 133} ${obj.guesses.length-1}/${obj.numOfGuesses}`
     result += breakSymbol
     result += breakSymbol
-    
     for (let guessIndex = 0; guessIndex < obj.guesses.length; guessIndex++) {
-        const word = obj.guesses[guessIndex];
-        
-        for (let i = 0; i < word.length; i++) {
-            const letter = word[i]
-
-            if (obj.guessingWord[i] === letter) {
+        let currentRow = gEls("row")[guessIndex]
+        for (let i = 0; i < obj.wordLength; i++) {
+            let currentBox = currentRow.children[i]
+            let currentColour = currentBox.style.backgroundColor
+            if (currentColour === greenColor) {
                 result += "🟩"
-            }else if (obj.guessingWord.includes(letter)) {
+            }else if(currentColour === orangeColor){
                 result += "🟨"
-
-            }else{
+            }else if(currentColour === greyColor){
                 result += "⬛"
             }
         }
-        	result += breakSymbol
+        result += breakSymbol   
     }
     return result
 }
-
 function copyGame(){
+    //sharing (not supported everywhere)
     if (navigator.share) {
         navigator.share({
-            text: "makeEmojiBoard(game)"
+            text: makeEmojiBoard(game)
         }).then(() => {
-            console.log('Thanks for sharing!');
+            console.log('Succesful share');
         })
-        .catch(console.error);
+        .catch((error) => console.error("Error sharing", error));
     } else {
         console.log('Sharing not supported :(');
     }
+    //always copy to clipboard
     navigator.clipboard.writeText(makeEmojiBoard(game));
 }
 
 function handleWordleObject(obj){
     let currentNumGuess = 0
 
+    //loop trough guesses
     for (let guessIndex = 0; guessIndex < obj.guesses.length; guessIndex++) {
         const word = obj.guesses[guessIndex];
-        
+        //loop trough letters
+        let guessingWordCopy = obj.guessingWord
         for (let i = 0; i < word.length; i++) {
             const letter = word[i]
             let currentRow = gEls("row")[currentNumGuess]
             let currentBox = currentRow.children[i]
-
-            //if not last word
+            
+            //if not last word (the one you are writing)
             if (guessIndex < obj.guesses.length-1) {
+                //shading letters
+                let letterColour = greyColor
                 if (obj.guessingWord[i] === letter) {
-                    currentBox.style.backgroundColor = greenColor
-                    shadeKeyBoard(letter,greenColor)
+                    guessingWordCopy = guessingWordCopy.replaceAt(i,"#")
+                    letterColour = greenColor
                 }else if (obj.guessingWord.includes(letter)) {
-                    currentBox.style.backgroundColor = orangeColor
-                    shadeKeyBoard(letter,orangeColor)
-                }else{
-                    currentBox.style.backgroundColor = greyColor
-                    shadeKeyBoard(letter,greyColor)
+                    letterColour = orangeColor
                 }
-
+                //little hacky solution but i dont care (triggers even if you delete your current word)
+                if (guessIndex == obj.guesses.length-2 && obj.guesses[guessIndex +1] === "") {
+                    let delay = 250 * i
+                    setTimeout(()=> {
+                        //shade box
+                        currentBox.style.backgroundColor = letterColour
+                        shadeKeyBoard(letter, letterColour)
+                    }, delay)
+                }else{
+                    currentBox.style.backgroundColor = letterColour
+                    shadeKeyBoard(letter, letterColour)
+                }
                 //Win condition
                 if (word === obj.guessingWord) {
                     game.win = true
-                    
+                }
+            }
+            currentBox.textContent = letter
+            
+        }
+        for (let i = 0; i < word.length; i++) {
+            if (guessingWordCopy[i] === "#") {
+                continue
+            }
+            const letter = word[i]
+            let currentRow = gEls("row")[currentNumGuess]
+            let currentBox = currentRow.children[i]
+            
+            //if not last word (the one you are writing)
+            if (guessIndex < obj.guesses.length-1) {
+                //shading letters
+                let letterColour = greyColor
+                if (guessingWordCopy.includes(letter)) {
+                    letterColour = orangeColor
+                    guessingWordCopy = guessingWordCopy.replaceAt(guessingWordCopy.indexOf(letter),'#')
+                }
+                //little hacky solution but i dont care (triggers even if you delete your current word)
+                if (guessIndex == obj.guesses.length-2 && obj.guesses[guessIndex +1] === "") {
+                    let delay = 250 * i
+                    setTimeout(()=> {
+                        //shade box
+                        currentBox.style.backgroundColor = letterColour
+                        shadeKeyBoard(letter, letterColour)
+                    }, delay)
+                }else{
+                    currentBox.style.backgroundColor = letterColour
+                    shadeKeyBoard(letter, letterColour)
                 }
             }
             currentBox.textContent = letter
