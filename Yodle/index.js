@@ -333,6 +333,25 @@ gEl("keyboard-cont").addEventListener("click", (e)=>{
     MyKeyboardEvent(e={'key':key})
 })
 
+gEl("keyboard-cont").addEventListener("touchstart", (e)=>{
+    const target = e.target
+    if (!target.classList.contains("keyboard-button")) {
+        return
+    }
+    let key = target.textContent
+    // if (key === "Del") {
+    //     key = "Backspace"
+    // } 
+    if (e.originalTarget.id === "back-button") {
+        key = "Backspace"   
+    }
+
+    //because mobile -_-
+    //document.dispatchEvent(new KeyboardEvent("keyup", {'key': key}))
+    //document.dispatchEvent(new KeyboardEvent("input", {'key': key}))
+    MyKeyboardEvent(e={'key':key})
+})
+
 function MyKeyboardEvent(e){
     if(game.win)
         return
