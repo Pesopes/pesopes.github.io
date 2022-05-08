@@ -115,10 +115,14 @@ function makeEmojiBoard(obj, html = false){
         breakSymbol = "<br>"
     }
     const d = new Date()
-    let result = `Yodle ${d.getDate()+d.getMonth()+d.getYear() - 133} ${obj.guesses.length-1}/${obj.numOfGuesses}`
+    let result = `Yodle ${d.getDate()+d.getMonth()+d.getYear() - 133} ${game.win? obj.guesses.length-1 : "x"}/${obj.numOfGuesses}`
     result += breakSymbol
+    if (html) 
+        result += "<a href='https://pesopes.github.io/Yodle/' style='color:white'>pesopes.github.io</a>"
+    else
+        result += "pesopes.github.io"
     result += breakSymbol
-    for (let guessIndex = 0; guessIndex < obj.guesses.length; guessIndex++) {
+    for (let guessIndex = 0; guessIndex < obj.guesses.length-1; guessIndex++) {
         let currentRow = gEls("row")[guessIndex]
         for (let i = 0; i < obj.wordLength; i++) {
             let currentBox = currentRow.children[i]
@@ -242,8 +246,8 @@ function handleWordleObject(obj){
         game.end = true
         setTimeout(()=> {
             toggleGame();
-        gEl("loss-screen-result").innerHTML = makeEmojiBoard(game, true)
-        toggleElById("loss-screen", "block")
+            gEl("loss-screen-result").innerHTML = makeEmojiBoard(game, true)
+            toggleElById("loss-screen", "block")
         }, 1300)
         
         // alert("Loss")
@@ -321,7 +325,6 @@ document.addEventListener( "input", (e)=>{
     refresh()
 })
 gEl("keyboard-cont").addEventListener("click", (e)=>{
-    console.log(e)
     const target = e.target
     if (!target.classList.contains("keyboard-button")) {
         return
