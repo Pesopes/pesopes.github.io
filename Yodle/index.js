@@ -3,6 +3,7 @@ const greenColor = "rgb(83, 141, 78)"
 const greyColor = "rgb(58, 58, 60)"
 
 const WORD_SEED = 25
+const COPIED_TO_CLIPBOARD_TIME = 10000
 
 const USE_PREDEFINED_WORDS = true
 const PREDEFINED_WORDS = ["lunge","tweak","wired","vapor","decal","fight","crane","nasty","xored"]
@@ -10,7 +11,7 @@ const PREDEFINED_WORDS = ["lunge","tweak","wired","vapor","decal","fight","crane
 let WORD_LENGTH = 5
 let NUM_OF_GUESSES = 6
 let game = {
-    guessingWord: "ondra",
+    guessingWord: "error",
     wordLength: WORD_LENGTH,
     numOfGuesses: NUM_OF_GUESSES,
     guesses:[""],
@@ -19,7 +20,7 @@ let game = {
 }
 
 const emptyGame = {
-    guessingWord: "nulls",
+    guessingWord: "error",
     wordLength: WORD_LENGTH,
     numOfGuesses: NUM_OF_GUESSES,
     guesses:[""],
@@ -48,7 +49,7 @@ String.prototype.replaceAt = function(index, replacement) {
 //run at start
 function init(){
     //if first start
-    if (localStorage.getItem("firstStart") === null)
+    if (localStorage.getItem("firstStart") === null || localStorage.getItem("firstStart") ===false)
     {
         console.log("FIRST START")
         toggleGame()
@@ -76,7 +77,6 @@ function init(){
     
     makeBoard()
     refresh()
-    
 }
 
 function makeBoard(){
@@ -120,7 +120,7 @@ function makeEmojiBoard(obj, html = false){
     if (html) 
         result += "<a href='https://pesopes.github.io/Yodle/' style='color:white'>pesopes.github.io</a>"
     else
-        result += "pesopes.github.io"
+        result += "pesopes.github.io/Yodle/"
     result += breakSymbol
     for (let guessIndex = 0; guessIndex < obj.guesses.length-1; guessIndex++) {
         let currentRow = gEls("row")[guessIndex]
@@ -139,7 +139,7 @@ function makeEmojiBoard(obj, html = false){
     }
     return result
 }
-function copyGame(){
+function copyGame(caller){
     //sharing (not supported everywhere)
     if (navigator.share) {
         navigator.share({
@@ -153,8 +153,17 @@ function copyGame(){
     }
     //always copy to clipboard
     navigator.clipboard.writeText(makeEmojiBoard(game));
+
+    //display confirm message for some time and change bacground
+    let originalText = caller.innerHTML
+    setTimeout(() => {
+        caller.innerHTML = originalText
+    }, COPIED_TO_CLIPBOARD_TIME);
+    caller.innerHTML = "Copied to clipboard"
+    caller.style.backgroundColor = "rgb(37, 37, 37)"
 }
 
+//Main functin for game
 function handleWordleObject(obj){
     let currentNumGuess = 0
 
@@ -247,6 +256,7 @@ function handleWordleObject(obj){
         setTimeout(()=> {
             toggleGame();
             gEl("loss-screen-result").innerHTML = makeEmojiBoard(game, true)
+            gEl("loss-screen-answer").innerHTML = obj.guessingWord
             toggleElById("loss-screen", "block")
         }, 1300)
         

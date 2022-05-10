@@ -17,7 +17,7 @@
 
 </head>
 <body>
-    <h1>Yodle</h1>
+    <h1>Normadle</h1>
     <div id="board"></div>
 
     <!-- KEYBOARD-->
@@ -74,7 +74,7 @@
         <p>You won!</p>
         <p>Hope you enjoyed playing and now don't return</p>
         <p id="win-screen-result" onmousemove="this.innerHTML = makeEmojiBoard(game,true);"></p>
-        <button onclick="copyGame()" class="copy-button">Copy results</button>
+        <button onclick="copyGame(this)" class="copy-button">Share</button>
         <button onclick="toggleGame();toggleElById('win-screen')" class="keyboard-button">Show me my win</button>
     </div>
 
@@ -82,8 +82,9 @@
         <p>You lost!</p>
         <p>But don't worry you can't play this game again tomorrow!</p>
         <p>No more suffering!</p>
+        <p>The correct word was: <b id="loss-screen-answer"></b></p>
         <p id="loss-screen-result" onmousemove="this.innerHTML = makeEmojiBoard(game,true);"></p>
-        <button onclick="copyGame()" class="copy-button">Copy results</button>
+        <button onclick="copyGame(this)" class="copy-button">Share</button>
         <button onclick="toggleGame();toggleElById('loss-screen')" class="keyboard-button">Show me my mistakes</button>
     </div>
     <script src="./words.js" ></script>
