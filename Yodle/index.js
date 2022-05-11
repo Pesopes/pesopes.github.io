@@ -390,10 +390,13 @@ function MyKeyboardEvent(e){
             return
         addLetter(found)
     }
+    if (game.end) 
+        return
     refresh()
 }
 
 function enterWord(){
+    
     //if word exists
     if(game.guesses[game.guesses.length-1].length >= game.wordLength && !game.end)
     {
@@ -413,6 +416,8 @@ function removeLastLetter(){
 }
 
 function addLetter(letter){
+    if (game.end) 
+        return
     let index = game.guesses.length-1
     if (game.guesses[index].length < game.wordLength) {
         game.guesses[index] += letter
