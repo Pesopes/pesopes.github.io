@@ -17,48 +17,54 @@
 
 </head>
 <body>
-    <h1>Normadle</h1>
-    <div id="board"></div>
-
-    <!-- KEYBOARD-->
-    <div id="keyboard-cont">
-        <div class="first-row">
-            <button class="keyboard-button">q</button>
-            <button class="keyboard-button">w</button>
-            <button class="keyboard-button">e</button>
-            <button class="keyboard-button">r</button>
-            <button class="keyboard-button">t</button>
-            <button class="keyboard-button">y</button>
-            <button class="keyboard-button">u</button>
-            <button class="keyboard-button">i</button>
-            <button class="keyboard-button">o</button>
-            <button class="keyboard-button">p</button>
-        </div>
-        <div class="second-row">
-            <button class="keyboard-button">a</button>
-            <button class="keyboard-button">s</button>
-            <button class="keyboard-button">d</button>
-            <button class="keyboard-button">f</button>
-            <button class="keyboard-button">g</button>
-            <button class="keyboard-button">h</button>
-            <button class="keyboard-button">j</button>
-            <button class="keyboard-button">k</button>
-            <button class="keyboard-button">l</button>
-        </div>
-        <div class="third-row">
-            <button class="keyboard-button">Enter</button>
-            <button class="keyboard-button">z</button>
-            <button class="keyboard-button">x</button>
-            <button class="keyboard-button">c</button>
-            <button class="keyboard-button">v</button>
-            <button class="keyboard-button">b</button>
-            <button class="keyboard-button">n</button>
-            <button class="keyboard-button">m</button>
-            <button class="keyboard-button" id="back-button">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" style="pointer-events: none;">
-                    <path fill="white" d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"></path>
-                </svg>  
-            </button>
+    <h1>
+        Splashle
+        <h2 id="splash-text" onclick="updateSplashScreen()">Cool!</h2>
+    </h1>
+    
+    <div id="game">
+        <div id="board"></div>
+    
+        <!-- KEYBOARD-->
+        <div id="keyboard-cont">
+            <div class="first-row">
+                <button class="keyboard-button">q</button>
+                <button class="keyboard-button">w</button>
+                <button class="keyboard-button">e</button>
+                <button class="keyboard-button">r</button>
+                <button class="keyboard-button">t</button>
+                <button class="keyboard-button">y</button>
+                <button class="keyboard-button">u</button>
+                <button class="keyboard-button">i</button>
+                <button class="keyboard-button">o</button>
+                <button class="keyboard-button">p</button>
+            </div>
+            <div class="second-row">
+                <button class="keyboard-button">a</button>
+                <button class="keyboard-button">s</button>
+                <button class="keyboard-button">d</button>
+                <button class="keyboard-button">f</button>
+                <button class="keyboard-button">g</button>
+                <button class="keyboard-button">h</button>
+                <button class="keyboard-button">j</button>
+                <button class="keyboard-button">k</button>
+                <button class="keyboard-button">l</button>
+            </div>
+            <div class="third-row">
+                <button class="keyboard-button">Enter</button>
+                <button class="keyboard-button">z</button>
+                <button class="keyboard-button">x</button>
+                <button class="keyboard-button">c</button>
+                <button class="keyboard-button">v</button>
+                <button class="keyboard-button">b</button>
+                <button class="keyboard-button">n</button>
+                <button class="keyboard-button">m</button>
+                <button class="keyboard-button" id="back-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" style="pointer-events: none;">
+                        <path fill="white" d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"></path>
+                    </svg>  
+                </button>
+            </div>
         </div>
     </div>
 
@@ -66,26 +72,26 @@
         <p>This is Yodle</p>
         <p>Play just like normal <a href="https://www.nytimes.com/games/wordle/index.html" style="color:rgb(193, 208, 250)">Wordle</a></p>
         <p>Enjoy it while it lasts...</p>
-        <button onclick="toggleGame();toggleElById('start-screen')" class="keyboard-button">PLAY!</button>
+        <button onclick="loadScreen('game')" class="keyboard-button">PLAY!</button>
 
     </div>
 
     <div id="win-screen" class="infotab" style="display:none;">
         <p>You won!</p>
-        <p>Hope you enjoyed playing and now don't return</p>
+        <p>Hope you enjoyed playing and now return</p>
         <p id="win-screen-result" onmousemove="this.innerHTML = makeEmojiBoard(game,true);"></p>
         <button onclick="copyGame(this)" class="copy-button">Share</button>
-        <button onclick="toggleGame();toggleElById('win-screen')" class="keyboard-button">Show me my win</button>
+        <button onclick="loadScreen('game')" class="keyboard-button">Show me my win</button>
     </div>
 
     <div id="loss-screen" class="infotab" style="display:none;">
         <p>You lost!</p>
-        <p>But don't worry you can't play this game again tomorrow!</p>
-        <p>No more suffering!</p>
+        <p>But don't worry you can play this game again tomorrow!</p>
+        <p>More suffering!</p>
         <p>The correct word was: <b id="loss-screen-answer"></b></p>
         <p id="loss-screen-result" onmousemove="this.innerHTML = makeEmojiBoard(game,true);"></p>
         <button onclick="copyGame(this)" class="copy-button">Share</button>
-        <button onclick="toggleGame();toggleElById('loss-screen')" class="keyboard-button">Show me my mistakes</button>
+        <button onclick="loadScreen('game')" class="keyboard-button">Show me my mistakes</button>
     </div>
     <script src="./words.js" ></script>
     <script src="./index.js"></script>

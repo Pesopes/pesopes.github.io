@@ -10,13 +10,31 @@ h1{
 h1:hover{
     filter: drop-shadow(1px 3px 8px rgb(109, 109, 109));
 }
-h1:active{
-    color: violet;
-    filter: blur(2px);
-    filter: contrast(200%);
-    filter: hue-rotate(90deg);
-    filter: invert(10%);
-    filter: saturate(120%);
+
+#splash-text{
+    text-align: center;
+    color: rgb(181, 159, 59);
+    font-family: "Roboto ", sans-serif;
+    font-size: 1rem;
+    text-shadow:-1px 1px 0 #000,
+                1px 1px 0 #000,
+                1px -1px 0 #000,
+                -1px -1px 0 #000;
+    user-select: none;
+    animation: splashText 0.8s infinite cubic-bezier(0.445, 0.05, 0.55, 0.95);
+    position: fixed;
+    top: 7%;
+    left:60%;
+    rotate: -20deg;
+    z-index: 2;
+}
+#splash-text:hover{
+    animation: splashText 0.6s infinite cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+@keyframes splashText{
+    0%{transform: scale(100%);}
+    50%{transform: scale(115%);}
+    100%{transform: scale(100%);}
 }
 
 body{
@@ -157,5 +175,4 @@ body{
 .keyboard-button:active{
     background-color: rgb(165, 165, 165);
     transform: scale(0.95);
-    
 }

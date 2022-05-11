@@ -1,3 +1,19 @@
+const SPLASH_TEXTS = ["You Won't see this!","You Won't see this!","You Won't see this!",
+"Ooh new splash texts", 
+"No bugs fixed!",
+"This is hard (maybe)",
+"Already running out of ideas",
+"First try",
+"This message will",
+"last 2 days",
+"The answer is xerox, trust me",
+"Okay I lied",
+"Crate vs crane",
+"Also try wordle!",
+"THIS IS THE END I HAVE TO MAKE MORE SPLASH TEXTS"]
+
+
+
 //from https://github.com/Morgenstern2573/wordle_clone/blob/master/build/words.js
 const WORDS = [
     'which',

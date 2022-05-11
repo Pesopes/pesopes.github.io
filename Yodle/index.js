@@ -6,35 +6,41 @@ const WORD_SEED = 25
 const COPIED_TO_CLIPBOARD_TIME = 10000
 
 const USE_PREDEFINED_WORDS = true
-const PREDEFINED_WORDS = ["lunge","tweak","wired","vapor","decal","fight","crane","nasty","xored"]
+const PREDEFINED_WORDS = ["lunge","tweak","wired"]
+
+
 
 let WORD_LENGTH = 5
 let NUM_OF_GUESSES = 6
 let game = {
     guessingWord: "error",
+    gameNum:0,
     wordLength: WORD_LENGTH,
     numOfGuesses: NUM_OF_GUESSES,
     guesses:[""],
     win: false,
-    end:false
+    end:false,
+    screen:{
+        id:"game",
+        display:"block"
+    }
 }
-
+//template
 const emptyGame = {
     guessingWord: "error",
+    gameNum:0,
     wordLength: WORD_LENGTH,
     numOfGuesses: NUM_OF_GUESSES,
     guesses:[""],
     win: false,
-    end:false
-}
-function gEl(id){
-    return document.getElementById(id)
-}
-
-function gEls(className){
-    return document.getElementsByClassName(className)
+    end:false,
+    screen:{
+        id:"game",
+        display:"block"
+    }
 }
 
+//  Helper functions
 String.prototype.includesNum = function(char){
     let count = 0
     for (let i = 0; i < this.length; i++) {
@@ -46,37 +52,75 @@ String.prototype.includesNum = function(char){
 String.prototype.replaceAt = function(index, replacement) {
     return this.substring(0, index) + replacement + this.substring(index + replacement.length);
 }
+
+function gEl(id){
+    return document.getElementById(id)
+}
+
+function gEls(className){
+    return document.getElementsByClassName(className)
+}
+
+function loadScreen(id, display = "block"){
+    gEl(game.screen.id).style.display = "none"
+    gEl(id).style.display = display
+    game.screen.id = id
+    game.screen.display = display
+}
+
+function toggleElById(id,normal){
+    if (gEl(id).style.display === "none") {
+        gEl(id).style.display = normal
+    }else{
+        gEl(id).style.display = "none"
+    }
+}
+
+
 //run at start
 function init(){
-    //if first start
-    if (localStorage.getItem("firstStart") === null || localStorage.getItem("firstStart") ===false)
-    {
-        console.log("FIRST START")
-        toggleGame()
-        toggleElById("start-screen", "block")
-    }
-    localStorage.setItem("firstStart", true)
     
     //loading game
     if(localStorage.getItem("game") != null)
-        game = JSON.parse(localStorage.getItem("game"))
-
+    game = JSON.parse(localStorage.getItem("game"))
+    
     
     //picking word
     const d = new Date()
     let todayWord = ""
-    if (USE_PREDEFINED_WORDS && d.getDate()+d.getMonth()+d.getYear() - 134 <= PREDEFINED_WORDS.length) {
-        todayWord = PREDEFINED_WORDS[d.getDate()+d.getMonth()+d.getYear() - 134]
+    let gameNumber = d.getDate()+d.getMonth()+d.getYear() - 134
+    //prioritize picking from array then random
+    if (USE_PREDEFINED_WORDS &&  (gameNumber < PREDEFINED_WORDS.length)) {
+        todayWord = PREDEFINED_WORDS[gameNumber]
     }else{
         todayWord = WORDS[(d.getDate()*d.getMonth()*d.getYear()*WORD_SEED)%WORDS.length]
     }
-    if(game.guessingWord != todayWord){
+    //This actaully resets the game each day
+    if(game.gameNum != gameNumber){
         game = emptyGame
         game.guessingWord = todayWord
+        game.gameNum = gameNumber
     }
     
+    updateSplashScreen()
+
     makeBoard()
+    //if first start
+    if (localStorage.getItem("firstStart") === null || localStorage.getItem("firstStart") ===false)
+    {
+        console.log("%cFIRST START", "color:green")
+        loadScreen("start-screen", "block")
+    }
+    localStorage.setItem("firstStart", true)
+
     refresh()
+    //loadScreen(game.screen.id,game.screen.display)
+}
+function updateSplashScreen(gameNumber=game.gameNum){
+    let splash = gEl("splash-text")
+    splash.innerHTML = SPLASH_TEXTS[gameNumber]
+    const colorArr = [greenColor,"rgb(165, 165, 165)", "rgb(255, 224, 83)","rgb(128, 217, 120)",orangeColor]
+    splash.style.color = colorArr[Math.floor(Math.random()*colorArr.length)]
 }
 
 function makeBoard(){
@@ -94,19 +138,6 @@ function makeBoard(){
         board.appendChild(row)
     }
 }
-function toggleGame() {
-    toggleElById("board", "flex")
-    toggleElById("keyboard-cont", "flex")
-}
-
-
-function toggleElById(id,normal){
-    if (gEl(id).style.display === "none") {
-        gEl(id).style.display = normal
-    }else{
-        gEl(id).style.display = "none"
-    }
-}
 
 function makeEmojiBoard(obj, html = false){
     
@@ -118,7 +149,7 @@ function makeEmojiBoard(obj, html = false){
     let result = `Yodle ${d.getDate()+d.getMonth()+d.getYear() - 133} ${game.win? obj.guesses.length-1 : "x"}/${obj.numOfGuesses}`
     result += breakSymbol
     if (html) 
-        result += "<a href='https://pesopes.github.io/Yodle/' style='color:white'>pesopes.github.io</a>"
+        result += "<a href='https://pesopes.github.io/Yodle/' style='color:white'>pesopes.github.io/Yodle</a>"
     else
         result += "pesopes.github.io/Yodle/"
     result += breakSymbol
@@ -163,7 +194,7 @@ function copyGame(caller){
     caller.style.backgroundColor = "rgb(37, 37, 37)"
 }
 
-//Main functin for game
+//Main function for game VERY MESSY i am scared to change it -_-
 function handleWordleObject(obj){
     let currentNumGuess = 0
 
@@ -187,8 +218,8 @@ function handleWordleObject(obj){
                 }else if (obj.guessingWord.includes(letter)) {
                     letterColour = orangeColor
                 }
-                //little hacky solution but i dont care (triggers even if you delete your current word)
-                if (guessIndex == obj.guesses.length-2 && obj.guesses[guessIndex +1] === "") {
+                //little hacky solution but i dont care
+                if (guessIndex == obj.guesses.length-2 && obj.guesses[guessIndex +1] === "ENTER") {
                     let delay = 250 * i
                     setTimeout(()=> {
                         //shade box
@@ -223,8 +254,8 @@ function handleWordleObject(obj){
                     letterColour = orangeColor
                     guessingWordCopy = guessingWordCopy.replaceAt(guessingWordCopy.indexOf(letter),'#')
                 }
-                //little hacky solution but i dont care (triggers even if you delete your current word)
-                if (guessIndex == obj.guesses.length-2 && obj.guesses[guessIndex +1] === "") {
+                //little hacky solution but i dont care
+                if (guessIndex == obj.guesses.length-2 && obj.guesses[guessIndex +1] === "ENTER") {
                     let delay = 250 * i
                     setTimeout(()=> {
                         //shade box
@@ -239,30 +270,37 @@ function handleWordleObject(obj){
             currentBox.textContent = letter
             
         }
+        //animation now doesnt play when hitting backspace
+        if(obj.guesses[guessIndex +1] === "ENTER"){
+            obj.guesses[guessIndex +1] = ""
+        }
         currentNumGuess++
     }
-    //WIN
+    handleEnd()
+    localStorage.setItem("game", JSON.stringify(game))
+}
+
+function handleEnd(animSpeed = 1300){
+    // WIN
     if (game.win){
         game.end = true
         setTimeout(()=> {
-            toggleGame();
             gEl("win-screen-result").innerHTML = makeEmojiBoard(game, true)
-            toggleElById("win-screen", "block")
-        }, 1300)
+            loadScreen("win-screen","block")
+        }, animSpeed)
         
         //alert("You won but I won (read in russian accent)")
-    }else if(game.guesses.length > game.numOfGuesses){ //LOSS
+    }// LOSS
+    else if(game.guesses.length > game.numOfGuesses){ //LOSS
         game.end = true
         setTimeout(()=> {
-            toggleGame();
             gEl("loss-screen-result").innerHTML = makeEmojiBoard(game, true)
             gEl("loss-screen-answer").innerHTML = obj.guessingWord
-            toggleElById("loss-screen", "block")
-        }, 1300)
+            loadScreen("loss-screen", "block")
+        }, animSpeed)
         
         // alert("Loss")
     }
-    localStorage.setItem("game", JSON.stringify(game))
 }
 function shadeKeyBoard(letter, color) {
     for (const elem of document.getElementsByClassName("keyboard-button")) {
@@ -298,22 +336,7 @@ function refresh(){
 }
 
 document.addEventListener( "keyup", (e)=>{
-    if(game.win)
-        return
-    let k = e.key
-    if(k == "Enter"){
-        enterWord()
-    }else if(k == "Backspace" && e.ctrlKey){
-        removeCurrentWord()
-    }else if(k == "Backspace"){
-        removeLastLetter()
-    }else{
-        let found = k.match(/[a-z]/gi)
-        if (!found || found.length > 1)
-            return
-        addLetter(found)
-    }
-    refresh()
+    MyKeyboardEvent(e)
 })
 //mobile
 document.addEventListener( "input", (e)=>{
@@ -353,12 +376,7 @@ gEl("keyboard-cont").addEventListener("click", (e)=>{
     MyKeyboardEvent(e={'key':key})
 })
 
-
-
-
 function MyKeyboardEvent(e){
-    if(game.end)
-        return
     let k = e.key
     if(k == "Enter"){
         enterWord()
@@ -377,10 +395,12 @@ function MyKeyboardEvent(e){
 
 function enterWord(){
     //if word exists
-    if(game.guesses[game.guesses.length-1].length >= game.wordLength)
+    if(game.guesses[game.guesses.length-1].length >= game.wordLength && !game.end)
     {
         if(WORDS.includes(game.guesses[game.guesses.length-1]))
-            game.guesses[game.guesses.length] = ""
+            game.guesses[game.guesses.length] = "ENTER"
+    }else if(game.end){
+        handleEnd(0)
     }
 }
 
@@ -399,4 +419,5 @@ function addLetter(letter){
     }
 }
 
+//at start
 init()
