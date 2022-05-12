@@ -1,6 +1,6 @@
-const orangeColor = "rgb(181, 159, 59)"
-const greenColor = "rgb(83, 141, 78)"
-const greyColor = "rgb(58, 58, 60)"
+// const greenColor = "#538d4e"
+// const orangeColor = "#b59f3b" 
+// const greyColor = "#3a3a3c"
 
 const WORD_SEED = 25
 const COPIED_TO_CLIPBOARD_TIME = 10000
@@ -23,6 +23,14 @@ let game = {
     screen:{
         id:"game",
         display:"block"
+    },
+    settings:{
+        colors:{
+            green:"#538d4e",
+            yellow:"#b59f3b",
+            grey:"#3a3a3c"
+        },
+        titleName:"Splashle"
     }
 }
 //template
@@ -37,6 +45,14 @@ const emptyGame = {
     screen:{
         id:"game",
         display:"block"
+    },
+    settings:{
+        colors:{
+            green:"#538d4e",
+            yellow:"#b59f3b",
+            grey:"#3a3a3c"
+        },
+        titleName:"Splashle"
     }
 }
 
@@ -51,6 +67,17 @@ String.prototype.includesNum = function(char){
 }
 String.prototype.replaceAt = function(index, replacement) {
     return this.substring(0, index) + replacement + this.substring(index + replacement.length);
+}
+function rgbToHex(r, g, b) {
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
+function rgbToHexString(str) {
+    str = str.slice(4, -1).split(", ")
+    let r = parseInt(str[0])
+    let g = parseInt(str[1])
+    let b = parseInt(str[2])
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 }
 
 function gEl(id){
@@ -103,6 +130,7 @@ function init(){
     }
     
     updateSplashScreen()
+    updateSettings()
 
     makeBoard()
     //if first start
@@ -110,6 +138,8 @@ function init(){
     {
         console.log("%cFIRST START", "color:green")
         loadScreen("start-screen", "block")
+    }else{
+        loadScreen("game")
     }
     localStorage.setItem("firstStart", true)
 
@@ -119,8 +149,23 @@ function init(){
 function updateSplashScreen(gameNumber=game.gameNum){
     let splash = gEl("splash-text")
     splash.innerHTML = SPLASH_TEXTS[gameNumber]
-    const colorArr = [greenColor,"rgb(165, 165, 165)", "rgb(255, 224, 83)","rgb(128, 217, 120)",orangeColor]
+    const colorArr = [game.settings.colors.green,"rgb(165, 165, 165)", "rgb(255, 224, 83)","rgb(128, 217, 120)",game.settings.colors.yellow]
     splash.style.color = colorArr[Math.floor(Math.random()*colorArr.length)]
+}
+
+function resetSettings(){
+    game.settings = emptyGame.settings
+    updateSettings()
+}
+
+function updateSettings(){
+    gEl("settings-screen")
+    const pickers = gEls("color-picker")
+    pickers[0].value = game.settings.colors.green
+    pickers[1].value = game.settings.colors.yellow
+    pickers[2].value = game.settings.colors.grey
+
+    gEl("title").innerHTML = game.settings.titleName
 }
 
 function makeBoard(){
@@ -157,12 +202,12 @@ function makeEmojiBoard(obj, html = false){
         let currentRow = gEls("row")[guessIndex]
         for (let i = 0; i < obj.wordLength; i++) {
             let currentBox = currentRow.children[i]
-            let currentColour = currentBox.style.backgroundColor
-            if (currentColour === greenColor) {
+            let currentColour = rgbToHexString(currentBox.style.backgroundColor)
+            if (currentColour === game.settings.colors.green) {
                 result += "🟩"
-            }else if(currentColour === orangeColor){
+            }else if(currentColour === game.settings.colors.yellow){
                 result += "🟨"
-            }else if(currentColour === greyColor){
+            }else if(currentColour === game.settings.colors.grey){
                 result += "⬛"
             }
         }
@@ -211,12 +256,12 @@ function handleWordleObject(obj){
             //if not last word (the one you are writing)
             if (guessIndex < obj.guesses.length-1) {
                 //shading letters
-                let letterColour = greyColor
+                let letterColour = game.settings.colors.grey
                 if (obj.guessingWord[i] === letter) {
                     guessingWordCopy = guessingWordCopy.replaceAt(i,"#")
-                    letterColour = greenColor
+                    letterColour = game.settings.colors.green
                 }else if (obj.guessingWord.includes(letter)) {
-                    letterColour = orangeColor
+                    letterColour = game.settings.colors.yellow
                 }
                 //little hacky solution but i dont care
                 if (guessIndex == obj.guesses.length-2 && obj.guesses[guessIndex +1] === "ENTER") {
@@ -249,9 +294,9 @@ function handleWordleObject(obj){
             //if not last word (the one you are writing)
             if (guessIndex < obj.guesses.length-1) {
                 //shading letters
-                let letterColour = greyColor
+                let letterColour = game.settings.colors.grey
                 if (guessingWordCopy.includes(letter)) {
-                    letterColour = orangeColor
+                    letterColour = game.settings.colors.yellow
                     guessingWordCopy = guessingWordCopy.replaceAt(guessingWordCopy.indexOf(letter),'#')
                 }
                 //little hacky solution but i dont care
@@ -295,7 +340,7 @@ function handleEnd(animSpeed = 1300){
         game.end = true
         setTimeout(()=> {
             gEl("loss-screen-result").innerHTML = makeEmojiBoard(game, true)
-            gEl("loss-screen-answer").innerHTML = obj.guessingWord
+            gEl("loss-screen-answer").innerHTML = game.guessingWord
             loadScreen("loss-screen", "block")
         }, animSpeed)
         
@@ -306,11 +351,11 @@ function shadeKeyBoard(letter, color) {
     for (const elem of document.getElementsByClassName("keyboard-button")) {
         if (elem.textContent === letter) {
             let oldColor = elem.style.backgroundColor
-            if (oldColor === greenColor) {
+            if (oldColor === game.settings.colors.green) {
                 return
             } 
 
-            if (oldColor === orangeColor && color !== greenColor) {
+            if (oldColor === game.settings.colors.yellow && color !== game.settings.colors.green) {
                 return
             }
 
@@ -377,6 +422,8 @@ gEl("keyboard-cont").addEventListener("click", (e)=>{
 })
 
 function MyKeyboardEvent(e){
+    if(game.screen.id != "game")
+        return
     let k = e.key
     if(k == "Enter"){
         enterWord()

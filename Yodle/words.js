@@ -1,7 +1,8 @@
 const SPLASH_TEXTS = ["You Won't see this!","You Won't see this!","You Won't see this!",
 "Ooh new splash texts", 
 "No bugs fixed!",
-"This is hard (maybe)",
+"try clicking on the title",
+"This is hard (maybe I don't know)",
 "Already running out of ideas",
 "First try",
 "This message will",
@@ -10,7 +11,11 @@ const SPLASH_TEXTS = ["You Won't see this!","You Won't see this!","You Won't see
 "Okay I lied",
 "Crate vs crane",
 "Also try wordle!",
-"THIS IS THE END I HAVE TO MAKE MORE SPLASH TEXTS"]
+"Wooooooooooooordle",
+"A game about words",
+" ",
+"Hi",
+"OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"]
 
 
 

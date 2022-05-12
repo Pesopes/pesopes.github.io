@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Droid+Sans+Mono" />
 
     <link rel="stylesheet" href="./index.css">
     <link rel="icon" type="image/x-icon" href="./calculator_icon.png">
@@ -17,8 +18,8 @@
 
 </head>
 <body>
-    <h1>
-        Splashle
+    <h1  onclick="loadScreen('settings-screen')">
+        <div id="title">Splashle</div>
         <h2 id="splash-text" onclick="updateSplashScreen()">Cool!</h2>
     </h1>
     
@@ -69,7 +70,7 @@
     </div>
 
     <div id="start-screen" class="infotab" style="display:none;">
-        <p>This is Yodle</p>
+        <h2>This is Yodle</h2>
         <p>Play just like normal <a href="https://www.nytimes.com/games/wordle/index.html" style="color:rgb(193, 208, 250)">Wordle</a></p>
         <p>Enjoy it while it lasts...</p>
         <button onclick="loadScreen('game')" class="keyboard-button">PLAY!</button>
@@ -77,21 +78,40 @@
     </div>
 
     <div id="win-screen" class="infotab" style="display:none;">
-        <p>You won!</p>
+        <h2>You won!</h2>
         <p>Hope you enjoyed playing and now return</p>
         <p id="win-screen-result" onmousemove="this.innerHTML = makeEmojiBoard(game,true);"></p>
-        <button onclick="copyGame(this)" class="copy-button">Share</button>
+        <button onclick="copyGame(this)" class="copy-button">Share</button><br>
         <button onclick="loadScreen('game')" class="keyboard-button">Show me my win</button>
     </div>
 
     <div id="loss-screen" class="infotab" style="display:none;">
-        <p>You lost!</p>
+        <h2>You lost!</h2>
         <p>But don't worry you can play this game again tomorrow!</p>
         <p>More suffering!</p>
         <p>The correct word was: <b id="loss-screen-answer"></b></p>
         <p id="loss-screen-result" onmousemove="this.innerHTML = makeEmojiBoard(game,true);"></p>
-        <button onclick="copyGame(this)" class="copy-button">Share</button>
+        <button onclick="copyGame(this)" class="copy-button">Share</button><br>
         <button onclick="loadScreen('game')" class="keyboard-button">Show me my mistakes</button>
+    </div>¨
+    <div id="settings-screen" class="infotab" style="display:none;">
+        <h2>Settings
+            (Experimental)</h2>
+        <button onclick="resetSettings()" class="keyboard-button">RESET</button><br>
+
+        <input type="color" name="green" class="color-picker" onchange="game.settings.colors.green = value" title="correct place colour">
+        <label for="green">Green</label><br>
+        
+        <input type="color" name="yellow" class="color-picker" onchange="game.settings.colors.yellow= value" title="in word colour">
+        <label for="yellow">Yellow</label><br>
+
+        <input type="color" name="grey" class="color-picker" onchange="game.settings.colors.grey = value" title="not in word colour">
+        <label for="grey">Grey</label><br>
+
+        <label for="title-name">Custom title</label><br>
+        <input type="text" name="title-name" id="title-name" placeholder="Splashle" onchange="game.settings.titleName = value;updateSettings()"><br>
+
+        <button onclick="loadScreen('game');refresh();updateSettings()" class="keyboard-button">Back</button>
     </div>
     <script src="./words.js" ></script>
     <script src="./index.js"></script>
