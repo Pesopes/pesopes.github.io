@@ -4,7 +4,7 @@ const SPLASH_TEXTS = ["You Won't see this!","You Won't see this!","You Won't see
 "try clicking on the title",
 "This is hard (maybe I don't know)",
 "Already running out of ideas",
-"First try",
+"Working on better words...",
 "This message will",
 "last 2 days",
 "The answer is xerox, trust me",

@@ -97,7 +97,7 @@
     <div id="settings-screen" class="infotab" style="display:none;">
         <h2>Settings
             (Experimental)</h2>
-        <button onclick="game = emptyGame" class="keyboard-button">ALL RESET</button><br>
+        <button onclick="game = emptyGame;refresh();location.reload()" class="keyboard-button">ALL RESET</button><br>
         <button onclick="resetSettings()" class="keyboard-button">RESET</button><br>
 
         <input type="color" name="green" class="color-picker" onchange="game.settings.colors.green = value" title="correct place colour">

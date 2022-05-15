@@ -28,7 +28,9 @@ let game = {
         colors:{
             green:"#538d4e",
             yellow:"#b59f3b",
-            grey:"#3a3a3c"
+            grey:"#3a3a3c",
+            notInList:"#422b29",
+            inList:"#343b33"
         },
         titleName:"Splashle"
     }
@@ -50,7 +52,9 @@ const emptyGame = {
         colors:{
             green:"#538d4e",
             yellow:"#b59f3b",
-            grey:"#3a3a3c"
+            grey:"#3a3a3c",
+            notInList:"#422b29",
+            inList:"#343b33"
         },
         titleName:"Splashle"
     }
@@ -103,7 +107,6 @@ function toggleElById(id,normal){
     }
 }
 
-
 //run at start
 function init(){
     
@@ -124,7 +127,7 @@ function init(){
     }
     //This actaully resets the game each day
     if(game.gameNum != gameNumber){
-        game = emptyGame
+        resetGame()
         game.guessingWord = todayWord
         game.gameNum = gameNumber
     }
@@ -148,9 +151,11 @@ function init(){
 }
 function updateSplashScreen(gameNumber=game.gameNum){
     let splash = gEl("splash-text")
-    splash.innerHTML = SPLASH_TEXTS[gameNumber]
+    splash.textContent = SPLASH_TEXTS[gameNumber]
     const colorArr = [game.settings.colors.green,"rgb(165, 165, 165)", "rgb(255, 224, 83)","rgb(128, 217, 120)",game.settings.colors.yellow]
-    splash.style.color = colorArr[Math.floor(Math.random()*colorArr.length)]
+    //splash.style.color = colorArr[Math.floor(Math.random()*colorArr.length)]
+    //completely random colours
+    splash.style.color = `rgb(${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)})`
 }
 
 function resetSettings(){
@@ -165,7 +170,17 @@ function updateSettings(){
     pickers[1].value = game.settings.colors.yellow
     pickers[2].value = game.settings.colors.grey
 
-    gEl("title").innerHTML = game.settings.titleName
+    gEl("title").textContent = game.settings.titleName
+}
+
+function resetGame(){
+    //there has to be a better solution (maybe store settings then delete everythinh then place settings back)
+    game.guesses = emptyGame.guesses
+    game.guessingWord = emptyGame.guessingWord
+    game.gameNum = emptyGame.gameNum
+    game.win = emptyGame.win
+    game.end = emptyGame.end
+    game.screen = emptyGame.screen
 }
 
 function makeBoard(){
@@ -231,18 +246,18 @@ function copyGame(caller){
     navigator.clipboard.writeText(makeEmojiBoard(game));
 
     //display confirm message for some time and change bacground
-    let originalText = caller.innerHTML
+    let originalText = caller.textContent
     setTimeout(() => {
-        caller.innerHTML = originalText
+        caller.textContent = originalText
     }, COPIED_TO_CLIPBOARD_TIME);
-    caller.innerHTML = "Copied to clipboard"
+    caller.textContent = "Copied to clipboard"
     caller.style.backgroundColor = "rgb(37, 37, 37)"
 }
 
 //Main function for game VERY MESSY i am scared to change it -_-
+//also i intended to make this general for any _obj_ but then forgot and its a mess
 function handleWordleObject(obj){
     let currentNumGuess = 0
-
     //loop trough guesses
     for (let guessIndex = 0; guessIndex < obj.guesses.length; guessIndex++) {
         const word = obj.guesses[guessIndex];
@@ -321,10 +336,23 @@ function handleWordleObject(obj){
         }
         currentNumGuess++
     }
+    shadeLastWord()
     handleEnd()
     localStorage.setItem("game", JSON.stringify(game))
 }
-
+function shadeLastWord(){
+    if(game.guesses[game.guesses.length-1].length === game.wordLength){
+        let finalColor
+        if (wordExists(game.guesses[game.guesses.length-1])) {
+            finalColor = game.settings.colors.inList
+        }else{
+            finalColor = game.settings.colors.notInList
+        }
+        for(const elem of gEls("row")[game.guesses.length-1].children){
+            elem.style.backgroundColor = finalColor
+        }
+    }
+}
 function handleEnd(animSpeed = 1300){
     // WIN
     if (game.win){
@@ -348,7 +376,7 @@ function handleEnd(animSpeed = 1300){
     }
 }
 function shadeKeyBoard(letter, color) {
-    for (const elem of document.getElementsByClassName("keyboard-button")) {
+    for (const elem of gEls("keyboard-button")) {
         if (elem.textContent === letter) {
             let oldColor = elem.style.backgroundColor
             if (oldColor === game.settings.colors.green) {
@@ -444,10 +472,10 @@ function MyKeyboardEvent(e){
 
 function enterWord(){
     
-    //if word exists
     if(game.guesses[game.guesses.length-1].length >= game.wordLength && !game.end)
     {
-        if(WORDS.includes(game.guesses[game.guesses.length-1]))
+        //if word exists
+        if(wordExists(game.guesses[game.guesses.length-1]))
             game.guesses[game.guesses.length] = "ENTER"
     }else if(game.end){
         handleEnd(0)
@@ -469,6 +497,10 @@ function addLetter(letter){
     if (game.guesses[index].length < game.wordLength) {
         game.guesses[index] += letter
     }
+}
+//TODO: make general for any length (so download more words i guess)
+function wordExists(word){
+    return WORDS.includes(word)
 }
 
 //at start
