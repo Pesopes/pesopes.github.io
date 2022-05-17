@@ -8,6 +8,7 @@ const COPIED_TO_CLIPBOARD_TIME = 10000
 const USE_PREDEFINED_WORDS = true
 const PREDEFINED_WORDS = ["lunge","tweak","wired"]
 
+const SETTINGS_IMPORT_INDICATOR = "My settings: "
 
 
 let WORD_LENGTH = 5
@@ -131,11 +132,11 @@ function init(){
         game.guessingWord = todayWord
         game.gameNum = gameNumber
     }
+    makeBoard()
     
     updateSplashScreen()
     updateSettings()
 
-    makeBoard()
     //if first start
     if (localStorage.getItem("firstStart") === null || localStorage.getItem("firstStart") ===false)
     {
@@ -171,6 +172,17 @@ function updateSettings(){
     pickers[2].value = game.settings.colors.grey
 
     gEl("title").textContent = game.settings.titleName
+
+    refresh(false)
+}
+
+function importSettings(val){
+    if (val === "" || val === null) {
+        return
+    }
+    let settingsImport = val.substring(val.indexOf(SETTINGS_IMPORT_INDICATOR)+SETTINGS_IMPORT_INDICATOR.length)
+    game.settings = JSON.parse(settingsImport);
+    updateSettings()
 }
 
 function resetGame(){
@@ -199,20 +211,26 @@ function makeBoard(){
     }
 }
 
-function makeEmojiBoard(obj, html = false){
+function makeEmojiBoard(obj, html = false, tooMuchInfo = false){
     
     let breakSymbol = "\n"
     if (html) {
         breakSymbol = "<br>"
     }
     const d = new Date()
-    let result = `Yodle ${d.getDate()+d.getMonth()+d.getYear() - 133} ${game.win? obj.guesses.length-1 : "x"}/${obj.numOfGuesses}`
+    let gameName = game.settings.titleName
+    let result = `${gameName} ${d.getDate()+d.getMonth()+d.getYear() - 133} ${game.win? obj.guesses.length-1 : "x"}/${obj.numOfGuesses}`
     result += breakSymbol
     if (html) 
-        result += "<a href='https://pesopes.github.io/Yodle/' style='color:white'>pesopes.github.io/Yodle</a>"
+    result += "<a href='https://pesopes.github.io/Yodle/' style='color:white'>pesopes.github.io/Yodle</a>"
     else
-        result += "pesopes.github.io/Yodle/"
+    result += "pesopes.github.io/Yodle/"
     result += breakSymbol
+    if (tooMuchInfo) {
+        result += SETTINGS_IMPORT_INDICATOR
+        result += JSON.stringify(game.settings)
+        return result
+    }
     for (let guessIndex = 0; guessIndex < obj.guesses.length-1; guessIndex++) {
         let currentRow = gEls("row")[guessIndex]
         for (let i = 0; i < obj.wordLength; i++) {
@@ -230,6 +248,7 @@ function makeEmojiBoard(obj, html = false){
     }
     return result
 }
+//TODO: make general copy func
 function copyGame(caller){
     //sharing (not supported everywhere)
     if (navigator.share) {
@@ -253,10 +272,32 @@ function copyGame(caller){
     caller.textContent = "Copied to clipboard"
     caller.style.backgroundColor = "rgb(37, 37, 37)"
 }
+function copySettings(caller){
+    //sharing (not supported everywhere)
+    if (navigator.share) {
+        navigator.share({
+            text: makeEmojiBoard(game,false,true)
+        }).then(() => {
+            console.log('Succesful share');
+        })
+        .catch((error) => console.error("Error sharing", error));
+    } else {
+        console.log('Sharing not supported :(');
+    }
+    //always copy to clipboard
+    navigator.clipboard.writeText(makeEmojiBoard(game,false,true));
 
+    //display confirm message for some time and change bacground
+    let originalText = caller.textContent
+    setTimeout(() => {
+        caller.textContent = originalText
+    }, COPIED_TO_CLIPBOARD_TIME);
+    caller.textContent = "Copied to clipboard"
+    caller.style.backgroundColor = "rgb(37, 37, 37)"
+}
 //Main function for game VERY MESSY i am scared to change it -_-
 //also i intended to make this general for any _obj_ but then forgot and its a mess
-function handleWordleObject(obj){
+function handleWordleObject(obj, showEndScreen = true){
     let currentNumGuess = 0
     //loop trough guesses
     for (let guessIndex = 0; guessIndex < obj.guesses.length; guessIndex++) {
@@ -337,7 +378,8 @@ function handleWordleObject(obj){
         currentNumGuess++
     }
     shadeLastWord()
-    handleEnd()
+    if(showEndScreen)
+        handleEnd()
     localStorage.setItem("game", JSON.stringify(game))
 }
 function shadeLastWord(){
@@ -403,9 +445,9 @@ function clearBoard(){
     }
 }
 
-function refresh(){
+function refresh(showEndScreen = true){
     clearBoard()
-    handleWordleObject(game)
+    handleWordleObject(game,showEndScreen)
 }
 
 document.addEventListener( "keyup", (e)=>{
@@ -416,6 +458,9 @@ document.addEventListener( "input", (e)=>{
     if(game.end)
         return
     let k = e.key
+    if (k === undefined) 
+        return
+    
     if(k == "Enter"){
         enterWord()
     }else if(k == "Backspace" && e.ctrlKey){

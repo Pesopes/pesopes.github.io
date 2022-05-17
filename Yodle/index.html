@@ -6,10 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yodle</title>
 
-    <!--roboto-->
+    <!-- roboto -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"> 
+    <!-- droid sans -->
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Droid+Sans+Mono" />
 
     <link rel="stylesheet" href="./index.css">
@@ -110,9 +111,13 @@
         <label for="grey">Grey</label><br>
 
         <label for="title-name">Custom title</label><br>
-        <input type="text" name="title-name" id="title-name" placeholder="Splashle" onchange="game.settings.titleName = value;updateSettings()"><br>
+        <input type="text" name="title-name" id="title-name" onchange="game.settings.titleName = value;updateSettings()"><br><br>
 
-        <button onclick="loadScreen('game');refresh();updateSettings()" class="keyboard-button">Back</button>
+        <label for="settings-import">Custom settings</label><br>
+        <button name="settings-import" id="settings-import" onclick="importSettings(prompt('Enter copied message'));updateSettings()" class="copy-button">Import settings</button><br>
+        <button name="settings-export" id="settings-export" onclick="copySettings(this)" class="copy-button">Export settings</button><br>
+
+        <button onclick="loadScreen('game');refresh();updateSettings()" class="keyboard-button" style="background-color: rgb(122, 88, 88);">Back</button>
     </div>
     <script src="./words.js" ></script>
     <script src="./index.js"></script>

@@ -45,7 +45,7 @@ body{
     border-radius: 0.5em;
     padding: 0.3em 2em 1.5em;
     background-color: rgb(46, 44, 44);
-    color: white;
+    color: rgb(194, 194, 194);
     box-shadow: 0.1em 0.1em 0.3em black;
     min-width: 5rem;
     max-width: 15rem;
@@ -61,6 +61,7 @@ body{
 .infotab h2 {
     margin: 0.2em 0;
     font-size: 2rem;
+    color: white;
 }
 
 
@@ -70,6 +71,24 @@ body{
 .infotab td, th {
     padding: 0.1em 0.4em;
     text-align: left;
+}
+
+.infotab input[type=text] {
+    background-color: rgb(26, 25, 25);
+    color: whitesmoke;
+    font-family: "Roboto Black", sans-serif;
+    font-size: 1rem;
+    text-align: center;
+    border: solid rgb(26, 25, 25);
+    border-radius: 4px;
+    box-shadow: 0.1em 0.1em 0.3em black;
+}
+
+.infotab label{
+    font-size: 1.3rem;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.123);
+    border-radius: 3px;
 }
 
 .settings-button{
