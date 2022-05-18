@@ -84,30 +84,131 @@ body{
     box-shadow: 0.1em 0.1em 0.3em black;
 }
 
-.infotab label{
+
+.settings-group{
+    user-select: none;
+    font-size: 1rem;
+    padding: 0.5rem;
+}
+
+.settings-group h3{
+    user-select: none;
+    font-size: 2rem;
+    padding: 0px;
+    margin: 7px 0px;
+    color: rgb(238, 238, 238);
+}
+
+.settings-group hr{
+    border: 2px solid rgb(136, 136, 136);
+    border-radius: 3px;
+}
+.settings-group label{
     font-size: 1.3rem;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.123);
+    color: #c2c2c2;
     border-radius: 3px;
 }
 
-.settings-button{
-    transform: perspective(126544);
+.settings-group button {
+    background-color: rgb(37, 37, 37);
+    border: 3px solid rgb(54, 54, 54); /* Green border */
+    box-shadow: 0.1em 0.1em 0.3em black;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: white;
+    padding: 10px 15px; 
+    margin: 12px 0px;
+    cursor: pointer; 
+    width: 100%; 
+    display: block;
+    transition: all 0.15s ease;
+}
+/* Add a background color on hover */
+.settings-group button:hover {
+    background-color: rgb(54, 54, 54);
+    border-radius: 8px;
 }
 
-.color-picker{
-    user-select: none;
-    border: 0px solid rgb(45, 45, 46);
-    border-radius: 1.5px;
+.settings-group input[type=color]{
+    background-color: rgb(45, 45, 46);
+    box-shadow: 0.1em 0.1em 0.3em black;
+    border: 1px solid rgb(45, 45, 46);
+    border-radius: 6.5px;
     margin: 2px;
+    padding: 5px;
     font-size: 2.5rem;
     font-weight: 700;
-    height: 3.9rem;
-    width: 3.9rem;
-    justify-content: center;
-    align-items: center;
+    height: 2.9rem;
+    width: 2.9rem;
     transition: all 0.15s ease-out;
 }
+.settings-group input[type=color]:hover{
+    box-shadow: 0.2em 0.2em 0.3em black;
+}
+
+ /* The switch - the box around the slider */
+ .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #888888;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #424141;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #538d4e;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #538d4e;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  } 
 
 #board{
     display: flex;
@@ -122,8 +223,8 @@ body{
     margin: 2px;
     font-size: 2.5rem;
     font-weight: 700;
-    height: 3.9rem;
-    width: 3.9rem;
+    height: 3.6rem;
+    width: 3.6rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -148,16 +249,6 @@ body{
     display: flex;
 }
 
-#keyboard-cont {
-    margin: 1rem 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-  
-#keyboard-cont div {
-    display: flex;
-}
 
 .second-row {
     margin: 0.5rem 0;
@@ -186,19 +277,31 @@ body{
     border-radius: 4px;
     background-color: rgb(78, 69, 69);
 }
+#keyboard-cont {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+  
+#keyboard-cont div {
+    display: flex;
+}
 
 
 .keyboard-button {
     user-select: none;
     color:rgb(238, 240, 241);
-    font-size: 1rem;
+
+    font-family: 'Droid Sans Mono', Courier, monospace;
+    font-size: 1.2rem;
     font-weight: 700;
     padding: 0.5rem;
     margin: 0 2px;
     cursor: pointer;
     text-transform: uppercase;
-    min-width: 2.3rem;
-    min-height: 3.3rem;
+    min-width: 1rem;
+    min-height: 1.7rem;
     background-color: rgb(143, 142, 142);
     text-align: center;
     border: 2px rgb(209, 209, 209);

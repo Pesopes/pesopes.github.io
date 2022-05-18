@@ -30,42 +30,42 @@
         <!-- KEYBOARD-->
         <div id="keyboard-cont">
             <div class="first-row">
-                <button class="keyboard-button">q</button>
-                <button class="keyboard-button">w</button>
-                <button class="keyboard-button">e</button>
-                <button class="keyboard-button">r</button>
-                <button class="keyboard-button">t</button>
-                <button class="keyboard-button">y</button>
-                <button class="keyboard-button">u</button>
-                <button class="keyboard-button">i</button>
-                <button class="keyboard-button">o</button>
-                <button class="keyboard-button">p</button>
+                <span class="keyboard-button">q</span>
+                <span class="keyboard-button">w</span>
+                <span class="keyboard-button">e</span>
+                <span class="keyboard-button">r</span>
+                <span class="keyboard-button">t</span>
+                <span class="keyboard-button">y</span>
+                <span class="keyboard-button">u</span>
+                <span class="keyboard-button">i</span>
+                <span class="keyboard-button">o</span>
+                <span class="keyboard-button">p</span>
             </div>
             <div class="second-row">
-                <button class="keyboard-button">a</button>
-                <button class="keyboard-button">s</button>
-                <button class="keyboard-button">d</button>
-                <button class="keyboard-button">f</button>
-                <button class="keyboard-button">g</button>
-                <button class="keyboard-button">h</button>
-                <button class="keyboard-button">j</button>
-                <button class="keyboard-button">k</button>
-                <button class="keyboard-button">l</button>
+                <span class="keyboard-button">a</span>
+                <span class="keyboard-button">s</span>
+                <span class="keyboard-button">d</span>
+                <span class="keyboard-button">f</span>
+                <span class="keyboard-button">g</span>
+                <span class="keyboard-button">h</span>
+                <span class="keyboard-button">j</span>
+                <span class="keyboard-button">k</span>
+                <span class="keyboard-button">l</span>
             </div>
             <div class="third-row">
-                <button class="keyboard-button">Enter</button>
-                <button class="keyboard-button">z</button>
-                <button class="keyboard-button">x</button>
-                <button class="keyboard-button">c</button>
-                <button class="keyboard-button">v</button>
-                <button class="keyboard-button">b</button>
-                <button class="keyboard-button">n</button>
-                <button class="keyboard-button">m</button>
-                <button class="keyboard-button" id="back-button">
+                <span class="keyboard-button">Enter</span>
+                <span class="keyboard-button">z</span>
+                <span class="keyboard-button">x</span>
+                <span class="keyboard-button">c</span>
+                <span class="keyboard-button">v</span>
+                <span class="keyboard-button">b</span>
+                <span class="keyboard-button">n</span>
+                <span class="keyboard-button">m</span>
+                <span class="keyboard-button" id="back-button">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" style="pointer-events: none;">
                         <path fill="white" d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"></path>
                     </svg>  
-                </button>
+                </span>
             </div>
         </div>
     </div>
@@ -96,27 +96,46 @@
         <button onclick="loadScreen('game')" class="keyboard-button">Show me my mistakes</button>
     </div>¨
     <div id="settings-screen" class="infotab" style="display:none;">
-        <h2>Settings
-            (Experimental)</h2>
-        <button onclick="game = emptyGame;refresh();location.reload()" class="keyboard-button">ALL RESET</button><br>
-        <button onclick="resetSettings()" class="keyboard-button">RESET</button><br>
-
-        <input type="color" name="green" class="color-picker" onchange="game.settings.colors.green = value" title="correct place colour">
-        <label for="green">Green</label><br>
+        <h2>Settings</h2>
         
-        <input type="color" name="yellow" class="color-picker" onchange="game.settings.colors.yellow= value" title="in word colour">
-        <label for="yellow">Yellow</label><br>
+        <div class="settings-group">
+            <button onclick="game = emptyGame;refresh();location.reload()" >ALL RESET</button>
+            <button onclick="resetSettings()" >RESET</button>
+            <hr>
+        </div>
+        <div class="settings-group">
+            <h3>Nothing but you can play with the switch</h3>
+            <label id="splashTextToggle" class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+            </label>
+            <hr>
+        </div>
+        <div class="settings-group">
+            <h3>Colours</h3>
+            <label for="green">Green</label><br>
+            <input type="color" name="green" class="color-picker" onchange="game.settings.colors.green = value" title="correct place colour">
+            <br>
+            <label for="yellow">Yellow</label><br>
+            <input type="color" name="yellow" class="color-picker" onchange="game.settings.colors.yellow= value" title="in word colour">
+            <br>
+            <label for="grey">Grey</label><br>
+            <input type="color" name="grey" class="color-picker" onchange="game.settings.colors.grey = value" title="not in word colour">
+            <hr>
+        </div>
+        <div class="settings-group">
+            <h3>Title</h3>
+            <input type="text" name="title-name" id="title-name" onchange="game.settings.titleName = value;updateSettings()"><br><br>
+            <hr>
+        </div>
 
-        <input type="color" name="grey" class="color-picker" onchange="game.settings.colors.grey = value" title="not in word colour">
-        <label for="grey">Grey</label><br>
-
-        <label for="title-name">Custom title</label><br>
-        <input type="text" name="title-name" id="title-name" onchange="game.settings.titleName = value;updateSettings()"><br><br>
-
-        <label for="settings-import">Custom settings</label><br>
-        <button name="settings-import" id="settings-import" onclick="importSettings(prompt('Enter copied message'));updateSettings()" class="copy-button">Import settings</button><br>
-        <button name="settings-export" id="settings-export" onclick="copySettings(this)" class="copy-button">Export settings</button><br>
-
+        
+        
+        <div class="settings-group">
+            <h3>Custom settings</h3>
+            <button name="settings-import" id="settings-import" onclick="importSettings(prompt('Enter copied message'));updateSettings()" >Import settings</button>
+            <button name="settings-export" id="settings-export" onclick="copySettings(this)">Export settings</button>
+        </div>
         <button onclick="loadScreen('game');refresh();updateSettings()" class="keyboard-button" style="background-color: rgb(122, 88, 88);">Back</button>
     </div>
     <script src="./words.js" ></script>

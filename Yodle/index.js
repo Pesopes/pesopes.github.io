@@ -33,7 +33,7 @@ let game = {
             notInList:"#422b29",
             inList:"#343b33"
         },
-        titleName:"Splashle"
+        titleName:"Yodle"
     }
 }
 //template
@@ -57,7 +57,7 @@ const emptyGame = {
             notInList:"#422b29",
             inList:"#343b33"
         },
-        titleName:"Splashle"
+        titleName:"Yodle"
     }
 }
 
