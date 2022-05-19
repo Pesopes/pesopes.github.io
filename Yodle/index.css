@@ -1,3 +1,6 @@
+body{
+    background-color: rgb(27, 27, 27);
+}
 h1{
     text-align: center;
     color: rgb(233, 232, 231);
@@ -37,9 +40,6 @@ h1:hover{
     100%{transform: scale(100%) rotate(-25deg);}
 }
 
-body{
-    background-color: rgb(27, 27, 27);
-}
 
 .infotab{
     border-radius: 0.5em;
@@ -48,7 +48,7 @@ body{
     color: rgb(194, 194, 194);
     box-shadow: 0.1em 0.1em 0.3em black;
     min-width: 5rem;
-    max-width: 15rem;
+    max-width: 16rem;
     min-height: 10rem;
     text-align: center;
     margin: auto;
@@ -63,7 +63,6 @@ body{
     font-size: 2rem;
     color: white;
 }
-
 
 .infotab table {
     margin:0 auto 1em;
@@ -84,7 +83,6 @@ body{
     box-shadow: 0.1em 0.1em 0.3em black;
 }
 
-
 .settings-group{
     user-select: none;
     font-size: 1rem;
@@ -103,6 +101,10 @@ body{
     border: 2px solid rgb(136, 136, 136);
     border-radius: 3px;
 }
+.settings-group a{
+    color: white;
+    border-radius: 3px;
+}
 .settings-group label{
     font-size: 1.3rem;
     color: #c2c2c2;
@@ -110,8 +112,8 @@ body{
 }
 
 .settings-group button {
-    background-color: rgb(37, 37, 37);
-    border: 3px solid rgb(54, 54, 54); /* Green border */
+    background-color: rgb(31, 29, 29);
+    border: 0px ; /* Green border */
     box-shadow: 0.1em 0.1em 0.3em black;
     border-radius: 6px;
     font-weight: 700;
@@ -126,8 +128,10 @@ body{
 }
 /* Add a background color on hover */
 .settings-group button:hover {
-    background-color: rgb(54, 54, 54);
+    filter: brightness(1.1);
     border-radius: 8px;
+    box-shadow: 0.2em 0.2em 0.3em black;
+    transform: scale(1.02);
 }
 
 .settings-group input[type=color]{
@@ -135,12 +139,12 @@ body{
     box-shadow: 0.1em 0.1em 0.3em black;
     border: 1px solid rgb(45, 45, 46);
     border-radius: 6.5px;
-    margin: 2px;
+    margin: 3px;
     padding: 5px;
     font-size: 2.5rem;
     font-weight: 700;
-    height: 2.9rem;
-    width: 2.9rem;
+    height: 3.3rem;
+    width: 3.3rem;
     transition: all 0.15s ease-out;
 }
 .settings-group input[type=color]:hover{
@@ -296,7 +300,7 @@ body{
     font-family: 'Droid Sans Mono', Courier, monospace;
     font-size: 1.2rem;
     font-weight: 700;
-    padding: 0.5rem;
+    padding: 0.6rem;
     margin: 0 2px;
     cursor: pointer;
     text-transform: uppercase;

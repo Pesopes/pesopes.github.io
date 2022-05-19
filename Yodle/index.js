@@ -11,37 +11,12 @@ const PREDEFINED_WORDS = ["lunge","tweak","wired"]
 const SETTINGS_IMPORT_INDICATOR = "My settings: "
 
 
-let WORD_LENGTH = 5
-let NUM_OF_GUESSES = 6
-let game = {
-    guessingWord: "error",
-    gameNum:0,
-    wordLength: WORD_LENGTH,
-    numOfGuesses: NUM_OF_GUESSES,
-    guesses:[""],
-    win: false,
-    end:false,
-    screen:{
-        id:"game",
-        display:"block"
-    },
-    settings:{
-        colors:{
-            green:"#538d4e",
-            yellow:"#b59f3b",
-            grey:"#3a3a3c",
-            notInList:"#422b29",
-            inList:"#343b33"
-        },
-        titleName:"Yodle"
-    }
-}
 //template
 const emptyGame = {
     guessingWord: "error",
     gameNum:0,
-    wordLength: WORD_LENGTH,
-    numOfGuesses: NUM_OF_GUESSES,
+    wordLength: 5,
+    numOfGuesses: 6,
     guesses:[""],
     win: false,
     end:false,
@@ -54,12 +29,18 @@ const emptyGame = {
             green:"#538d4e",
             yellow:"#b59f3b",
             grey:"#3a3a3c",
+            background:"#1b1b1b",
             notInList:"#422b29",
             inList:"#343b33"
         },
-        titleName:"Yodle"
+        titleName:"Yodle",
+        displaySplash:true
     }
 }
+// kinda dumb but im lazy to make a function for this 
+// (oh this is so it isnt by reference)
+let game = JSON.parse(JSON.stringify(emptyGame))
+
 
 //  Helper functions
 String.prototype.includesNum = function(char){
@@ -102,6 +83,14 @@ function loadScreen(id, display = "block"){
 
 function toggleElById(id,normal){
     if (gEl(id).style.display === "none") {
+        gEl(id).style.display = normal
+    }else{
+        gEl(id).style.display = "none"
+    }
+}
+
+function setVisibility(id,visible,normal = "block"){
+    if (visible) {
         gEl(id).style.display = normal
     }else{
         gEl(id).style.display = "none"
@@ -151,7 +140,7 @@ function init(){
     //loadScreen(game.screen.id,game.screen.display)
 }
 function updateSplashScreen(gameNumber=game.gameNum){
-    let splash = gEl("splash-text")
+    const splash = gEl("splash-text")
     splash.textContent = SPLASH_TEXTS[gameNumber]
     const colorArr = [game.settings.colors.green,"rgb(165, 165, 165)", "rgb(255, 224, 83)","rgb(128, 217, 120)",game.settings.colors.yellow]
     //splash.style.color = colorArr[Math.floor(Math.random()*colorArr.length)]
@@ -165,13 +154,18 @@ function resetSettings(){
 }
 
 function updateSettings(){
-    gEl("settings-screen")
     const pickers = gEls("color-picker")
     pickers[0].value = game.settings.colors.green
     pickers[1].value = game.settings.colors.yellow
     pickers[2].value = game.settings.colors.grey
+    pickers[3].value = game.settings.colors.background
 
     gEl("title").textContent = game.settings.titleName
+    document.getElementsByTagName("body")[0].style.backgroundColor = game.settings.colors.background
+    setVisibility("splash-text",game.settings.displaySplash)
+
+    gEl("displaySplash").checked = game.settings.displaySplash
+    gEl("title-name").value = game.settings.titleName
 
     refresh(false)
 }
@@ -199,10 +193,10 @@ function makeBoard(){
     let board = gEl("board")
     clearBoard()
 
-    for (let i = 0; i < NUM_OF_GUESSES; i++) {
+    for (let i = 0; i < game.numOfGuesses; i++) {
         let row = document.createElement("div");
         row.className = "row"
-        for (let j = 0; j < WORD_LENGTH; j++) {
+        for (let j = 0; j < game.wordLength; j++) {
             let box = document.createElement("div")
             box.className = "box"
             row.appendChild(box)
@@ -211,7 +205,7 @@ function makeBoard(){
     }
 }
 
-function makeEmojiBoard(obj, html = false, tooMuchInfo = false){
+function makeEmojiBoard(html = false, tooMuchInfo = false){
     
     let breakSymbol = "\n"
     if (html) {
@@ -219,7 +213,7 @@ function makeEmojiBoard(obj, html = false, tooMuchInfo = false){
     }
     const d = new Date()
     let gameName = game.settings.titleName
-    let result = `${gameName} ${d.getDate()+d.getMonth()+d.getYear() - 133} ${game.win? obj.guesses.length-1 : "x"}/${obj.numOfGuesses}`
+    let result = `${gameName} ${d.getDate()+d.getMonth()+d.getYear() - 133} ${game.win? game.guesses.length-1 : "x"}/${game.numOfGuesses}`
     result += breakSymbol
     if (html) 
     result += "<a href='https://pesopes.github.io/Yodle/' style='color:white'>pesopes.github.io/Yodle</a>"
@@ -231,9 +225,9 @@ function makeEmojiBoard(obj, html = false, tooMuchInfo = false){
         result += JSON.stringify(game.settings)
         return result
     }
-    for (let guessIndex = 0; guessIndex < obj.guesses.length-1; guessIndex++) {
+    for (let guessIndex = 0; guessIndex < game.guesses.length-1; guessIndex++) {
         let currentRow = gEls("row")[guessIndex]
-        for (let i = 0; i < obj.wordLength; i++) {
+        for (let i = 0; i < game.wordLength; i++) {
             let currentBox = currentRow.children[i]
             let currentColour = rgbToHexString(currentBox.style.backgroundColor)
             if (currentColour === game.settings.colors.green) {
@@ -250,10 +244,11 @@ function makeEmojiBoard(obj, html = false, tooMuchInfo = false){
 }
 //TODO: make general copy func
 function copyGame(caller){
+    let emojiBoard = makeEmojiBoard()
     //sharing (not supported everywhere)
     if (navigator.share) {
         navigator.share({
-            text: makeEmojiBoard(game)
+            text: emojiBoard
         }).then(() => {
             console.log('Succesful share');
         })
@@ -262,7 +257,7 @@ function copyGame(caller){
         console.log('Sharing not supported :(');
     }
     //always copy to clipboard
-    navigator.clipboard.writeText(makeEmojiBoard(game));
+    navigator.clipboard.writeText(emojiBoard);
 
     //display confirm message for some time and change bacground
     let originalText = caller.textContent
@@ -276,7 +271,7 @@ function copySettings(caller){
     //sharing (not supported everywhere)
     if (navigator.share) {
         navigator.share({
-            text: makeEmojiBoard(game,false,true)
+            text: makeEmojiBoard(false,true)
         }).then(() => {
             console.log('Succesful share');
         })
@@ -285,7 +280,7 @@ function copySettings(caller){
         console.log('Sharing not supported :(');
     }
     //always copy to clipboard
-    navigator.clipboard.writeText(makeEmojiBoard(game,false,true));
+    navigator.clipboard.writeText(makeEmojiBoard(false,true));
 
     //display confirm message for some time and change bacground
     let originalText = caller.textContent
@@ -296,31 +291,30 @@ function copySettings(caller){
     caller.style.backgroundColor = "rgb(37, 37, 37)"
 }
 //Main function for game VERY MESSY i am scared to change it -_-
-//also i intended to make this general for any _obj_ but then forgot and its a mess
-function handleWordleObject(obj, showEndScreen = true){
+function handleWordleObject(showEndScreen = true){
     let currentNumGuess = 0
     //loop trough guesses
-    for (let guessIndex = 0; guessIndex < obj.guesses.length; guessIndex++) {
-        const word = obj.guesses[guessIndex];
+    for (let guessIndex = 0; guessIndex < game.guesses.length; guessIndex++) {
+        const word = game.guesses[guessIndex];
         //loop trough letters
-        let guessingWordCopy = obj.guessingWord
+        let guessingWordCopy = game.guessingWord
         for (let i = 0; i < word.length; i++) {
             const letter = word[i]
             let currentRow = gEls("row")[currentNumGuess]
             let currentBox = currentRow.children[i]
             
             //if not last word (the one you are writing)
-            if (guessIndex < obj.guesses.length-1) {
+            if (guessIndex < game.guesses.length-1) {
                 //shading letters
                 let letterColour = game.settings.colors.grey
-                if (obj.guessingWord[i] === letter) {
+                if (game.guessingWord[i] === letter) {
                     guessingWordCopy = guessingWordCopy.replaceAt(i,"#")
                     letterColour = game.settings.colors.green
-                }else if (obj.guessingWord.includes(letter)) {
+                }else if (game.guessingWord.includes(letter)) {
                     letterColour = game.settings.colors.yellow
                 }
                 //little hacky solution but i dont care
-                if (guessIndex == obj.guesses.length-2 && obj.guesses[guessIndex +1] === "ENTER") {
+                if (guessIndex == game.guesses.length-2 && game.guesses[guessIndex +1] === "ENTER") {
                     let delay = 250 * i
                     setTimeout(()=> {
                         //shade box
@@ -332,7 +326,7 @@ function handleWordleObject(obj, showEndScreen = true){
                     shadeKeyBoard(letter, letterColour)
                 }
                 //Win condition
-                if (word === obj.guessingWord) {
+                if (word === game.guessingWord) {
                     game.win = true
                 }
             }
@@ -348,7 +342,7 @@ function handleWordleObject(obj, showEndScreen = true){
             let currentBox = currentRow.children[i]
             
             //if not last word (the one you are writing)
-            if (guessIndex < obj.guesses.length-1) {
+            if (guessIndex < game.guesses.length-1) {
                 //shading letters
                 let letterColour = game.settings.colors.grey
                 if (guessingWordCopy.includes(letter)) {
@@ -356,7 +350,7 @@ function handleWordleObject(obj, showEndScreen = true){
                     guessingWordCopy = guessingWordCopy.replaceAt(guessingWordCopy.indexOf(letter),'#')
                 }
                 //little hacky solution but i dont care
-                if (guessIndex == obj.guesses.length-2 && obj.guesses[guessIndex +1] === "ENTER") {
+                if (guessIndex == game.guesses.length-2 && game.guesses[guessIndex +1] === "ENTER") {
                     let delay = 250 * i
                     setTimeout(()=> {
                         //shade box
@@ -372,8 +366,8 @@ function handleWordleObject(obj, showEndScreen = true){
             
         }
         //animation now doesnt play when hitting backspace
-        if(obj.guesses[guessIndex +1] === "ENTER"){
-            obj.guesses[guessIndex +1] = ""
+        if(game.guesses[guessIndex +1] === "ENTER"){
+            game.guesses[guessIndex +1] = ""
         }
         currentNumGuess++
     }
@@ -400,7 +394,7 @@ function handleEnd(animSpeed = 1300){
     if (game.win){
         game.end = true
         setTimeout(()=> {
-            gEl("win-screen-result").innerHTML = makeEmojiBoard(game, true)
+            gEl("win-screen-result").innerHTML = makeEmojiBoard(true)
             loadScreen("win-screen","block")
         }, animSpeed)
         
@@ -409,7 +403,7 @@ function handleEnd(animSpeed = 1300){
     else if(game.guesses.length > game.numOfGuesses){ //LOSS
         game.end = true
         setTimeout(()=> {
-            gEl("loss-screen-result").innerHTML = makeEmojiBoard(game, true)
+            gEl("loss-screen-result").innerHTML = makeEmojiBoard(true)
             gEl("loss-screen-answer").innerHTML = game.guessingWord
             loadScreen("loss-screen", "block")
         }, animSpeed)
@@ -420,7 +414,7 @@ function handleEnd(animSpeed = 1300){
 function shadeKeyBoard(letter, color) {
     for (const elem of gEls("keyboard-button")) {
         if (elem.textContent === letter) {
-            let oldColor = elem.style.backgroundColor
+            let oldColor = rgbToHexString(elem.style.backgroundColor)
             if (oldColor === game.settings.colors.green) {
                 return
             } 
@@ -436,7 +430,7 @@ function shadeKeyBoard(letter, color) {
 }
 
 function clearBoard(){
-    let rows = gEls("row")
+    const rows = gEls("row")
     for (let i = 0; i < rows.length; i++) {
         for (let j = 0; j < rows[i].children.length; j++) {
             rows[i].children[j].textContent = ""
@@ -447,13 +441,13 @@ function clearBoard(){
 
 function refresh(showEndScreen = true){
     clearBoard()
-    handleWordleObject(game,showEndScreen)
+    handleWordleObject(showEndScreen)
 }
 
 document.addEventListener( "keyup", (e)=>{
     MyKeyboardEvent(e)
 })
-//mobile
+//mobile (i am scared to remove it -_-)
 document.addEventListener( "input", (e)=>{
     if(game.end)
         return

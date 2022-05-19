@@ -18,7 +18,7 @@
     
 
 </head>
-<body>
+<body id="body">
     <h1  onclick="loadScreen('settings-screen')">
         <div id="title">Splashle</div>
         <h2 id="splash-text" onclick="updateSplashScreen()">Cool!</h2>
@@ -81,7 +81,7 @@
     <div id="win-screen" class="infotab" style="display:none;">
         <h2>You won!</h2>
         <p>Hope you enjoyed playing and now return</p>
-        <p id="win-screen-result" onmousemove="this.innerHTML = makeEmojiBoard(game,true);"></p>
+        <p id="win-screen-result" onmousemove="this.innerHTML = makeEmojiBoard(true);"></p>
         <button onclick="copyGame(this)" class="copy-button">Share</button><br>
         <button onclick="loadScreen('game')" class="keyboard-button">Show me my win</button>
     </div>
@@ -91,7 +91,7 @@
         <p>But don't worry you can play this game again tomorrow!</p>
         <p>More suffering!</p>
         <p>The correct word was: <b id="loss-screen-answer"></b></p>
-        <p id="loss-screen-result" onmousemove="this.innerHTML = makeEmojiBoard(game,true);"></p>
+        <p id="loss-screen-result" onmousemove="this.innerHTML = makeEmojiBoard(true);"></p>
         <button onclick="copyGame(this)" class="copy-button">Share</button><br>
         <button onclick="loadScreen('game')" class="keyboard-button">Show me my mistakes</button>
     </div>¨
@@ -104,13 +104,15 @@
             <hr>
         </div>
         <div class="settings-group">
-            <h3>Nothing but you can play with the switch</h3>
+            <h3>General</h3>
+            <label>Display splash</label>
             <label id="splashTextToggle" class="switch">
-                <input type="checkbox">
+                <input type="checkbox" id="displaySplash" onchange="game.settings.displaySplash = checked;updateSettings()">
                 <span class="slider round"></span>
             </label>
             <hr>
         </div>
+
         <div class="settings-group">
             <h3>Colours</h3>
             <label for="green">Green</label><br>
@@ -121,22 +123,32 @@
             <br>
             <label for="grey">Grey</label><br>
             <input type="color" name="grey" class="color-picker" onchange="game.settings.colors.grey = value" title="not in word colour">
+            <br><br><br>
+            <label for="background">Background</label><br>
+            <input type="color" name="background" class="color-picker" onchange="game.settings.colors.background = value;updateSettings()" title="do you even read these?">
+            
             <hr>
         </div>
+
         <div class="settings-group">
             <h3>Title</h3>
             <input type="text" name="title-name" id="title-name" onchange="game.settings.titleName = value;updateSettings()"><br><br>
             <hr>
         </div>
 
-        
-        
         <div class="settings-group">
             <h3>Custom settings</h3>
             <button name="settings-import" id="settings-import" onclick="importSettings(prompt('Enter copied message'));updateSettings()" >Import settings</button>
             <button name="settings-export" id="settings-export" onclick="copySettings(this)">Export settings</button>
+            <hr>
         </div>
-        <button onclick="loadScreen('game');refresh();updateSettings()" class="keyboard-button" style="background-color: rgb(122, 88, 88);">Back</button>
+
+        <div class="settings-group">
+            <h3>About</h3>
+            <p>Source code on <a href="https://github.com/Pesopes/pesopes.github.io/tree/main/Yodle">github</a></p>
+            <p>Help me filter words: <a href="https://wordfilterapp.web.app/">WordFilterle</a></p>
+        </div>
+        <button onclick="loadScreen('game');refresh(false);updateSettings()" class="keyboard-button" style="background-color: rgb(70, 40, 40);">Back</button>
     </div>
     <script src="./words.js" ></script>
     <script src="./index.js"></script>
