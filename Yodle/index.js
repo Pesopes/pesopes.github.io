@@ -17,6 +17,7 @@ const emptyGame = {
     gameNum:0,
     wordLength: 5,
     numOfGuesses: 6,
+    gameMode: "normal",
     guesses:[""],
     win: false,
     end:false,
@@ -97,6 +98,9 @@ function setVisibility(id,visible,normal = "block"){
     }
 }
 
+
+
+
 //run at start
 function init(){
     
@@ -120,6 +124,10 @@ function init(){
         resetGame()
         game.guessingWord = todayWord
         game.gameNum = gameNumber
+    }
+    if (game.gameMode !== "normal") {
+        resetGame()
+        game.gameMode = "normal"
     }
     makeBoard()
     
@@ -181,6 +189,8 @@ function importSettings(val){
 
 function resetGame(){
     //there has to be a better solution (maybe store settings then delete everythinh then place settings back)
+    game.numOfGuesses = emptyGame.numOfGuesses
+    game.wordLength = emptyGame.wordLength
     game.guesses = emptyGame.guesses
     game.guessingWord = emptyGame.guessingWord
     game.gameNum = emptyGame.gameNum
@@ -190,7 +200,9 @@ function resetGame(){
 }
 
 function makeBoard(){
-    let board = gEl("board")
+    const board = gEl("board")
+    // will delete first
+    board.innerHTML = ""
     clearBoard()
 
     for (let i = 0; i < game.numOfGuesses; i++) {
@@ -205,21 +217,56 @@ function makeBoard(){
     }
 }
 
+function startOneGuessMode(numberOfGuesses, numberOfWords){
+    // the game would just instantly end
+    if (numberOfGuesses <= numberOfWords)
+        return
+    if (isNaN(parseInt(numberOfGuesses)) || isNaN(parseInt(numberOfWords)))
+        return
+    resetGame()
+    game.gameMode = "one guess"
+    game.numOfGuesses = numberOfGuesses
+    game.guesses = getRandomWords(numberOfWords,5)
+    game.guesses.push("")
+
+    game.guessingWord = getRandomWords(1,5)[0]
+    loadScreen("game")
+    makeBoard()
+    refresh()
+}
 function makeEmojiBoard(html = false, tooMuchInfo = false){
-    
+    let greenSymbol = "🟩"
+    let yellowSymbol = "🟨"
+    let greySymbol = "⬛"
+    // for One guess game mode
+    if (game.gameMode === "one guess") {
+        greenSymbol = "🟥"
+        yellowSymbol = "🟧"
+        greySymbol = "⬛"
+    }
+    // for web or for share
     let breakSymbol = "\n"
     if (html) {
         breakSymbol = "<br>"
     }
+    // vars
     const d = new Date()
     let gameName = game.settings.titleName
-    let result = `${gameName} ${d.getDate()+d.getMonth()+d.getYear() - 133} ${game.win? game.guesses.length-1 : "x"}/${game.numOfGuesses}`
+    let showGameMode = false
+    if (game.gameMode !== "normal")
+        showGameMode = true
+
+    // start
+    let result = `${gameName}${showGameMode? "("+game.gameMode+")" : ""} ${showGameMode?"":d.getDate()+d.getMonth()+d.getYear() - 133} ${game.win? game.guesses.length-1 : "x"}/${game.numOfGuesses}`
     result += breakSymbol
+    // html link or url
     if (html) 
-    result += "<a href='https://pesopes.github.io/Yodle/' style='color:white'>pesopes.github.io/Yodle</a>"
+        result += "<a href='https://pesopes.github.io/Yodle/' style='color:white'>pesopes.github.io/Yodle</a>"
     else
-    result += "pesopes.github.io/Yodle/"
+        result += "pesopes.github.io/Yodle/"
+    
     result += breakSymbol
+    // adding squares
     if (tooMuchInfo) {
         result += SETTINGS_IMPORT_INDICATOR
         result += JSON.stringify(game.settings)
@@ -231,11 +278,11 @@ function makeEmojiBoard(html = false, tooMuchInfo = false){
             let currentBox = currentRow.children[i]
             let currentColour = rgbToHexString(currentBox.style.backgroundColor)
             if (currentColour === game.settings.colors.green) {
-                result += "🟩"
+                result += greenSymbol
             }else if(currentColour === game.settings.colors.yellow){
-                result += "🟨"
+                result += yellowSymbol
             }else if(currentColour === game.settings.colors.grey){
-                result += "⬛"
+                result += greySymbol
             }
         }
         result += breakSymbol   
@@ -537,6 +584,22 @@ function addLetter(letter){
         game.guesses[index] += letter
     }
 }
+
+function getRandomWords(num, length){
+    let words = []
+    if (length === 5) {
+        for (let i = 0; i < num; i++) {
+            let currentWord = WORDS[Math.floor(Math.random()*WORDS.length)]
+            if (!words.includes(currentWord)) {
+                words.push(currentWord)
+            }else{
+                i--
+            }
+        }
+    }
+    return words
+}
+
 //TODO: make general for any length (so download more words i guess)
 function wordExists(word){
     return WORDS.includes(word)

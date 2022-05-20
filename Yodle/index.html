@@ -99,8 +99,8 @@
         <h2>Settings</h2>
         
         <div class="settings-group">
-            <button onclick="game = emptyGame;refresh();location.reload()" >ALL RESET</button>
-            <button onclick="resetSettings()" >RESET</button>
+            <button onclick="game = emptyGame;refresh();location.reload()" >GAME RESET</button>
+            <button onclick="resetSettings()" > SETTINGS RESET</button>
             <hr>
         </div>
         <div class="settings-group">
@@ -132,7 +132,21 @@
 
         <div class="settings-group">
             <h3>Title</h3>
-            <input type="text" name="title-name" id="title-name" onchange="game.settings.titleName = value;updateSettings()"><br><br>
+            <input type="text" name="title-name" id="title-name" onchange="game.settings.titleName = value;updateSettings()">
+            <hr>
+        </div>
+
+        <div class="settings-group">
+            <h3>One guess mode
+                (experimental)
+            </h3>
+            <p>note: this will reset your game for this day</p>
+            <p>You may get lucky or you may not...🐉</p>
+            <label for="num-of-guesses-one-guess">Guesses</label><br>
+            <input type="number" name="num-of-guesses-one-guess" id="num-of-guesses-one-guess" value="6" min="1"><br>
+            <label for="num-of-words-one-guess">Words prefilled</label><br>
+            <input type="number" name="num-of-words-one-guess" id="num-of-words-one-guess" value="4" min="1"><br>
+            <button id="one-guess-mode-button" onclick="startOneGuessMode(gEl('num-of-guesses-one-guess').value,gEl('num-of-words-one-guess').value)">One guess mode</button>
             <hr>
         </div>
 
