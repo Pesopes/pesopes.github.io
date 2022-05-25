@@ -241,13 +241,13 @@ input::-webkit-inner-spin-button {
 
 .box{
     user-select: none;
-    border: 4px solid rgb(45, 45, 46);
-    border-radius: 1.5px;
+    border: 5px solid rgb(45, 45, 46);
+    border-radius: 7px;
     margin: 2px;
     font-size: 2.5rem;
     font-weight: 700;
-    height: 3.6rem;
-    width: 3.6rem;
+    height: 3.4rem;
+    width: 3.4rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -257,15 +257,18 @@ input::-webkit-inner-spin-button {
     color: whitesmoke;
     transition: all 0.15s ease-out;
 }
-
 .box:hover{
-    border-radius: 5px;
+    border-radius: 8px;
     transform: scale(1.05);
 }
-.box:active {
-    transform: scale(1.8);
-    filter: brightness(1.3);
-    filter: drop-shadow(0px 0px 5px rgb(109, 109, 109));
+.filled-box{
+    height: 3.6rem;
+    width: 3.6rem;
+    transform: rotate3d(0.2, 0.3, 0, 60deg);
+}
+.filled-box:active {
+    transform: scale(1.7);
+    filter:  brightness(1.2) drop-shadow(0px 0px 5px rgb(109, 109, 109));
 }
 
 .row{
@@ -324,11 +327,11 @@ input::-webkit-inner-spin-button {
     cursor: pointer;
     text-transform: uppercase;
     min-width: 1rem;
-    min-height: 1.7rem;
+    min-height: 1.9rem;
     background-color: rgb(143, 142, 142);
     text-align: center;
-    border: 2px rgb(209, 209, 209);
-    border-radius: 3px;
+    border: 3px rgb(209, 209, 209);
+    border-radius: 5px;
     transition: all 0.2s ease-out;
 }
 

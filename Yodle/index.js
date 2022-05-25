@@ -10,6 +10,7 @@ const PREDEFINED_WORDS = ["lunge","tweak","wired"]
 
 const SETTINGS_IMPORT_INDICATOR = "My settings: "
 
+const CURATED_WORDS = Object.keys(JSON.parse(CURATED_WORDS_JSON))
 
 //template
 const emptyGame = {
@@ -99,7 +100,41 @@ function setVisibility(id,visible,normal = "block"){
 }
 
 
+function getTodayWord(gameNumber){
+    const d = new Date()
+    //prioritize picking from array then random
+    if (USE_PREDEFINED_WORDS &&  (gameNumber < PREDEFINED_WORDS.length)) {
+        return PREDEFINED_WORDS[gameNumber]
+    }else{
+        return CURATED_WORDS[(d.getDate()*d.getMonth()*d.getYear()*WORD_SEED)%CURATED_WORDS.length]
+    }
+}
 
+function presetEasterEggs(gameNumber = game.gameNum){
+    if (gameNumber === 24) {
+        for (let i = 0; i < gEls("box").length; i++) {
+            const el = gEls("box")[i]
+
+        }
+    }else if (gameNumber === 24) {
+        for (let i = 0; i < gEls("box").length; i++) {
+            const el = gEls("box")[i]
+            el.style.borderRadius = "100px"
+        }
+        for (let i = 0; i < gEls("keyboard-button").length; i++) {
+            const el = gEls("keyboard-button")[i]
+            el.style.borderRadius = "100px"
+        }
+    }else if (gameNumber === 30){
+        for (let i = 0; i < gEls("keyboard-button").length; i++) {
+            const el = gEls("keyboard-button")[i]
+            el.style.cursor = "wait"
+            el.style.transform = "rotate(180deg)"
+        }
+    }else if (gameNumber === 35){
+        gEl("splash-text").style.animation = "splashText 0.3s infinite cubic-bezier(0.445, 0.05, 0.55, 0.95)"
+    }
+}
 
 //run at start
 function init(){
@@ -111,14 +146,8 @@ function init(){
     
     //picking word
     const d = new Date()
-    let todayWord = ""
     let gameNumber = d.getDate()+d.getMonth()+d.getYear() - 134
-    //prioritize picking from array then random
-    if (USE_PREDEFINED_WORDS &&  (gameNumber < PREDEFINED_WORDS.length)) {
-        todayWord = PREDEFINED_WORDS[gameNumber]
-    }else{
-        todayWord = WORDS[(d.getDate()*d.getMonth()*d.getYear()*WORD_SEED)%WORDS.length]
-    }
+    let todayWord = getTodayWord(gameNumber)
     //This actaully resets the game each day
     if(game.gameNum != gameNumber){
         resetGame()
@@ -132,6 +161,7 @@ function init(){
     makeBoard()
     
     updateSplashScreen()
+    presetEasterEggs()
     updateSettings()
 
     //if first start
@@ -352,6 +382,8 @@ function handleWordleObject(showEndScreen = true){
             
             //if not last word (the one you are writing)
             if (guessIndex < game.guesses.length-1) {
+                //add class
+                currentBox.classList.add("filled-box")
                 //shading letters
                 let letterColour = game.settings.colors.grey
                 if (game.guessingWord[i] === letter) {
@@ -482,6 +514,7 @@ function clearBoard(){
         for (let j = 0; j < rows[i].children.length; j++) {
             rows[i].children[j].textContent = ""
             rows[i].children[j].style.backgroundColor = "transparent"
+            rows[i].children[j].classList.remove("filled-box")
         }
     }
 }
