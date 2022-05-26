@@ -132,7 +132,8 @@
 
         <div class="settings-group">
             <h3>Title</h3>
-            <input type="text" name="title-name" id="title-name" onchange="game.settings.titleName = value;updateSettings()">
+            <p>note: The title has to end with -le</p>
+            <input type="text" name="title-name" id="title-name" onchange="if (gEl('title-name').value.slice(-2) === 'le'){game.settings.titleName = value;updateSettings()}">
             <hr>
         </div>
 <!-- theres not really a reason to play this + a lot of bugs

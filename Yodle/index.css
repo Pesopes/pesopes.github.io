@@ -261,10 +261,14 @@ input::-webkit-inner-spin-button {
     border-radius: 8px;
     transform: scale(1.05);
 }
+@keyframes spin3d{
+    50%{
+        transform: rotate3d(0.8,0.6,0.1,360deg);
+    }
+}
 .filled-box{
     height: 3.6rem;
     width: 3.6rem;
-    transform: rotate3d(0.2, 0.3, 0, 60deg);
 }
 .filled-box:active {
     transform: scale(1.7);

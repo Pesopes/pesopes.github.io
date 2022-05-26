@@ -56,6 +56,20 @@ String.prototype.includesNum = function(char){
 String.prototype.replaceAt = function(index, replacement) {
     return this.substring(0, index) + replacement + this.substring(index + replacement.length);
 }
+
+// function getBase64Image(img) {
+//     var canvas = document.createElement("canvas");
+//     canvas.width = img.width;
+//     canvas.height = img.height;
+
+//     var ctx = canvas.getContext("2d");
+//     ctx.drawImage(img, 0, 0);
+
+//     var dataURL = canvas.toDataURL("image/png");
+
+//     return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+// }
+
 function rgbToHex(r, g, b) {
     return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 }
@@ -111,10 +125,11 @@ function getTodayWord(gameNumber){
 }
 
 function presetEasterEggs(gameNumber = game.gameNum){
-    if (gameNumber === 24) {
+    if (gameNumber === 18) {
         for (let i = 0; i < gEls("box").length; i++) {
             const el = gEls("box")[i]
-
+            el.style.color = "green"
+            el.style.animation = "spin3d 20.6s infinite reverse"
         }
     }else if (gameNumber === 24) {
         for (let i = 0; i < gEls("box").length; i++) {
@@ -199,6 +214,7 @@ function updateSettings(){
     pickers[3].value = game.settings.colors.background
 
     gEl("title").textContent = game.settings.titleName
+
     document.getElementsByTagName("body")[0].style.backgroundColor = game.settings.colors.background
     setVisibility("splash-text",game.settings.displaySplash)
 
