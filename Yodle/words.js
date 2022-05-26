@@ -34,6 +34,10 @@ const SPLASH_TEXTS = ["You Won't see this!","You Won't see this!","You Won't see
 "👾👽🗿💾",
 "Hi",
 "Just win, simple.",
+"SHARE",
+"corgi",
+"Will this ever be complete?",
+"(╯°□°）╯︵ ┻━┻",
 "Come back tomorrow or don't.",
 "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"]
 

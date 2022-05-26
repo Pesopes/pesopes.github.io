@@ -19,11 +19,12 @@
 
 </head>
 <body id="body">
-    <h1  onclick="loadScreen('settings-screen')">
-        <div id="title">Splashle</div>
-        <h2 id="splash-text" onclick="updateSplashScreen()">Cool!</h2>
-    </h1>
-    
+    <div style="overflow: hidden; position: relative;">
+        <h1  onclick="loadScreen('settings-screen')">
+            <div id="title">Splashle</div>
+            <h2 id="splash-text" onclick="updateSplashScreen()">Cool!</h2>
+        </h1>
+    </div>
     <div id="game">
         <div id="board"></div>
     
@@ -94,7 +95,7 @@
         <p id="loss-screen-result" onmousemove="this.innerHTML = makeEmojiBoard(true);"></p>
         <button onclick="copyGame(this)" class="copy-button">Share</button><br>
         <button onclick="loadScreen('game')" class="keyboard-button">Show me my mistakes</button>
-    </div>¨
+    </div>
     <div id="settings-screen" class="infotab" style="display:none;">
         <h2>Settings</h2>
         

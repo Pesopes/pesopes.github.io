@@ -1,12 +1,18 @@
-// const greenColor = "#538d4e"
-// const orangeColor = "#b59f3b" 
-// const greyColor = "#3a3a3c"
+
+//  .----------------.  .----------------.  .----------------.  .----------------.  .----------------. 
+//  | .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
+//  | |  ____  ____  | || |     ____     | || |  ________    | || |   _____      | || |  _________   | |
+//  | | |_  _||_  _| | || |   .'    `.   | || | |_   ___ `.  | || |  |_   _|     | || | |_   ___  |  | |
+//  | |   \ \  / /   | || |  /  .--.  \  | || |   | |   `. \ | || |    | |       | || |   | |_  \_|  | |
+//  | |    \ \/ /    | || |  | |    | |  | || |   | |    | | | || |    | |   _   | || |   |  _|  _   | |
+//  | |    _|  |_    | || |  \  `--'  /  | || |  _| |___.' / | || |   _| |__/ |  | || |  _| |___/ |  | |
+//  | |   |______|   | || |   `.____.'   | || | |________.'  | || |  |________|  | || | |_________|  | |
+//  | |              | || |              | || |              | || |              | || |              | |
+//  | '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |
+//   '----------------'  '----------------'  '----------------'  '----------------'  '----------------' 
 
 const WORD_SEED = 25
 const COPIED_TO_CLIPBOARD_TIME = 10000
-
-const USE_PREDEFINED_WORDS = true
-const PREDEFINED_WORDS = ["lunge","tweak","wired"]
 
 const SETTINGS_IMPORT_INDICATOR = "My settings: "
 
@@ -116,12 +122,7 @@ function setVisibility(id,visible,normal = "block"){
 
 function getTodayWord(gameNumber){
     const d = new Date()
-    //prioritize picking from array then random
-    if (USE_PREDEFINED_WORDS &&  (gameNumber < PREDEFINED_WORDS.length)) {
-        return PREDEFINED_WORDS[gameNumber]
-    }else{
-        return CURATED_WORDS[(d.getDate()*d.getMonth()*d.getYear()*WORD_SEED)%CURATED_WORDS.length]
-    }
+    return CURATED_WORDS[(d.getDate()*d.getMonth()*d.getYear()*WORD_SEED)%CURATED_WORDS.length]
 }
 
 function presetEasterEggs(gameNumber = game.gameNum){
