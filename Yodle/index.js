@@ -45,9 +45,10 @@ const emptyGame = {
         displaySplash:true
     }
 }
-// kinda dumb but im lazy to make a function for this 
-// (oh this is so it isnt by reference)
-let game = JSON.parse(JSON.stringify(emptyGame))
+
+let game = copyObject(emptyGame)
+//does this work the same?
+//let game = {...emptyGame}
 
 
 //  Helper functions
@@ -61,6 +62,13 @@ String.prototype.includesNum = function(char){
 }
 String.prototype.replaceAt = function(index, replacement) {
     return this.substring(0, index) + replacement + this.substring(index + replacement.length);
+
+}
+
+// kinda dumb but im lazy to make a function for this 
+// (oh this is so it isnt by reference)
+function copyObject(obj){
+    return JSON.parse(JSON.stringify(obj))
 }
 
 // function getBase64Image(img) {
@@ -132,7 +140,7 @@ function presetEasterEggs(gameNumber = game.gameNum){
             el.style.color = "green"
             el.style.animation = "spin3d 20.6s infinite reverse"
         }
-    }else if (gameNumber === 24) {
+    }else if (gameNumber === 26) {
         for (let i = 0; i < gEls("box").length; i++) {
             const el = gEls("box")[i]
             el.style.borderRadius = "100px"
@@ -161,8 +169,9 @@ function init(){
     
     
     //picking word
-    const d = new Date()
-    let gameNumber = d.getDate()+d.getMonth()+d.getYear() - 134
+    //const d = new Date()
+    // let gameNumber = d.getDate()+d.getMonth()+d.getYear() - 134 I am leaving this here so I learn from my mistakes
+    let gameNumber = Math.floor(Date.now()/1000/60/60/24) - 19119
     let todayWord = getTodayWord(gameNumber)
     //This actaully resets the game each day
     if(game.gameNum != gameNumber){
@@ -203,7 +212,7 @@ function updateSplashScreen(gameNumber=game.gameNum){
 }
 
 function resetSettings(){
-    game.settings = emptyGame.settings
+    game.settings = copyObject(emptyGame.settings)
     updateSettings()
 }
 
@@ -236,14 +245,15 @@ function importSettings(val){
 
 function resetGame(){
     //there has to be a better solution (maybe store settings then delete everythinh then place settings back)
-    game.numOfGuesses = emptyGame.numOfGuesses
-    game.wordLength = emptyGame.wordLength
-    game.guesses = emptyGame.guesses
-    game.guessingWord = emptyGame.guessingWord
-    game.gameNum = emptyGame.gameNum
-    game.win = emptyGame.win
-    game.end = emptyGame.end
-    game.screen = emptyGame.screen
+    const temp = copyObject(emptyGame)
+    game.numOfGuesses = temp.numOfGuesses
+    game.wordLength = temp.wordLength
+    game.guesses = temp.guesses
+    game.guessingWord = temp.guessingWord
+    game.gameNum = temp.gameNum
+    game.win = temp.win
+    game.end = temp.end
+    game.screen = temp.screen
 }
 
 function makeBoard(){
@@ -304,7 +314,7 @@ function makeEmojiBoard(html = false, tooMuchInfo = false){
         showGameMode = true
 
     // start
-    let result = `${gameName}${showGameMode? "("+game.gameMode+")" : ""} ${showGameMode?"":d.getDate()+d.getMonth()+d.getYear() - 133} ${game.win? game.guesses.length-1 : "x"}/${game.numOfGuesses}`
+    let result = `${gameName}${showGameMode? "("+game.gameMode+")" : ""} ${showGameMode?"":game.gameNum} ${game.win? game.guesses.length-1 : "x"}/${game.numOfGuesses}`
     result += breakSymbol
     // html link or url
     if (html) 

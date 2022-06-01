@@ -1,4 +1,5 @@
-const SPLASH_TEXTS = ["You Won't see this!","You Won't see this!","You Won't see this!",
+const SPLASH_TEXTS = [
+"You Won't see this!","You Won't see this!","You Won't see this!",
 "Ooh new splash texts", 
 "No bugs fixed!",
 "try clicking on the title",
@@ -20,9 +21,11 @@ const SPLASH_TEXTS = ["You Won't see this!","You Won't see this!","You Won't see
 "Hope this is a good word",
 "EVERYTHING IS UNDER CONTROL",
 "Do emojis work?🤔",
-"It's not april!",
-"🟩🟩🟩🟩🟩",
+"nothing",
+"=== != ==",
+"All round a good design.",
 "💩",
+"🟩🟩🟩🟩🟩",
 "Something interesting...",
 "Yodle or yodel?",
 "pink",
@@ -39,7 +42,8 @@ const SPLASH_TEXTS = ["You Won't see this!","You Won't see this!","You Won't see
 "Will this ever be complete?",
 "(╯°□°）╯︵ ┻━┻",
 "Come back tomorrow or don't.",
-"OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"]
+"OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
+]
 
 
 
