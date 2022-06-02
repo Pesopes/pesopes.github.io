@@ -1,4 +1,4 @@
-
+// By pesopes, adapted from Wordle by Josh Wardle
 //  .----------------.  .----------------.  .----------------.  .----------------.  .----------------. 
 //  | .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
 //  | |  ____  ____  | || |     ____     | || |  ________    | || |   _____      | || |  _________   | |
@@ -17,6 +17,13 @@ const COPIED_TO_CLIPBOARD_TIME = 10000
 const SETTINGS_IMPORT_INDICATOR = "My settings: "
 
 const CURATED_WORDS = Object.keys(JSON.parse(CURATED_WORDS_JSON))
+
+const KEY_HOLD_DELAY = 700
+const KEY_HOLD_INTERVAL = 130
+
+let greenSymbol = "🟩"
+let yellowSymbol = "🟨"
+let greySymbol = "⬛"
 
 //template
 const emptyGame = {
@@ -149,6 +156,18 @@ function presetEasterEggs(gameNumber = game.gameNum){
             const el = gEls("keyboard-button")[i]
             el.style.borderRadius = "100px"
         }
+    }else if (gameNumber === 28){
+        for (let i = 0; i < gEls("box").length; i++) {
+            const el = gEls("box")[i]
+            el.style.borderRadius = "100px"
+        }
+        for (let i = 0; i < gEls("keyboard-button").length; i++) {
+            const el = gEls("keyboard-button")[i]
+            el.style.borderRadius = "100px"
+        }
+        greenSymbol = "🟢"
+        yellowSymbol = "🟡"
+        greySymbol = "⚫"
     }else if (gameNumber === 30){
         for (let i = 0; i < gEls("keyboard-button").length; i++) {
             const el = gEls("keyboard-button")[i]
@@ -292,9 +311,6 @@ function startOneGuessMode(numberOfGuesses, numberOfWords){
     refresh()
 }
 function makeEmojiBoard(html = false, tooMuchInfo = false){
-    let greenSymbol = "🟩"
-    let yellowSymbol = "🟨"
-    let greySymbol = "⬛"
     // for One guess game mode
     if (game.gameMode === "one guess") {
         greenSymbol = "🟥"
@@ -502,8 +518,11 @@ function handleEnd(animSpeed = 1300){
         setTimeout(()=> {
             gEl("win-screen-result").innerHTML = makeEmojiBoard(true)
             loadScreen("win-screen","block")
+            startConfetti()
+            setTimeout(()=>{
+                stopConfetti()
+            },6000)
         }, animSpeed)
-        
         //alert("You won but I won (read in russian accent)")
     }// LOSS
     else if(game.guesses.length > game.numOfGuesses){ //LOSS
@@ -554,37 +573,20 @@ function refresh(showEndScreen = true){
 document.addEventListener( "keyup", (e)=>{
     MyKeyboardEvent(e)
 })
-//mobile (i am scared to remove it -_-)
-document.addEventListener( "input", (e)=>{
-    if(game.end)
-        return
-    let k = e.key
-    if (k === undefined) 
-        return
-    
-    if(k == "Enter"){
-        enterWord()
-    }else if(k == "Backspace" && e.ctrlKey){
-        removeCurrentWord()
-    }else if(k == "Backspace"){
-        removeLastLetter()
-    }else{
-        let found = k.match(/[a-z]/gi)
-        if (!found || found.length > 1)
-            return
-        addLetter(found)
-    }
-    refresh()
-})
-gEl("keyboard-cont").addEventListener("click", (e)=>{
+let holdInterval = null
+let holdTimeout = null
+let holdingKey = false
+gEl("keyboard-cont").addEventListener("pointerup", (e)=>{
+    holdingKey = false
+    clearInterval(holdInterval)
+    clearTimeout(holdTimeout)
+    holdInterval = null
+    holdTimeout = null
     const target = e.target
     if (!target.classList.contains("keyboard-button")) {
         return
     }
     let key = target.textContent
-    // if (key === "Del") {
-    //     key = "Backspace"
-    // } 
     if (target.id === "back-button") {
         key = "Backspace"   
     }
@@ -594,6 +596,26 @@ gEl("keyboard-cont").addEventListener("click", (e)=>{
     //document.dispatchEvent(new KeyboardEvent("input", {'key': key}))
     MyKeyboardEvent(e={'key':key})
 })
+// holding keys will repeat them
+gEl("keyboard-cont").addEventListener("pointerdown", (e)=>{
+    holdingKey = true
+    if (holdTimeout === null && holdInterval === null) {
+        holdTimeout = setTimeout((e)=>{
+            holdInterval = setInterval((e)=>{
+                const target = e.target
+                if (!target.classList.contains("keyboard-button")) {
+                    return
+                }
+                let key = target.textContent
+                if (target.id === "back-button") {
+                    key = "Backspace"   
+                }
+                MyKeyboardEvent(e={'key':key})
+            },KEY_HOLD_INTERVAL,e)
+        },KEY_HOLD_DELAY,e)
+    }
+})
+
 
 function MyKeyboardEvent(e){
     if(game.screen.id != "game")

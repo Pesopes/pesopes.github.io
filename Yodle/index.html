@@ -5,7 +5,7 @@
     
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>Yodle</title>
 
     <meta name="description" content="Guess the word. Six tries. New word every day.">
@@ -37,9 +37,9 @@
 </head>
 <body id="body">
     <div style="overflow: hidden; position: relative;">
-        <h1  onclick="loadScreen('settings-screen')">
+        <h1  onpointerup="loadScreen('settings-screen')">
             <div id="title">Splashle</div>
-            <h2 id="splash-text" onclick="updateSplashScreen()">Cool!</h2>
+            <h2 id="splash-text" onpointerup="updateSplashScreen()">Cool!</h2>
         </h1>
     </div>
     <div id="game">
@@ -92,7 +92,7 @@
         <h2>This is Yodle</h2>
         <p>Play just like normal <a href="https://www.nytimes.com/games/wordle/index.html" style="color:rgb(193, 208, 250)">Wordle</a></p>
         <p>Enjoy it while it lasts...</p>
-        <button onclick="loadScreen('game')" class="keyboard-button">PLAY!</button>
+        <button onpointerup="loadScreen('game')" class="keyboard-button">PLAY!</button>
 
     </div>
 
@@ -100,8 +100,8 @@
         <h2>You won!</h2>
         <p>Hope you enjoyed playing and now return</p>
         <p id="win-screen-result" onmousemove="this.innerHTML = makeEmojiBoard(true);"></p>
-        <button onclick="copyGame(this)" class="copy-button">Share</button><br>
-        <button onclick="loadScreen('game')" class="keyboard-button">Show me my win</button>
+        <button onpointerup="copyGame(this)" class="copy-button">Share</button><br>
+        <button onpointerup="loadScreen('game')" class="keyboard-button">Show me my win</button>
     </div>
 
     <div id="loss-screen" class="infotab" style="display:none;">
@@ -110,15 +110,15 @@
         <p>More suffering!</p>
         <p>The correct word was: <b id="loss-screen-answer"></b></p>
         <p id="loss-screen-result" onmousemove="this.innerHTML = makeEmojiBoard(true);"></p>
-        <button onclick="copyGame(this)" class="copy-button">Share</button><br>
-        <button onclick="loadScreen('game')" class="keyboard-button">Show me my mistakes</button>
+        <button onpointerup="copyGame(this)" class="copy-button">Share</button><br>
+        <button onpointerup="loadScreen('game')" class="keyboard-button">Show me my mistakes</button>
     </div>
     <div id="settings-screen" class="infotab" style="display:none;">
         <h2>Settings</h2>
         
         <div class="settings-group">
-            <button onclick="game = emptyGame;refresh();location.reload()" >GAME RESET</button>
-            <button onclick="resetSettings()" > SETTINGS RESET</button>
+            <button onpointerup="game = emptyGame;refresh();location.reload()" >GAME RESET</button>
+            <button onpointerup="resetSettings()" >SETTINGS RESET</button>
             <hr>
         </div>
         <div class="settings-group">
@@ -166,25 +166,27 @@
             <input type="number" name="num-of-guesses-one-guess" id="num-of-guesses-one-guess" value="6" min="1"><br>
             <label for="num-of-words-one-guess">Words prefilled</label><br>
             <input type="number" name="num-of-words-one-guess" id="num-of-words-one-guess" value="4" min="1"><br>
-            <button id="one-guess-mode-button" onclick="startOneGuessMode(gEl('num-of-guesses-one-guess').value,gEl('num-of-words-one-guess').value)">One guess mode</button>
+            <button id="one-guess-mode-button" onpointerup="startOneGuessMode(gEl('num-of-guesses-one-guess').value,gEl('num-of-words-one-guess').value)">One guess mode</button>
             <hr>
         </div>
 -->
 
         <div class="settings-group">
             <h3>Custom settings</h3>
-            <button name="settings-import" id="settings-import" onclick="importSettings(prompt('Enter copied message'));updateSettings()" >Import settings</button>
-            <button name="settings-export" id="settings-export" onclick="copySettings(this)">Export settings</button>
+            <button name="settings-import" id="settings-import" onpointerup="importSettings(prompt('Enter copied message'));updateSettings()" >Import settings</button>
+            <button name="settings-export" id="settings-export" onpointerup="copySettings(this)">Export settings</button>
             <hr>
         </div>
 
         <div class="settings-group">
             <h3>About</h3>
             <p>Source code on <a href="https://github.com/Pesopes/pesopes.github.io/tree/main/Yodle">github</a></p>
-            <p>Help me filter words: <a href="https://wordfilterapp.web.app/">WordFilterle</a></p>
+            <p>Help me filter words: <a href="https://wordfilterapp.web.app/">WordFilterle</a></p>       
+            <code style="font-size:0.9rem ;" id="quote">"Centaurs have six limbs and are therefore insects. Discuss."</code> Person B
         </div>
-        <button onclick="loadScreen('game');refresh(false);updateSettings()" class="keyboard-button" style="background-color: rgb(70, 40, 40);">Back</button>
+        <button onpointerup="loadScreen('game');refresh(false);updateSettings()" class="keyboard-button" style="background-color: rgb(70, 40, 40);">Back</button>
     </div>
+    <script type="text/javascript" src="confetti.js"></script>
     <script type="text/javascript" src="curated_words.js"></script>
     <script type="text/javascript" src="./words.js" ></script>
     <script type="text/javascript" src="./index.js"></script>

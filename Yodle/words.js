@@ -25,7 +25,7 @@ const SPLASH_TEXTS = [
 "=== != ==",
 "All round a good design.",
 "💩",
-"🟩🟩🟩🟩🟩",
+"🟢🟢🟢🟢🟢",
 "Something interesting...",
 "Yodle or yodel?",
 "pink",
@@ -44,7 +44,6 @@ const SPLASH_TEXTS = [
 "Come back tomorrow or don't.",
 "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
 ]
-
 
 
 //from https://github.com/Morgenstern2573/wordle_clone/blob/master/build/words.js
